@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -55,14 +55,6 @@ Summary: Documentation for %{name}, includes full API docs
 %description doc
 This package contains the full API documentation for %{name}.
 
-%package devel
-Summary: C Development files for python-astropy
-Requires: %{name}%{?_isa} = %{version}-%{release}
- 
-%description devel
-The python-%{upname}-devel package contains libraries and header files for
-developing applications that use the C API of python-%{upname}.
-
 %if 0%{?with_python3}
 %package -n python3-%{upname}
 Summary: A Community Python Library for Astronomy
@@ -104,14 +96,6 @@ Summary: Documentation for %{name}, includes full API docs
  
 %description -n python3-%{upname}-doc
 This package contains the full API documentation for %{name}.
-
-%package -n python3-%{upname}-devel
-Summary: C Development files for python3-%{upname}
-Requires: python3-%{upname}%{?_isa} = %{version}-%{release}
- 
-%description -n python3-%{upname}-devel
-The python3-%{upname}-devel package contains libraries and header files for
-developing applications that use the C API of python3-%{upname}.
 
 %endif # with_python3
 
@@ -211,11 +195,7 @@ popd
 %files
 %doc README.rst README.dist licenses/LICENSE.rst
 %{python2_sitearch}/*
-%exclude %{python2_sitearch}/astropy/wcs/include
 %exclude %{python2_sitearch}/astropy/utils/tests/data/.hidden_file.txt
-
-%files devel
-%{python2_sitearch}/astropy/wcs/include
 
 %files -n %{upname}-tools
 %{_bindir}/*
@@ -230,11 +210,7 @@ popd
 %files -n python3-%{upname}
 %doc README.rst licenses/LICENSE.rst README.dist
 %{python3_sitearch}/*
-%exclude %{python3_sitearch}/astropy/wcs/include
 %exclude %{python3_sitearch}/astropy/utils/tests/data/.hidden_file.txt
-
-%files -n python3-%{upname}-devel
-%{python3_sitearch}/astropy/wcs/include
 
 %files -n python3-%{upname}-doc
 %doc README.rst README.dist licenses/LICENSE.rst docs/_build3/html
@@ -242,6 +218,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu Jan 16 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-5
+- Remove split -devel subpackage, it does not make much sense
+
 * Fri Jan 10 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-4
 - Disable noarch for doc subpackages to avoid name colision
 
