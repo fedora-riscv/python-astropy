@@ -1,0 +1,12 @@
+
+Differences between upstream astropy and the current version python-astropy
+
+Bundled python packages
+=======================
+Upstream astropy bundles several python packages under `astropy.extern`. 
+The following packages have been unbundled and the code patched so that astropy
+uses the system package:
+
+ * pytest
+ * configobj
+ * six
