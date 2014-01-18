@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -210,7 +210,6 @@ popd
 %files -n python3-%{upname}
 %doc README.rst licenses/LICENSE.rst README.dist
 %{python3_sitearch}/*
-%exclude %{python3_sitearch}/astropy/utils/tests/data/.hidden_file.txt
 
 %files -n python3-%{upname}-doc
 %doc README.rst README.dist licenses/LICENSE.rst docs/_build3/html
@@ -218,6 +217,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Sat Jan 18 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-6
+- Do not exclude hidden file, it breaks tests
+
 * Thu Jan 16 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-5
 - Remove split -devel subpackage, it does not make much sense
 
