@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -76,6 +76,7 @@ BuildRequires: python3-devel
 Requires: python3-numpy
 Requires: python3-configobj
 Requires: python3-pytest
+Requires: python3-six
 # Optionals
 Requires: python3-scipy python3-h5py
 Requires: /usr/bin/xmllint
@@ -217,6 +218,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Jan 27 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-7
+- Add missing requires python3-six
+
 * Sat Jan 18 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-6
 - Do not exclude hidden file, it breaks tests
 
