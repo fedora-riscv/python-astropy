@@ -2,8 +2,8 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 0.3
-Release: 7%{?dist}
+Version: 0.3.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -13,16 +13,13 @@ Source1: astropy-README.dist
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
-#
-Patch3: python-astropy-wcslib320.patch
+Patch3: python-astropy-backport-six15.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
 BuildRequires: git Cython pytest python-six
 BuildRequires: python-sphinx graphviz
 BuildRequires: python-matplotlib
-# Due to bug #1030396
-BuildRequires: python-matplotlib-qt4
 BuildRequires: python-configobj
 BuildRequires: expat-devel
 BuildRequires: cfitsio-devel
@@ -63,8 +60,6 @@ BuildRequires: git python3-Cython python3-pytest python3-six
 BuildRequires: python3-scipy python3-h5py
 BuildRequires: python3-sphinx graphviz
 BuildRequires: python3-matplotlib
-# Due to bug #1030396
-BuildRequires: python3-matplotlib-qt4
 BuildRequires: python3-configobj
 #
 BuildRequires: expat-devel
@@ -131,7 +126,6 @@ rm -rf astropy/extern/pytest*
 # Unbundle six
 rm -rf astropy/extern/six.py*
 %patch2 -p1
-
 %patch3 -p1
 
 echo "[build]" >> setup.cfg
@@ -186,17 +180,19 @@ for i in %{buildroot}/usr/bin/*; do
 done
 
 %check
-ASTROPY_USE_SYSTEM_PYTEST=1 %{__python2} setup.py test
+pushd %{buildroot}/%{python2_sitearch}
+py.test-%{python2_version}  astropy
+popd
+
 %if 0%{?with_python3}
-pushd %{py3dir}
-ASTROPY_USE_SYSTEM_PYTEST=1 %{__python3} setup.py test
+pushd %{buildroot}/%{python3_sitearch}
+py.test-%{python3_version}  astropy
 popd
 %endif # with_python3
  
 %files
 %doc README.rst README.dist licenses/LICENSE.rst
 %{python2_sitearch}/*
-%exclude %{python2_sitearch}/astropy/utils/tests/data/.hidden_file.txt
 
 %files -n %{upname}-tools
 %{_bindir}/*
@@ -218,6 +214,12 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed Mar 05 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.1-1
+- New upstream version (0.3.1)
+- Remove require python(3)-matplotlib-qt4 (bug #1030396 fixed)
+- Run the tests on the installed files
+- Add patch to run with six 1.5.x
+
 * Mon Jan 27 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-7
 - Add missing requires python3-six
 
