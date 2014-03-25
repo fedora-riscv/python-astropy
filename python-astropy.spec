@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -15,6 +15,7 @@ Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
 #
 Patch3: python-astropy-wcslib320.patch
+Patch4: python-astropy-install.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -133,6 +134,7 @@ rm -rf astropy/extern/six.py*
 %patch2 -p1
 
 %patch3 -p1
+%patch4 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_expat=1" >> setup.cfg
@@ -218,6 +220,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Tue Mar 25 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-8
+- Patch to fix https://github.com/astropy/astropy/pull/2223
+
 * Mon Jan 27 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-7
 - Add missing requires python3-six
 
