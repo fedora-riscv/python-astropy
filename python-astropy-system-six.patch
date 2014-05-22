@@ -1,6 +1,6 @@
-diff -ur astropy-0.3.1/astropy/config/configuration.py astropy-0.3.1.six/astropy/config/configuration.py
---- astropy-0.3.1/astropy/config/configuration.py	2014-03-04 22:54:46.665079402 +0100
-+++ astropy-0.3.1.six/astropy/config/configuration.py	2014-03-04 23:06:19.231057246 +0100
+diff -ur astropy-0.3.2/astropy/config/configuration.py astropy-0.3.2.six/astropy/config/configuration.py
+--- astropy-0.3.2/astropy/config/configuration.py	2014-05-19 11:41:00.629963008 +0200
++++ astropy-0.3.2.six/astropy/config/configuration.py	2014-05-19 11:33:31.764331943 +0200
 @@ -10,7 +10,7 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -19,9 +19,9 @@ diff -ur astropy-0.3.1/astropy/config/configuration.py astropy-0.3.1.six/astropy
  import configobj, validate
  from ..utils.exceptions import AstropyWarning
  
-diff -ur astropy-0.3.1/astropy/config/paths.py astropy-0.3.1.six/astropy/config/paths.py
---- astropy-0.3.1/astropy/config/paths.py	2014-03-04 22:54:46.662079378 +0100
-+++ astropy-0.3.1.six/astropy/config/paths.py	2014-03-04 23:06:19.145056717 +0100
+diff -ur astropy-0.3.2/astropy/config/paths.py astropy-0.3.2.six/astropy/config/paths.py
+--- astropy-0.3.2/astropy/config/paths.py	2014-05-19 11:41:00.626962984 +0200
++++ astropy-0.3.2.six/astropy/config/paths.py	2014-05-19 11:33:31.661331111 +0200
 @@ -59,7 +59,7 @@
              homedir = decodepath(os.path.join(os.environ['USERPROFILE']))
          else:
@@ -31,9 +31,9 @@ diff -ur astropy-0.3.1/astropy/config/paths.py astropy-0.3.1.six/astropy/config/
                  shell_folders = r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
                  key = wreg.OpenKey(wreg.HKEY_CURRENT_USER, shell_folders)
  
-diff -ur astropy-0.3.1/astropy/constants/constant.py astropy-0.3.1.six/astropy/constants/constant.py
---- astropy-0.3.1/astropy/constants/constant.py	2014-03-04 22:54:46.672079456 +0100
-+++ astropy-0.3.1.six/astropy/constants/constant.py	2014-03-04 23:06:19.526059061 +0100
+diff -ur astropy-0.3.2/astropy/constants/constant.py astropy-0.3.2.six/astropy/constants/constant.py
+--- astropy-0.3.2/astropy/constants/constant.py	2014-05-19 11:41:00.637963073 +0200
++++ astropy-0.3.2.six/astropy/constants/constant.py	2014-05-19 11:33:32.134334929 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import (absolute_import, division, print_function,
@@ -43,9 +43,9 @@ diff -ur astropy-0.3.1/astropy/constants/constant.py astropy-0.3.1.six/astropy/c
  
  import functools
  import types
-diff -ur astropy-0.3.1/astropy/constants/tests/test_constant.py astropy-0.3.1.six/astropy/constants/tests/test_constant.py
---- astropy-0.3.1/astropy/constants/tests/test_constant.py	2014-03-04 22:54:46.673079463 +0100
-+++ astropy-0.3.1.six/astropy/constants/tests/test_constant.py	2014-03-04 23:06:19.598059504 +0100
+diff -ur astropy-0.3.2/astropy/constants/tests/test_constant.py astropy-0.3.2.six/astropy/constants/tests/test_constant.py
+--- astropy-0.3.2/astropy/constants/tests/test_constant.py	2014-05-19 11:41:00.637963073 +0200
++++ astropy-0.3.2.six/astropy/constants/tests/test_constant.py	2014-05-19 11:33:32.223335648 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import (absolute_import, division, print_function,
@@ -55,9 +55,9 @@ diff -ur astropy-0.3.1/astropy/constants/tests/test_constant.py astropy-0.3.1.si
  
  from .. import Constant
  from ...units import Quantity as Q
-diff -ur astropy-0.3.1/astropy/coordinates/angles.py astropy-0.3.1.six/astropy/coordinates/angles.py
---- astropy-0.3.1/astropy/coordinates/angles.py	2014-03-04 22:54:46.553078536 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/angles.py	2014-03-04 23:06:14.724029536 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/angles.py astropy-0.3.2.six/astropy/coordinates/angles.py
+--- astropy-0.3.2/astropy/coordinates/angles.py	2014-05-19 11:41:00.510962044 +0200
++++ astropy-0.3.2.six/astropy/coordinates/angles.py	2014-05-19 11:33:25.225279159 +0200
 @@ -12,7 +12,7 @@
  
  import numpy as np
@@ -66,10 +66,10 @@ diff -ur astropy-0.3.1/astropy/coordinates/angles.py astropy-0.3.1.six/astropy/c
 +import six
  from . import angle_utilities as util
  from .. import units as u
- from ..utils import deprecated
-diff -ur astropy-0.3.1/astropy/coordinates/builtin_systems.py astropy-0.3.1.six/astropy/coordinates/builtin_systems.py
---- astropy-0.3.1/astropy/coordinates/builtin_systems.py	2014-03-04 22:54:46.550078512 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/builtin_systems.py	2014-03-04 23:06:14.636028995 +0100
+ from ..utils import deprecated, isiterable
+diff -ur astropy-0.3.2/astropy/coordinates/builtin_systems.py astropy-0.3.2.six/astropy/coordinates/builtin_systems.py
+--- astropy-0.3.2/astropy/coordinates/builtin_systems.py	2014-05-19 11:41:00.507962019 +0200
++++ astropy-0.3.2.six/astropy/coordinates/builtin_systems.py	2014-05-19 11:33:25.127278368 +0200
 @@ -12,7 +12,7 @@
  
  import numpy as np
@@ -79,9 +79,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/builtin_systems.py astropy-0.3.1.six/
  from .angles import Angle
  from .coordsystems import SphericalCoordinatesBase
  from ..time import Time
-diff -ur astropy-0.3.1/astropy/coordinates/coordsystems.py astropy-0.3.1.six/astropy/coordinates/coordsystems.py
---- astropy-0.3.1/astropy/coordinates/coordsystems.py	2014-03-04 22:54:46.549078505 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/coordsystems.py	2014-03-04 23:06:14.600028774 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/coordsystems.py astropy-0.3.2.six/astropy/coordinates/coordsystems.py
+--- astropy-0.3.2/astropy/coordinates/coordsystems.py	2014-05-19 11:41:00.505962003 +0200
++++ astropy-0.3.2.six/astropy/coordinates/coordsystems.py	2014-05-19 11:33:25.086278037 +0200
 @@ -8,7 +8,7 @@
  
  from abc import ABCMeta, abstractproperty, abstractmethod
@@ -91,9 +91,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/coordsystems.py astropy-0.3.1.six/ast
  from .. import units as u
  from .angles import Longitude, Latitude, Angle
  from .distances import Distance, CartesianPoints, cartesian_to_spherical, spherical_to_cartesian
-diff -ur astropy-0.3.1/astropy/coordinates/matching.py astropy-0.3.1.six/astropy/coordinates/matching.py
---- astropy-0.3.1/astropy/coordinates/matching.py	2014-03-04 22:54:46.562078605 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/matching.py	2014-03-04 23:06:15.209032516 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/matching.py astropy-0.3.2.six/astropy/coordinates/matching.py
+--- astropy-0.3.2/astropy/coordinates/matching.py	2014-05-19 11:41:00.520962125 +0200
++++ astropy-0.3.2.six/astropy/coordinates/matching.py	2014-05-19 11:33:25.794283752 +0200
 @@ -8,7 +8,7 @@
  
  import numpy as np
@@ -103,9 +103,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/matching.py astropy-0.3.1.six/astropy
  
  __all__ = ['match_coordinates_3d', 'match_coordinates_sky']
  
-diff -ur astropy-0.3.1/astropy/coordinates/name_resolve.py astropy-0.3.1.six/astropy/coordinates/name_resolve.py
---- astropy-0.3.1/astropy/coordinates/name_resolve.py	2014-03-04 22:54:46.554078543 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/name_resolve.py	2014-03-04 23:06:14.761029763 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/name_resolve.py astropy-0.3.2.six/astropy/coordinates/name_resolve.py
+--- astropy-0.3.2/astropy/coordinates/name_resolve.py	2014-05-19 11:41:00.511962052 +0200
++++ astropy-0.3.2.six/astropy/coordinates/name_resolve.py	2014-05-19 11:33:25.267279498 +0200
 @@ -17,7 +17,7 @@
  
  # Astropy
@@ -115,9 +115,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/name_resolve.py astropy-0.3.1.six/ast
  from .. import units as u
  from .builtin_systems import ICRS
  
-diff -ur astropy-0.3.1/astropy/coordinates/tests/test_api.py astropy-0.3.1.six/astropy/coordinates/tests/test_api.py
---- astropy-0.3.1/astropy/coordinates/tests/test_api.py	2014-03-04 22:54:46.557078567 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/tests/test_api.py	2014-03-04 23:06:14.877030476 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/tests/test_api.py astropy-0.3.2.six/astropy/coordinates/tests/test_api.py
+--- astropy-0.3.2/astropy/coordinates/tests/test_api.py	2014-05-19 11:41:00.514962076 +0200
++++ astropy-0.3.2.six/astropy/coordinates/tests/test_api.py	2014-05-19 11:33:25.405280612 +0200
 @@ -7,7 +7,7 @@
  from ...tests.helper import pytest
  raises = pytest.raises
@@ -127,9 +127,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/tests/test_api.py astropy-0.3.1.six/a
  
  from ... import units as u
  from ..errors import ConvertError, IllegalSecondError, IllegalMinuteError, IllegalHourError
-diff -ur astropy-0.3.1/astropy/coordinates/tests/test_arrays.py astropy-0.3.1.six/astropy/coordinates/tests/test_arrays.py
---- astropy-0.3.1/astropy/coordinates/tests/test_arrays.py	2014-03-04 22:54:46.558078574 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/tests/test_arrays.py	2014-03-04 23:06:14.920030740 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/tests/test_arrays.py astropy-0.3.2.six/astropy/coordinates/tests/test_arrays.py
+--- astropy-0.3.2/astropy/coordinates/tests/test_arrays.py	2014-05-19 11:41:00.515962084 +0200
++++ astropy-0.3.2.six/astropy/coordinates/tests/test_arrays.py	2014-05-19 11:33:25.455281016 +0200
 @@ -3,7 +3,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -139,9 +139,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/tests/test_arrays.py astropy-0.3.1.si
  from ...tests.helper import pytest
  
  import numpy as np
-diff -ur astropy-0.3.1/astropy/coordinates/tests/test_formatting.py astropy-0.3.1.six/astropy/coordinates/tests/test_formatting.py
---- astropy-0.3.1/astropy/coordinates/tests/test_formatting.py	2014-03-04 22:54:46.555078551 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/tests/test_formatting.py	2014-03-04 23:06:14.826030162 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/tests/test_formatting.py astropy-0.3.2.six/astropy/coordinates/tests/test_formatting.py
+--- astropy-0.3.2/astropy/coordinates/tests/test_formatting.py	2014-05-19 11:41:00.512962060 +0200
++++ astropy-0.3.2.six/astropy/coordinates/tests/test_formatting.py	2014-05-19 11:33:25.346280136 +0200
 @@ -1,7 +1,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -151,9 +151,9 @@ diff -ur astropy-0.3.1/astropy/coordinates/tests/test_formatting.py astropy-0.3.
  from ...tests.helper import pytest
  
  from ..angles import Angle
-diff -ur astropy-0.3.1/astropy/coordinates/tests/test_name_resolve.py astropy-0.3.1.six/astropy/coordinates/tests/test_name_resolve.py
---- astropy-0.3.1/astropy/coordinates/tests/test_name_resolve.py	2014-03-04 22:54:46.561078597 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/tests/test_name_resolve.py	2014-03-04 23:06:15.154032178 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/tests/test_name_resolve.py astropy-0.3.2.six/astropy/coordinates/tests/test_name_resolve.py
+--- astropy-0.3.2/astropy/coordinates/tests/test_name_resolve.py	2014-05-19 11:41:00.519962117 +0200
++++ astropy-0.3.2.six/astropy/coordinates/tests/test_name_resolve.py	2014-05-19 11:33:25.716283123 +0200
 @@ -14,7 +14,7 @@
  from ..name_resolve import (get_icrs_coordinates, NameResolveError,
                              SESAME_DATABASE, _parse_response)
@@ -163,18 +163,18 @@ diff -ur astropy-0.3.1/astropy/coordinates/tests/test_name_resolve.py astropy-0.
  from ...tests.helper import remote_data, pytest
  from ... import units as u
  
-diff -ur astropy-0.3.1/astropy/coordinates/tests/test_pickle.py astropy-0.3.1.six/astropy/coordinates/tests/test_pickle.py
---- astropy-0.3.1/astropy/coordinates/tests/test_pickle.py	2014-03-04 22:54:46.558078574 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/tests/test_pickle.py	2014-03-04 23:06:14.935030832 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/tests/test_pickle.py astropy-0.3.2.six/astropy/coordinates/tests/test_pickle.py
+--- astropy-0.3.2/astropy/coordinates/tests/test_pickle.py	2014-05-19 11:41:00.515962084 +0200
++++ astropy-0.3.2.six/astropy/coordinates/tests/test_pickle.py	2014-05-19 11:33:25.472281153 +0200
 @@ -1,4 +1,4 @@
 -from ...extern.six.moves import cPickle as pickle
 +from six.moves import cPickle as pickle
  from ...coordinates import Longitude
  
  def test_basic():
-diff -ur astropy-0.3.1/astropy/coordinates/transformations.py astropy-0.3.1.six/astropy/coordinates/transformations.py
---- astropy-0.3.1/astropy/coordinates/transformations.py	2014-03-04 22:54:46.564078621 +0100
-+++ astropy-0.3.1.six/astropy/coordinates/transformations.py	2014-03-04 23:06:15.250032768 +0100
+diff -ur astropy-0.3.2/astropy/coordinates/transformations.py astropy-0.3.2.six/astropy/coordinates/transformations.py
+--- astropy-0.3.2/astropy/coordinates/transformations.py	2014-05-19 11:41:00.521962133 +0200
++++ astropy-0.3.2.six/astropy/coordinates/transformations.py	2014-05-19 11:33:25.838284107 +0200
 @@ -11,7 +11,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -184,21 +184,21 @@ diff -ur astropy-0.3.1/astropy/coordinates/transformations.py astropy-0.3.1.six/
  
  import heapq
  import inspect
-diff -ur astropy-0.3.1/astropy/io/fits/card.py astropy-0.3.1.six/astropy/io/fits/card.py
---- astropy-0.3.1/astropy/io/fits/card.py	2014-03-04 22:54:46.497078103 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/card.py	2014-03-04 23:06:13.059019307 +0100
+diff -ur astropy-0.3.2/astropy/io/fits/card.py astropy-0.3.2.six/astropy/io/fits/card.py
+--- astropy-0.3.2/astropy/io/fits/card.py	2014-05-19 11:41:00.449961549 +0200
++++ astropy-0.3.2.six/astropy/io/fits/card.py	2014-05-19 11:33:23.253263242 +0200
 @@ -11,7 +11,7 @@
  
  from . import ENABLE_RECORD_VALUED_KEYWORD_CARDS, STRIP_HEADER_WHITESPACE
  
--from ...extern.six import string_types
-+from six import string_types
+-from ...extern.six import string_types, text_type
++from six import string_types, text_type
  from ...utils import deprecated
  from ...utils.exceptions import AstropyUserWarning, AstropyDeprecationWarning
  
-diff -ur astropy-0.3.1/astropy/io/fits/diff.py astropy-0.3.1.six/astropy/io/fits/diff.py
---- astropy-0.3.1/astropy/io/fits/diff.py	2014-03-04 22:54:46.517078257 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/diff.py	2014-03-04 23:06:13.582022519 +0100
+diff -ur astropy-0.3.2/astropy/io/fits/diff.py astropy-0.3.2.six/astropy/io/fits/diff.py
+--- astropy-0.3.2/astropy/io/fits/diff.py	2014-05-19 11:41:00.471961728 +0200
++++ astropy-0.3.2.six/astropy/io/fits/diff.py	2014-05-19 11:33:23.860268141 +0200
 @@ -21,7 +21,7 @@
  import numpy as np
  
@@ -208,9 +208,9 @@ diff -ur astropy-0.3.1/astropy/io/fits/diff.py astropy-0.3.1.six/astropy/io/fits
  from ...utils import indent
  from .card import Card, BLANK_CARD
  from .header import Header
-diff -ur astropy-0.3.1/astropy/io/fits/file.py astropy-0.3.1.six/astropy/io/fits/file.py
---- astropy-0.3.1/astropy/io/fits/file.py	2014-03-04 22:54:46.538078420 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/file.py	2014-03-04 23:06:14.203026334 +0100
+diff -ur astropy-0.3.2/astropy/io/fits/file.py astropy-0.3.2.six/astropy/io/fits/file.py
+--- astropy-0.3.2/astropy/io/fits/file.py	2014-05-19 11:41:00.493961906 +0200
++++ astropy-0.3.2.six/astropy/io/fits/file.py	2014-05-19 11:33:24.610274195 +0200
 @@ -16,8 +16,8 @@
  from .util import (isreadable, iswritable, isfile, fileobj_open, fileobj_name,
                     fileobj_closed, fileobj_mode, _array_from_file,
@@ -222,9 +222,9 @@ diff -ur astropy-0.3.1/astropy/io/fits/file.py astropy-0.3.1.six/astropy/io/fits
  from ...utils.exceptions import AstropyUserWarning
  
  
-diff -ur astropy-0.3.1/astropy/io/fits/fitsrec.py astropy-0.3.1.six/astropy/io/fits/fitsrec.py
---- astropy-0.3.1/astropy/io/fits/fitsrec.py	2014-03-04 22:54:46.536078404 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/fitsrec.py	2014-03-04 23:06:14.156026045 +0100
+diff -ur astropy-0.3.2/astropy/io/fits/fitsrec.py astropy-0.3.2.six/astropy/io/fits/fitsrec.py
+--- astropy-0.3.2/astropy/io/fits/fitsrec.py	2014-05-19 11:41:00.492961898 +0200
++++ astropy-0.3.2.six/astropy/io/fits/fitsrec.py	2014-05-19 11:33:24.555273751 +0200
 @@ -13,8 +13,8 @@
                       _AsciiColDefs, _FormatX, _FormatP, _VLF, _get_index,
                       _wrapx, _unwrapx, _makep, _convert_ascii_format, Delayed)
@@ -236,9 +236,9 @@ diff -ur astropy-0.3.1/astropy/io/fits/fitsrec.py astropy-0.3.1.six/astropy/io/f
  from ...utils import lazyproperty
  from ...utils.exceptions import AstropyDeprecationWarning, AstropyUserWarning
  
-diff -ur astropy-0.3.1/astropy/io/fits/hdu/compressed.py astropy-0.3.1.six/astropy/io/fits/hdu/compressed.py
---- astropy-0.3.1/astropy/io/fits/hdu/compressed.py	2014-03-04 22:54:46.506078172 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/hdu/compressed.py	2014-03-04 23:06:13.317020891 +0100
+diff -ur astropy-0.3.2/astropy/io/fits/hdu/compressed.py astropy-0.3.2.six/astropy/io/fits/hdu/compressed.py
+--- astropy-0.3.2/astropy/io/fits/hdu/compressed.py	2014-05-19 11:41:00.459961630 +0200
++++ astropy-0.3.2.six/astropy/io/fits/hdu/compressed.py	2014-05-19 11:33:23.553265664 +0200
 @@ -18,8 +18,8 @@
  from ..header import Header
  from ..util import _is_pseudo_unsigned, _unsigned_zero, _is_int
@@ -250,23 +250,37 @@ diff -ur astropy-0.3.1/astropy/io/fits/hdu/compressed.py astropy-0.3.1.six/astro
  from ....utils import lazyproperty, deprecated
  from ....utils.exceptions import (AstropyPendingDeprecationWarning,
                                    AstropyUserWarning)
-diff -ur astropy-0.3.1/astropy/io/fits/header.py astropy-0.3.1.six/astropy/io/fits/header.py
---- astropy-0.3.1/astropy/io/fits/header.py	2014-03-04 22:54:46.543078458 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/header.py	2014-03-04 23:06:14.346027213 +0100
-@@ -15,8 +15,8 @@
+diff -ur astropy-0.3.2/astropy/io/fits/hdu/hdulist.py astropy-0.3.2.six/astropy/io/fits/hdu/hdulist.py
+--- astropy-0.3.2/astropy/io/fits/hdu/hdulist.py	2014-05-19 11:41:00.468961703 +0200
++++ astropy-0.3.2.six/astropy/io/fits/hdu/hdulist.py	2014-05-19 11:33:23.803267681 +0200
+@@ -18,7 +18,7 @@
+                     _get_array_mmap)
+ from ..verify import _Verify, _ErrList, VerifyError, VerifyWarning
+ 
+-from ....extern.six import string_types
++from six import string_types
+ 
+ from ....utils import indent
+ from ....utils.exceptions import AstropyUserWarning
+diff -ur astropy-0.3.2/astropy/io/fits/header.py astropy-0.3.2.six/astropy/io/fits/header.py
+--- astropy-0.3.2/astropy/io/fits/header.py	2014-05-19 11:41:00.499961955 +0200
++++ astropy-0.3.2.six/astropy/io/fits/header.py	2014-05-19 11:33:24.786275616 +0200
+@@ -17,9 +17,9 @@
  from .util import (encode_ascii, decode_ascii, fileobj_mode, fileobj_closed,
                     fileobj_is_binary)
  
+-from ...extern import six
 -from ...extern.six import PY3, string_types, itervalues, iteritems, next
--from ...extern.six.moves import zip, range
+-from ...extern.six.moves import zip, range, zip_longest
++import six
 +from six import PY3, string_types, itervalues, iteritems, next
-+from six.moves import zip, range
++from six.moves import zip, range, zip_longest
  from ...utils import deprecated, isiterable
  from ...utils.exceptions import AstropyUserWarning, AstropyDeprecationWarning
  
-diff -ur astropy-0.3.1/astropy/io/fits/tests/test_header.py astropy-0.3.1.six/astropy/io/fits/tests/test_header.py
---- astropy-0.3.1/astropy/io/fits/tests/test_header.py	2014-03-04 22:54:46.526078327 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/tests/test_header.py	2014-03-04 23:06:13.863024245 +0100
+diff -ur astropy-0.3.2/astropy/io/fits/tests/test_header.py astropy-0.3.2.six/astropy/io/fits/tests/test_header.py
+--- astropy-0.3.2/astropy/io/fits/tests/test_header.py	2014-05-19 11:41:00.481961809 +0200
++++ astropy-0.3.2.six/astropy/io/fits/tests/test_header.py	2014-05-19 11:33:24.210270967 +0200
 @@ -11,7 +11,7 @@
  
  from ....io import fits
@@ -276,21 +290,23 @@ diff -ur astropy-0.3.1/astropy/io/fits/tests/test_header.py astropy-0.3.1.six/as
  from ....tests.helper import pytest, catch_warnings
  
  from . import FitsTestCase
-diff -ur astropy-0.3.1/astropy/io/fits/tests/test_table.py astropy-0.3.1.six/astropy/io/fits/tests/test_table.py
---- astropy-0.3.1/astropy/io/fits/tests/test_table.py	2014-03-04 22:54:46.533078381 +0100
-+++ astropy-0.3.1.six/astropy/io/fits/tests/test_table.py	2014-03-04 23:06:14.042025345 +0100
-@@ -3,7 +3,7 @@
+diff -ur astropy-0.3.2/astropy/io/fits/tests/test_table.py astropy-0.3.2.six/astropy/io/fits/tests/test_table.py
+--- astropy-0.3.2/astropy/io/fits/tests/test_table.py	2014-05-19 11:41:00.487961858 +0200
++++ astropy-0.3.2.six/astropy/io/fits/tests/test_table.py	2014-05-19 11:33:24.428272726 +0200
+@@ -3,8 +3,8 @@
  import numpy as np
  from numpy import char as chararray
  
 -from ....extern.six.moves import range
+-from ....extern.six.moves import cPickle as pickle
 +from six.moves import range
++from six.moves import cPickle as pickle
  from ....io import fits
  from ....tests.helper import pytest
  
-diff -ur astropy-0.3.1/astropy/io/votable/connect.py astropy-0.3.1.six/astropy/io/votable/connect.py
---- astropy-0.3.1/astropy/io/votable/connect.py	2014-03-04 22:54:46.481077979 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/connect.py	2014-03-04 23:06:12.541016125 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/connect.py astropy-0.3.2.six/astropy/io/votable/connect.py
+--- astropy-0.3.2/astropy/io/votable/connect.py	2014-05-19 11:41:00.432961412 +0200
++++ astropy-0.3.2.six/astropy/io/votable/connect.py	2014-05-19 11:33:22.646258343 +0200
 @@ -4,7 +4,7 @@
  
  import os
@@ -300,9 +316,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/connect.py astropy-0.3.1.six/astropy/i
  
  from . import parse, from_table
  from .tree import VOTableFile, Table as VOTable
-diff -ur astropy-0.3.1/astropy/io/votable/converters.py astropy-0.3.1.six/astropy/io/votable/converters.py
---- astropy-0.3.1/astropy/io/votable/converters.py	2014-03-04 22:54:46.478077956 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/converters.py	2014-03-04 23:06:12.465015658 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/converters.py astropy-0.3.2.six/astropy/io/votable/converters.py
+--- astropy-0.3.2/astropy/io/votable/converters.py	2014-05-19 11:41:00.429961387 +0200
++++ astropy-0.3.2.six/astropy/io/votable/converters.py	2014-05-19 11:33:22.561257656 +0200
 @@ -5,8 +5,8 @@
  """
  
@@ -314,9 +330,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/converters.py astropy-0.3.1.six/astrop
  
  # STDLIB
  import re
-diff -ur astropy-0.3.1/astropy/io/votable/exceptions.py astropy-0.3.1.six/astropy/io/votable/exceptions.py
---- astropy-0.3.1/astropy/io/votable/exceptions.py	2014-03-04 22:54:46.480077971 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/exceptions.py	2014-03-04 23:06:12.522016009 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/exceptions.py astropy-0.3.2.six/astropy/io/votable/exceptions.py
+--- astropy-0.3.2/astropy/io/votable/exceptions.py	2014-05-19 11:41:00.431961403 +0200
++++ astropy-0.3.2.six/astropy/io/votable/exceptions.py	2014-05-19 11:33:22.624258165 +0200
 @@ -34,7 +34,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -326,9 +342,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/exceptions.py astropy-0.3.1.six/astrop
  
  # STDLIB
  import io
-diff -ur astropy-0.3.1/astropy/io/votable/table.py astropy-0.3.1.six/astropy/io/votable/table.py
---- astropy-0.3.1/astropy/io/votable/table.py	2014-03-04 22:54:46.482077987 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/table.py	2014-03-04 23:06:12.588016414 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/table.py astropy-0.3.2.six/astropy/io/votable/table.py
+--- astropy-0.3.2/astropy/io/votable/table.py	2014-05-19 11:41:00.433961420 +0200
++++ astropy-0.3.2.six/astropy/io/votable/table.py	2014-05-19 11:33:22.699258770 +0200
 @@ -8,7 +8,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -338,9 +354,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/table.py astropy-0.3.1.six/astropy/io/
  
  # STDLIB
  import io
-diff -ur astropy-0.3.1/astropy/io/votable/tests/ucd_test.py astropy-0.3.1.six/astropy/io/votable/tests/ucd_test.py
---- astropy-0.3.1/astropy/io/votable/tests/ucd_test.py	2014-03-04 22:54:46.485078010 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/tests/ucd_test.py	2014-03-04 23:06:12.757017452 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/tests/ucd_test.py astropy-0.3.2.six/astropy/io/votable/tests/ucd_test.py
+--- astropy-0.3.2/astropy/io/votable/tests/ucd_test.py	2014-05-19 11:41:00.437961452 +0200
++++ astropy-0.3.2.six/astropy/io/votable/tests/ucd_test.py	2014-05-19 11:33:22.891260320 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  
@@ -350,9 +366,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/tests/ucd_test.py astropy-0.3.1.six/as
  
  
  from ....tests.helper import raises
-diff -ur astropy-0.3.1/astropy/io/votable/tests/vo_test.py astropy-0.3.1.six/astropy/io/votable/tests/vo_test.py
---- astropy-0.3.1/astropy/io/votable/tests/vo_test.py	2014-03-04 22:54:46.484078002 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/tests/vo_test.py	2014-03-04 23:06:12.681016985 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/tests/vo_test.py astropy-0.3.2.six/astropy/io/votable/tests/vo_test.py
+--- astropy-0.3.2/astropy/io/votable/tests/vo_test.py	2014-05-19 11:41:00.435961436 +0200
++++ astropy-0.3.2.six/astropy/io/votable/tests/vo_test.py	2014-05-19 11:33:22.804259618 +0200
 @@ -4,8 +4,8 @@
  """
  
@@ -364,9 +380,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/tests/vo_test.py astropy-0.3.1.six/ast
  
  # STDLIB
  import difflib
-diff -ur astropy-0.3.1/astropy/io/votable/tree.py astropy-0.3.1.six/astropy/io/votable/tree.py
---- astropy-0.3.1/astropy/io/votable/tree.py	2014-03-04 22:54:46.492078064 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/tree.py	2014-03-04 23:06:12.909018385 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/tree.py astropy-0.3.2.six/astropy/io/votable/tree.py
+--- astropy-0.3.2/astropy/io/votable/tree.py	2014-05-19 11:41:00.443961501 +0200
++++ astropy-0.3.2.six/astropy/io/votable/tree.py	2014-05-19 11:33:23.074261797 +0200
 @@ -2,8 +2,8 @@
  # TODO: Test FITS parsing
  
@@ -378,9 +394,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/tree.py astropy-0.3.1.six/astropy/io/v
  
  # STDLIB
  import base64
-diff -ur astropy-0.3.1/astropy/io/votable/util.py astropy-0.3.1.six/astropy/io/votable/util.py
---- astropy-0.3.1/astropy/io/votable/util.py	2014-03-04 22:54:46.492078064 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/util.py	2014-03-04 23:06:12.946018613 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/util.py astropy-0.3.2.six/astropy/io/votable/util.py
+--- astropy-0.3.2/astropy/io/votable/util.py	2014-05-19 11:41:00.444961509 +0200
++++ astropy-0.3.2.six/astropy/io/votable/util.py	2014-05-19 11:33:23.118262152 +0200
 @@ -4,7 +4,7 @@
  """
  
@@ -390,9 +406,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/util.py astropy-0.3.1.six/astropy/io/v
  
  # STDLIB
  import codecs
-diff -ur astropy-0.3.1/astropy/io/votable/validator/html.py astropy-0.3.1.six/astropy/io/votable/validator/html.py
---- astropy-0.3.1/astropy/io/votable/validator/html.py	2014-03-04 22:54:46.475077933 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/validator/html.py	2014-03-04 23:06:12.356014989 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/validator/html.py astropy-0.3.2.six/astropy/io/votable/validator/html.py
+--- astropy-0.3.2/astropy/io/votable/validator/html.py	2014-05-19 11:41:00.425961355 +0200
++++ astropy-0.3.2.six/astropy/io/votable/validator/html.py	2014-05-19 11:33:22.440256680 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import absolute_import, division, print_function, unicode_literals
@@ -403,9 +419,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/validator/html.py astropy-0.3.1.six/as
  
  # STDLIB
  import contextlib
-diff -ur astropy-0.3.1/astropy/io/votable/validator/main.py astropy-0.3.1.six/astropy/io/votable/validator/main.py
---- astropy-0.3.1/astropy/io/votable/validator/main.py	2014-03-04 22:54:46.475077933 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/validator/main.py	2014-03-04 23:06:12.377015118 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/validator/main.py astropy-0.3.2.six/astropy/io/votable/validator/main.py
+--- astropy-0.3.2/astropy/io/votable/validator/main.py	2014-05-19 11:41:00.426961363 +0200
++++ astropy-0.3.2.six/astropy/io/votable/validator/main.py	2014-05-19 11:33:22.463256866 +0200
 @@ -4,7 +4,7 @@
  and generates a report as a directory tree of HTML files.
  """
@@ -415,9 +431,9 @@ diff -ur astropy-0.3.1/astropy/io/votable/validator/main.py astropy-0.3.1.six/as
  
  # STDLIB
  import os
-diff -ur astropy-0.3.1/astropy/io/votable/validator/result.py astropy-0.3.1.six/astropy/io/votable/validator/result.py
---- astropy-0.3.1/astropy/io/votable/validator/result.py	2014-03-04 22:54:46.474077925 +0100
-+++ astropy-0.3.1.six/astropy/io/votable/validator/result.py	2014-03-04 23:06:12.332014842 +0100
+diff -ur astropy-0.3.2/astropy/io/votable/validator/result.py astropy-0.3.2.six/astropy/io/votable/validator/result.py
+--- astropy-0.3.2/astropy/io/votable/validator/result.py	2014-05-19 11:41:00.425961355 +0200
++++ astropy-0.3.2.six/astropy/io/votable/validator/result.py	2014-05-19 11:33:22.413256462 +0200
 @@ -5,9 +5,9 @@
  """
  
@@ -431,9 +447,21 @@ diff -ur astropy-0.3.1/astropy/io/votable/validator/result.py astropy-0.3.1.six/
  
  # STDLIB
  from xml.parsers.expat import ExpatError
-diff -ur astropy-0.3.1/astropy/stats/funcs.py astropy-0.3.1.six/astropy/stats/funcs.py
---- astropy-0.3.1/astropy/stats/funcs.py	2014-03-04 22:54:46.414077461 +0100
-+++ astropy-0.3.1.six/astropy/stats/funcs.py	2014-03-04 23:06:09.886999832 +0100
+diff -ur astropy-0.3.2/astropy/setup_helpers.py astropy-0.3.2.six/astropy/setup_helpers.py
+--- astropy-0.3.2/astropy/setup_helpers.py	2014-05-19 11:41:00.524962157 +0200
++++ astropy-0.3.2.six/astropy/setup_helpers.py	2014-05-19 11:33:25.906284656 +0200
+@@ -40,7 +40,7 @@
+ from .utils.misc import walk_skip_hidden
+ from .utils.exceptions import AstropyDeprecationWarning
+ 
+-from .extern import six
++import six
+ 
+ 
+ try:
+diff -ur astropy-0.3.2/astropy/stats/funcs.py astropy-0.3.2.six/astropy/stats/funcs.py
+--- astropy-0.3.2/astropy/stats/funcs.py	2014-05-19 11:41:00.361960836 +0200
++++ astropy-0.3.2.six/astropy/stats/funcs.py	2014-05-19 11:33:17.617217752 +0200
 @@ -13,7 +13,7 @@
  
  import numpy as np
@@ -443,9 +471,9 @@ diff -ur astropy-0.3.1/astropy/stats/funcs.py astropy-0.3.1.six/astropy/stats/fu
  
  
  __all__ = ['sigma_clip', 'binom_conf_interval', 'binned_binom_proportion',
-diff -ur astropy-0.3.1/astropy/table/groups.py astropy-0.3.1.six/astropy/table/groups.py
---- astropy-0.3.1/astropy/table/groups.py	2014-03-04 22:54:46.417077484 +0100
-+++ astropy-0.3.1.six/astropy/table/groups.py	2014-03-04 23:06:09.985000433 +0100
+diff -ur astropy-0.3.2/astropy/table/groups.py astropy-0.3.2.six/astropy/table/groups.py
+--- astropy-0.3.2/astropy/table/groups.py	2014-05-19 11:41:00.364960860 +0200
++++ astropy-0.3.2.six/astropy/table/groups.py	2014-05-19 11:33:17.731218672 +0200
 @@ -1,7 +1,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -456,9 +484,9 @@ diff -ur astropy-0.3.1/astropy/table/groups.py astropy-0.3.1.six/astropy/table/g
  
  import platform
  import warnings
-diff -ur astropy-0.3.1/astropy/table/__init__.py astropy-0.3.1.six/astropy/table/__init__.py
---- astropy-0.3.1/astropy/table/__init__.py	2014-03-04 22:54:46.423077530 +0100
-+++ astropy-0.3.1.six/astropy/table/__init__.py	2014-03-04 23:06:10.126001299 +0100
+diff -ur astropy-0.3.2/astropy/table/__init__.py astropy-0.3.2.six/astropy/table/__init__.py
+--- astropy-0.3.2/astropy/table/__init__.py	2014-05-19 11:41:00.370960909 +0200
++++ astropy-0.3.2.six/astropy/table/__init__.py	2014-05-19 11:33:17.897220011 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import (absolute_import, division, print_function,
@@ -468,9 +496,9 @@ diff -ur astropy-0.3.1/astropy/table/__init__.py astropy-0.3.1.six/astropy/table
  
  from .table import Column, Table, TableColumns, Row, MaskedColumn
  from .np_utils import TableMergeError
-diff -ur astropy-0.3.1/astropy/table/np_utils.py astropy-0.3.1.six/astropy/table/np_utils.py
---- astropy-0.3.1/astropy/table/np_utils.py	2014-03-04 22:54:46.416077476 +0100
-+++ astropy-0.3.1.six/astropy/table/np_utils.py	2014-03-04 23:06:09.961000286 +0100
+diff -ur astropy-0.3.2/astropy/table/np_utils.py astropy-0.3.2.six/astropy/table/np_utils.py
+--- astropy-0.3.2/astropy/table/np_utils.py	2014-05-19 11:41:00.364960860 +0200
++++ astropy-0.3.2.six/astropy/table/np_utils.py	2014-05-19 11:33:17.702218438 +0200
 @@ -10,8 +10,8 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -482,9 +510,9 @@ diff -ur astropy-0.3.1/astropy/table/np_utils.py astropy-0.3.1.six/astropy/table
  
  from itertools import chain
  import collections
-diff -ur astropy-0.3.1/astropy/table/operations.py astropy-0.3.1.six/astropy/table/operations.py
---- astropy-0.3.1/astropy/table/operations.py	2014-03-04 22:54:46.422077523 +0100
-+++ astropy-0.3.1.six/astropy/table/operations.py	2014-03-04 23:06:10.093001096 +0100
+diff -ur astropy-0.3.2/astropy/table/operations.py astropy-0.3.2.six/astropy/table/operations.py
+--- astropy-0.3.2/astropy/table/operations.py	2014-05-19 11:41:00.370960909 +0200
++++ astropy-0.3.2.six/astropy/table/operations.py	2014-05-19 11:33:17.857219689 +0200
 @@ -8,7 +8,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import (absolute_import, division, print_function,
@@ -494,9 +522,9 @@ diff -ur astropy-0.3.1/astropy/table/operations.py astropy-0.3.1.six/astropy/tab
  
  from copy import deepcopy
  import warnings
-diff -ur astropy-0.3.1/astropy/table/pprint.py astropy-0.3.1.six/astropy/table/pprint.py
---- astropy-0.3.1/astropy/table/pprint.py	2014-03-04 22:54:46.415077469 +0100
-+++ astropy-0.3.1.six/astropy/table/pprint.py	2014-03-04 23:06:09.930000096 +0100
+diff -ur astropy-0.3.2/astropy/table/pprint.py astropy-0.3.2.six/astropy/table/pprint.py
+--- astropy-0.3.2/astropy/table/pprint.py	2014-05-19 11:41:00.363960852 +0200
++++ astropy-0.3.2.six/astropy/table/pprint.py	2014-05-19 11:33:17.667218155 +0200
 @@ -1,10 +1,10 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import (absolute_import, division, print_function,
@@ -512,9 +540,9 @@ diff -ur astropy-0.3.1/astropy/table/pprint.py astropy-0.3.1.six/astropy/table/p
  
  import os
  import sys
-diff -ur astropy-0.3.1/astropy/table/table.py astropy-0.3.1.six/astropy/table/table.py
---- astropy-0.3.1/astropy/table/table.py	2014-03-04 22:54:46.421077515 +0100
-+++ astropy-0.3.1.six/astropy/table/table.py	2014-03-04 23:06:10.070000955 +0100
+diff -ur astropy-0.3.2/astropy/table/table.py astropy-0.3.2.six/astropy/table/table.py
+--- astropy-0.3.2/astropy/table/table.py	2014-05-19 11:41:00.369960901 +0200
++++ astropy-0.3.2.six/astropy/table/table.py	2014-05-19 11:33:17.830219471 +0200
 @@ -2,9 +2,9 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -528,18 +556,18 @@ diff -ur astropy-0.3.1/astropy/table/table.py astropy-0.3.1.six/astropy/table/ta
  
  import abc
  import collections
-diff -ur astropy-0.3.1/astropy/table/tests/test_pickle.py astropy-0.3.1.six/astropy/table/tests/test_pickle.py
---- astropy-0.3.1/astropy/table/tests/test_pickle.py	2014-03-04 22:54:46.429077577 +0100
-+++ astropy-0.3.1.six/astropy/table/tests/test_pickle.py	2014-03-04 23:06:10.397002962 +0100
+diff -ur astropy-0.3.2/astropy/table/tests/test_pickle.py astropy-0.3.2.six/astropy/table/tests/test_pickle.py
+--- astropy-0.3.2/astropy/table/tests/test_pickle.py	2014-05-19 11:41:00.376960958 +0200
++++ astropy-0.3.2.six/astropy/table/tests/test_pickle.py	2014-05-19 11:33:18.137221949 +0200
 @@ -1,4 +1,4 @@
 -from ...extern.six.moves import cPickle as pickle
 +from six.moves import cPickle as pickle
  
  import numpy as np
  import pytest
-diff -ur astropy-0.3.1/astropy/table/tests/test_pprint.py astropy-0.3.1.six/astropy/table/tests/test_pprint.py
---- astropy-0.3.1/astropy/table/tests/test_pprint.py	2014-03-04 22:54:46.428077569 +0100
-+++ astropy-0.3.1.six/astropy/table/tests/test_pprint.py	2014-03-04 23:06:10.352002686 +0100
+diff -ur astropy-0.3.2/astropy/table/tests/test_pprint.py astropy-0.3.2.six/astropy/table/tests/test_pprint.py
+--- astropy-0.3.2/astropy/table/tests/test_pprint.py	2014-05-19 11:41:00.375960950 +0200
++++ astropy-0.3.2.six/astropy/table/tests/test_pprint.py	2014-05-19 11:33:18.088221553 +0200
 @@ -5,7 +5,7 @@
  from ...tests.helper import pytest
  from ... import table
@@ -549,9 +577,9 @@ diff -ur astropy-0.3.1/astropy/table/tests/test_pprint.py astropy-0.3.1.six/astr
  
  BIG_WIDE_ARR = np.arange(2000, dtype=np.float).reshape(100, 20)
  SMALL_ARR = np.arange(12, dtype=np.int).reshape(4, 3)
-diff -ur astropy-0.3.1/astropy/table/tests/test_table.py astropy-0.3.1.six/astropy/table/tests/test_table.py
---- astropy-0.3.1/astropy/table/tests/test_table.py	2014-03-04 22:54:46.432077600 +0100
-+++ astropy-0.3.1.six/astropy/table/tests/test_table.py	2014-03-04 23:06:10.490003533 +0100
+diff -ur astropy-0.3.2/astropy/table/tests/test_table.py astropy-0.3.2.six/astropy/table/tests/test_table.py
+--- astropy-0.3.2/astropy/table/tests/test_table.py	2014-05-19 11:41:00.379960982 +0200
++++ astropy-0.3.2.six/astropy/table/tests/test_table.py	2014-05-19 11:33:18.239222772 +0200
 @@ -9,7 +9,7 @@
  
  import numpy as np
@@ -561,9 +589,9 @@ diff -ur astropy-0.3.1/astropy/table/tests/test_table.py astropy-0.3.1.six/astro
  from ...tests.helper import pytest, assert_follows_unicode_guidelines
  from ... import table
  from ... import units as u
-diff -ur astropy-0.3.1/astropy/tests/helper.py astropy-0.3.1.six/astropy/tests/helper.py
---- astropy-0.3.1/astropy/tests/helper.py	2014-03-04 22:54:46.659079355 +0100
-+++ astropy-0.3.1.six/astropy/tests/helper.py	2014-03-04 23:06:18.909055265 +0100
+diff -ur astropy-0.3.2/astropy/tests/helper.py astropy-0.3.2.six/astropy/tests/helper.py
+--- astropy-0.3.2/astropy/tests/helper.py	2014-05-19 11:41:00.622962952 +0200
++++ astropy-0.3.2.six/astropy/tests/helper.py	2014-05-19 11:33:31.407329061 +0200
 @@ -6,8 +6,8 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -575,7 +603,7 @@ diff -ur astropy-0.3.1/astropy/tests/helper.py astropy-0.3.1.six/astropy/tests/h
  
  import errno
  import shlex
-@@ -528,7 +528,7 @@
+@@ -546,7 +546,7 @@
          If not provided, no roundtrip testing will be performed.
      """
      from .. import UNICODE_OUTPUT
@@ -584,9 +612,9 @@ diff -ur astropy-0.3.1/astropy/tests/helper.py astropy-0.3.1.six/astropy/tests/h
  
      UNICODE_OUTPUT.set(False)
  
-diff -ur astropy-0.3.1/astropy/tests/pytest_plugins.py astropy-0.3.1.six/astropy/tests/pytest_plugins.py
---- astropy-0.3.1/astropy/tests/pytest_plugins.py	2014-03-04 22:54:46.662079378 +0100
-+++ astropy-0.3.1.six/astropy/tests/pytest_plugins.py	2014-03-04 23:06:19.110056502 +0100
+diff -ur astropy-0.3.2/astropy/tests/pytest_plugins.py astropy-0.3.2.six/astropy/tests/pytest_plugins.py
+--- astropy-0.3.2/astropy/tests/pytest_plugins.py	2014-05-19 11:41:00.626962984 +0200
++++ astropy-0.3.2.six/astropy/tests/pytest_plugins.py	2014-05-19 11:33:31.619330772 +0200
 @@ -5,8 +5,8 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -598,9 +626,9 @@ diff -ur astropy-0.3.1/astropy/tests/pytest_plugins.py astropy-0.3.1.six/astropy
  
  import doctest
  import fnmatch
-diff -ur astropy-0.3.1/astropy/tests/tests/test_imports.py astropy-0.3.1.six/astropy/tests/tests/test_imports.py
---- astropy-0.3.1/astropy/tests/tests/test_imports.py	2014-03-04 22:54:46.661079371 +0100
-+++ astropy-0.3.1.six/astropy/tests/tests/test_imports.py	2014-03-04 23:06:19.026055985 +0100
+diff -ur astropy-0.3.2/astropy/tests/tests/test_imports.py astropy-0.3.2.six/astropy/tests/tests/test_imports.py
+--- astropy-0.3.2/astropy/tests/tests/test_imports.py	2014-05-19 11:41:00.624962968 +0200
++++ astropy-0.3.2.six/astropy/tests/tests/test_imports.py	2014-05-19 11:33:31.548330199 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import (absolute_import, division, print_function,
@@ -610,9 +638,9 @@ diff -ur astropy-0.3.1/astropy/tests/tests/test_imports.py astropy-0.3.1.six/ast
  
  import pkgutil
  import os
-diff -ur astropy-0.3.1/astropy/time/core.py astropy-0.3.1.six/astropy/time/core.py
---- astropy-0.3.1/astropy/time/core.py	2014-03-04 22:54:46.668079425 +0100
-+++ astropy-0.3.1.six/astropy/time/core.py	2014-03-04 23:06:19.308057720 +0100
+diff -ur astropy-0.3.2/astropy/time/core.py astropy-0.3.2.six/astropy/time/core.py
+--- astropy-0.3.2/astropy/time/core.py	2014-05-19 11:41:00.632963033 +0200
++++ astropy-0.3.2.six/astropy/time/core.py	2014-05-19 11:33:31.857332693 +0200
 @@ -20,7 +20,7 @@
  from .. import units as u
  from ..utils import deprecated, deprecated_attribute
@@ -622,9 +650,21 @@ diff -ur astropy-0.3.1/astropy/time/core.py astropy-0.3.1.six/astropy/time/core.
  
  __all__ = ['Time', 'TimeDelta', 'TimeFormat', 'TimeJD', 'TimeMJD',
             'TimeFromEpoch', 'TimeUnix', 'TimeCxcSec', 'TimeGPS', 'TimePlotDate',
-diff -ur astropy-0.3.1/astropy/units/core.py astropy-0.3.1.six/astropy/units/core.py
---- astropy-0.3.1/astropy/units/core.py	2014-03-04 22:54:46.641079216 +0100
-+++ astropy-0.3.1.six/astropy/units/core.py	2014-03-04 23:06:18.222051040 +0100
+diff -ur astropy-0.3.2/astropy/time/tests/test_pickle.py astropy-0.3.2.six/astropy/time/tests/test_pickle.py
+--- astropy-0.3.2/astropy/time/tests/test_pickle.py	2014-05-19 11:41:00.635963057 +0200
++++ astropy-0.3.2.six/astropy/time/tests/test_pickle.py	2014-05-19 11:33:32.005333888 +0200
+@@ -3,7 +3,7 @@
+ import numpy as np
+ 
+ from .. import Time
+-from ...extern.six.moves import cPickle as pickle
++from six.moves import cPickle as pickle
+ 
+ 
+ class TestPickle():
+diff -ur astropy-0.3.2/astropy/units/core.py astropy-0.3.2.six/astropy/units/core.py
+--- astropy-0.3.2/astropy/units/core.py	2014-05-19 11:41:00.604962806 +0200
++++ astropy-0.3.2.six/astropy/units/core.py	2014-05-19 11:33:30.099318502 +0200
 @@ -7,8 +7,8 @@
  
  from __future__ import (absolute_import, division, print_function,
@@ -636,9 +676,9 @@ diff -ur astropy-0.3.1/astropy/units/core.py astropy-0.3.1.six/astropy/units/cor
  
  import inspect
  import sys
-diff -ur astropy-0.3.1/astropy/units/format/cds.py astropy-0.3.1.six/astropy/units/format/cds.py
---- astropy-0.3.1/astropy/units/format/cds.py	2014-03-04 22:54:46.633079154 +0100
-+++ astropy-0.3.1.six/astropy/units/format/cds.py	2014-03-04 23:06:17.908049109 +0100
+diff -ur astropy-0.3.2/astropy/units/format/cds.py astropy-0.3.2.six/astropy/units/format/cds.py
+--- astropy-0.3.2/astropy/units/format/cds.py	2014-05-19 11:41:00.595962733 +0200
++++ astropy-0.3.2.six/astropy/units/format/cds.py	2014-05-19 11:33:29.731315532 +0200
 @@ -12,8 +12,8 @@
  import os
  import re
@@ -650,9 +690,9 @@ diff -ur astropy-0.3.1/astropy/units/format/cds.py astropy-0.3.1.six/astropy/uni
  
  from .base import Base
  from . import utils
-diff -ur astropy-0.3.1/astropy/units/format/fits.py astropy-0.3.1.six/astropy/units/format/fits.py
---- astropy-0.3.1/astropy/units/format/fits.py	2014-03-04 22:54:46.633079154 +0100
-+++ astropy-0.3.1.six/astropy/units/format/fits.py	2014-03-04 23:06:17.927049225 +0100
+diff -ur astropy-0.3.2/astropy/units/format/fits.py astropy-0.3.2.six/astropy/units/format/fits.py
+--- astropy-0.3.2/astropy/units/format/fits.py	2014-05-19 11:41:00.595962733 +0200
++++ astropy-0.3.2.six/astropy/units/format/fits.py	2014-05-19 11:33:29.753315709 +0200
 @@ -6,7 +6,7 @@
  
  from __future__ import (absolute_import, division, print_function,
@@ -662,9 +702,9 @@ diff -ur astropy-0.3.1/astropy/units/format/fits.py astropy-0.3.1.six/astropy/un
  
  import keyword
  import warnings
-diff -ur astropy-0.3.1/astropy/units/format/generic.py astropy-0.3.1.six/astropy/units/format/generic.py
---- astropy-0.3.1/astropy/units/format/generic.py	2014-03-04 22:54:46.635079170 +0100
-+++ astropy-0.3.1.six/astropy/units/format/generic.py	2014-03-04 23:06:18.017049779 +0100
+diff -ur astropy-0.3.2/astropy/units/format/generic.py astropy-0.3.2.six/astropy/units/format/generic.py
+--- astropy-0.3.2/astropy/units/format/generic.py	2014-05-19 11:41:00.597962749 +0200
++++ astropy-0.3.2.six/astropy/units/format/generic.py	2014-05-19 11:33:29.855316533 +0200
 @@ -7,7 +7,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -674,9 +714,9 @@ diff -ur astropy-0.3.1/astropy/units/format/generic.py astropy-0.3.1.six/astropy
  
  import os
  import re
-diff -ur astropy-0.3.1/astropy/units/format/utils.py astropy-0.3.1.six/astropy/units/format/utils.py
---- astropy-0.3.1/astropy/units/format/utils.py	2014-03-04 22:54:46.632079146 +0100
-+++ astropy-0.3.1.six/astropy/units/format/utils.py	2014-03-04 23:06:17.835048660 +0100
+diff -ur astropy-0.3.2/astropy/units/format/utils.py astropy-0.3.2.six/astropy/units/format/utils.py
+--- astropy-0.3.2/astropy/units/format/utils.py	2014-05-19 11:41:00.593962717 +0200
++++ astropy-0.3.2.six/astropy/units/format/utils.py	2014-05-19 11:33:29.645314838 +0200
 @@ -8,7 +8,7 @@
                          unicode_literals)
  
@@ -686,9 +726,9 @@ diff -ur astropy-0.3.1/astropy/units/format/utils.py astropy-0.3.1.six/astropy/u
  from ...utils.compat.fractions import Fraction
  
  
-diff -ur astropy-0.3.1/astropy/units/format/vounit.py astropy-0.3.1.six/astropy/units/format/vounit.py
---- astropy-0.3.1/astropy/units/format/vounit.py	2014-03-04 22:54:46.632079146 +0100
-+++ astropy-0.3.1.six/astropy/units/format/vounit.py	2014-03-04 23:06:17.869048869 +0100
+diff -ur astropy-0.3.2/astropy/units/format/vounit.py astropy-0.3.2.six/astropy/units/format/vounit.py
+--- astropy-0.3.2/astropy/units/format/vounit.py	2014-05-19 11:41:00.594962725 +0200
++++ astropy-0.3.2.six/astropy/units/format/vounit.py	2014-05-19 11:33:29.685315160 +0200
 @@ -4,8 +4,8 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -700,9 +740,9 @@ diff -ur astropy-0.3.1/astropy/units/format/vounit.py astropy-0.3.1.six/astropy/
  
  import keyword
  import warnings
-diff -ur astropy-0.3.1/astropy/units/quantity.py astropy-0.3.1.six/astropy/units/quantity.py
---- astropy-0.3.1/astropy/units/quantity.py	2014-03-04 22:54:46.631079139 +0100
-+++ astropy-0.3.1.six/astropy/units/quantity.py	2014-03-04 23:06:17.799048438 +0100
+diff -ur astropy-0.3.2/astropy/units/quantity.py astropy-0.3.2.six/astropy/units/quantity.py
+--- astropy-0.3.2/astropy/units/quantity.py	2014-05-19 11:41:00.593962717 +0200
++++ astropy-0.3.2.six/astropy/units/quantity.py	2014-05-19 11:33:29.600314474 +0200
 @@ -15,7 +15,7 @@
  import numpy as np
  
@@ -712,9 +752,9 @@ diff -ur astropy-0.3.1/astropy/units/quantity.py astropy-0.3.1.six/astropy/units
  from .core import (Unit, dimensionless_unscaled, UnitBase, UnitsError,
                     get_current_unit_registry)
  from ..utils import lazyproperty
-diff -ur astropy-0.3.1/astropy/units/tests/test_equivalencies.py astropy-0.3.1.six/astropy/units/tests/test_equivalencies.py
---- astropy-0.3.1/astropy/units/tests/test_equivalencies.py	2014-03-04 22:54:46.646079255 +0100
-+++ astropy-0.3.1.six/astropy/units/tests/test_equivalencies.py	2014-03-04 23:06:18.393052092 +0100
+diff -ur astropy-0.3.2/astropy/units/tests/test_equivalencies.py astropy-0.3.2.six/astropy/units/tests/test_equivalencies.py
+--- astropy-0.3.2/astropy/units/tests/test_equivalencies.py	2014-05-19 11:41:00.608962838 +0200
++++ astropy-0.3.2.six/astropy/units/tests/test_equivalencies.py	2014-05-19 11:33:30.375320730 +0200
 @@ -12,7 +12,7 @@
  
  from ...tests.helper import pytest
@@ -724,13 +764,13 @@ diff -ur astropy-0.3.1/astropy/units/tests/test_equivalencies.py astropy-0.3.1.s
  from ... import units as u
  
  
-diff -ur astropy-0.3.1/astropy/units/tests/test_quantity.py astropy-0.3.1.six/astropy/units/tests/test_quantity.py
---- astropy-0.3.1/astropy/units/tests/test_quantity.py	2014-03-04 22:54:46.648079270 +0100
-+++ astropy-0.3.1.six/astropy/units/tests/test_quantity.py	2014-03-04 23:06:18.473052584 +0100
-@@ -16,9 +16,9 @@
- from ...tests.helper import raises, pytest
+diff -ur astropy-0.3.2/astropy/units/tests/test_quantity.py astropy-0.3.2.six/astropy/units/tests/test_quantity.py
+--- astropy-0.3.2/astropy/units/tests/test_quantity.py	2014-05-19 11:41:00.611962862 +0200
++++ astropy-0.3.2.six/astropy/units/tests/test_quantity.py	2014-05-19 11:33:30.465321457 +0200
+@@ -17,9 +17,9 @@
  from ...utils import isiterable
  from ... import units as u
+ from ...units.quantity import _UNIT_NOT_INITIALISED
 -from ...extern.six.moves import xrange
 -from ...extern.six.moves import cPickle as pickle
 -from ...extern import six
@@ -740,9 +780,9 @@ diff -ur astropy-0.3.1/astropy/units/tests/test_quantity.py astropy-0.3.1.six/as
  
  """ The Quantity class will represent a number + unit + uncertainty """
  
-diff -ur astropy-0.3.1/astropy/units/tests/test_units.py astropy-0.3.1.six/astropy/units/tests/test_units.py
---- astropy-0.3.1/astropy/units/tests/test_units.py	2014-03-04 22:54:46.643079231 +0100
-+++ astropy-0.3.1.six/astropy/units/tests/test_units.py	2014-03-04 23:06:18.306051556 +0100
+diff -ur astropy-0.3.2/astropy/units/tests/test_units.py astropy-0.3.2.six/astropy/units/tests/test_units.py
+--- astropy-0.3.2/astropy/units/tests/test_units.py	2014-05-19 11:41:00.606962822 +0200
++++ astropy-0.3.2.six/astropy/units/tests/test_units.py	2014-05-19 11:33:30.188319221 +0200
 @@ -12,8 +12,8 @@
  import numpy as np
  from numpy.testing.utils import assert_allclose
@@ -754,9 +794,9 @@ diff -ur astropy-0.3.1/astropy/units/tests/test_units.py astropy-0.3.1.six/astro
  from ...tests.helper import pytest, raises, catch_warnings
  from ...utils.compat.fractions import Fraction
  
-diff -ur astropy-0.3.1/astropy/units/utils.py astropy-0.3.1.six/astropy/units/utils.py
---- astropy-0.3.1/astropy/units/utils.py	2014-03-04 22:54:46.628079116 +0100
-+++ astropy-0.3.1.six/astropy/units/utils.py	2014-03-04 23:06:17.735048045 +0100
+diff -ur astropy-0.3.2/astropy/units/utils.py astropy-0.3.2.six/astropy/units/utils.py
+--- astropy-0.3.2/astropy/units/utils.py	2014-05-19 11:41:00.590962692 +0200
++++ astropy-0.3.2.six/astropy/units/utils.py	2014-05-19 11:33:29.516313796 +0200
 @@ -18,7 +18,7 @@
  import numpy as np
  from numpy import finfo
@@ -766,9 +806,9 @@ diff -ur astropy-0.3.1/astropy/units/utils.py astropy-0.3.1.six/astropy/units/ut
  from ..utils.compat.fractions import Fraction
  from ..utils.exceptions import AstropyDeprecationWarning
  
-diff -ur astropy-0.3.1/astropy/utils/compat/misc.py astropy-0.3.1.six/astropy/utils/compat/misc.py
---- astropy-0.3.1/astropy/utils/compat/misc.py	2014-03-04 22:54:46.607078953 +0100
-+++ astropy-0.3.1.six/astropy/utils/compat/misc.py	2014-03-04 23:06:16.889042843 +0100
+diff -ur astropy-0.3.2/astropy/utils/compat/misc.py astropy-0.3.2.six/astropy/utils/compat/misc.py
+--- astropy-0.3.2/astropy/utils/compat/misc.py	2014-05-19 11:41:00.568962514 +0200
++++ astropy-0.3.2.six/astropy/utils/compat/misc.py	2014-05-19 11:33:28.284303851 +0200
 @@ -16,7 +16,7 @@
  
  from __future__ import (absolute_import, division, print_function,
@@ -778,10 +818,10 @@ diff -ur astropy-0.3.1/astropy/utils/compat/misc.py astropy-0.3.1.six/astropy/ut
  
  import os
  import sys
-diff -ur astropy-0.3.1/astropy/utils/console.py astropy-0.3.1.six/astropy/utils/console.py
---- astropy-0.3.1/astropy/utils/console.py	2014-03-04 22:54:46.597078876 +0100
-+++ astropy-0.3.1.six/astropy/utils/console.py	2014-03-04 23:06:16.367039634 +0100
-@@ -51,8 +51,8 @@
+diff -ur astropy-0.3.2/astropy/utils/console.py astropy-0.3.2.six/astropy/utils/console.py
+--- astropy-0.3.2/astropy/utils/console.py	2014-05-19 11:41:00.556962417 +0200
++++ astropy-0.3.2.six/astropy/utils/console.py	2014-05-19 11:33:27.146294665 +0200
+@@ -58,8 +58,8 @@
      _HAVE_IPYTHON = False
  
  from ..config import ConfigurationItem
@@ -792,9 +832,9 @@ diff -ur astropy-0.3.1/astropy/utils/console.py astropy-0.3.1.six/astropy/utils/
  
  from .misc import deprecated, isiterable
  
-diff -ur astropy-0.3.1/astropy/utils/data.py astropy-0.3.1.six/astropy/utils/data.py
---- astropy-0.3.1/astropy/utils/data.py	2014-03-04 22:54:46.616079023 +0100
-+++ astropy-0.3.1.six/astropy/utils/data.py	2014-03-04 23:06:17.177044613 +0100
+diff -ur astropy-0.3.2/astropy/utils/data.py astropy-0.3.2.six/astropy/utils/data.py
+--- astropy-0.3.2/astropy/utils/data.py	2014-05-19 11:41:00.576962579 +0200
++++ astropy-0.3.2.six/astropy/utils/data.py	2014-05-19 11:33:28.555306039 +0200
 @@ -7,8 +7,8 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -806,9 +846,9 @@ diff -ur astropy-0.3.1/astropy/utils/data.py astropy-0.3.1.six/astropy/utils/dat
  
  import atexit
  import contextlib
-diff -ur astropy-0.3.1/astropy/utils/metadata.py astropy-0.3.1.six/astropy/utils/metadata.py
---- astropy-0.3.1/astropy/utils/metadata.py	2014-03-04 22:54:46.597078876 +0100
-+++ astropy-0.3.1.six/astropy/utils/metadata.py	2014-03-04 23:06:16.386039750 +0100
+diff -ur astropy-0.3.2/astropy/utils/metadata.py astropy-0.3.2.six/astropy/utils/metadata.py
+--- astropy-0.3.2/astropy/utils/metadata.py	2014-05-19 11:41:00.557962425 +0200
++++ astropy-0.3.2.six/astropy/utils/metadata.py	2014-05-19 11:33:27.167294835 +0200
 @@ -4,7 +4,7 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -818,9 +858,9 @@ diff -ur astropy-0.3.1/astropy/utils/metadata.py astropy-0.3.1.six/astropy/utils
  
  import warnings
  
-diff -ur astropy-0.3.1/astropy/utils/misc.py astropy-0.3.1.six/astropy/utils/misc.py
---- astropy-0.3.1/astropy/utils/misc.py	2014-03-04 22:54:46.614079007 +0100
-+++ astropy-0.3.1.six/astropy/utils/misc.py	2014-03-04 23:06:17.129044318 +0100
+diff -ur astropy-0.3.2/astropy/utils/misc.py astropy-0.3.2.six/astropy/utils/misc.py
+--- astropy-0.3.2/astropy/utils/misc.py	2014-05-19 11:41:00.574962562 +0200
++++ astropy-0.3.2.six/astropy/utils/misc.py	2014-05-19 11:33:28.500305595 +0200
 @@ -24,8 +24,8 @@
  
  from .exceptions import AstropyDeprecationWarning, AstropyPendingDeprecationWarning
@@ -832,9 +872,9 @@ diff -ur astropy-0.3.1/astropy/utils/misc.py astropy-0.3.1.six/astropy/utils/mis
  
  
  __all__ = ['find_current_module', 'isiterable', 'deprecated', 'lazyproperty',
-diff -ur astropy-0.3.1/astropy/utils/tests/test_console.py astropy-0.3.1.six/astropy/utils/tests/test_console.py
---- astropy-0.3.1/astropy/utils/tests/test_console.py	2014-03-04 22:54:46.620079054 +0100
-+++ astropy-0.3.1.six/astropy/utils/tests/test_console.py	2014-03-04 23:06:17.457046335 +0100
+diff -ur astropy-0.3.2/astropy/utils/tests/test_console.py astropy-0.3.2.six/astropy/utils/tests/test_console.py
+--- astropy-0.3.2/astropy/utils/tests/test_console.py	2014-05-19 11:41:00.581962619 +0200
++++ astropy-0.3.2.six/astropy/utils/tests/test_console.py	2014-05-19 11:33:28.854308452 +0200
 @@ -3,8 +3,8 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -846,9 +886,9 @@ diff -ur astropy-0.3.1/astropy/utils/tests/test_console.py astropy-0.3.1.six/ast
  
  import io
  import locale
-diff -ur astropy-0.3.1/astropy/utils/tests/test_data.py astropy-0.3.1.six/astropy/utils/tests/test_data.py
---- astropy-0.3.1/astropy/utils/tests/test_data.py	2014-03-04 22:54:46.620079054 +0100
-+++ astropy-0.3.1.six/astropy/utils/tests/test_data.py	2014-03-04 23:06:17.437046212 +0100
+diff -ur astropy-0.3.2/astropy/utils/tests/test_data.py astropy-0.3.2.six/astropy/utils/tests/test_data.py
+--- astropy-0.3.2/astropy/utils/tests/test_data.py	2014-05-19 11:41:00.581962619 +0200
++++ astropy-0.3.2.six/astropy/utils/tests/test_data.py	2014-05-19 11:33:28.832308275 +0200
 @@ -2,7 +2,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -856,9 +896,9 @@ diff -ur astropy-0.3.1/astropy/utils/tests/test_data.py astropy-0.3.1.six/astrop
 -from ...extern import six
 +import six
  
- from ...tests.helper import remote_data, raises
+ from ...tests.helper import remote_data, raises, pytest, catch_warnings
  
-@@ -301,7 +301,7 @@
+@@ -304,7 +304,7 @@
      checks that download_file gives a URLError and not an AttributeError,
      as its code pathway involves some fiddling with the exception.
      """
@@ -867,9 +907,9 @@ diff -ur astropy-0.3.1/astropy/utils/tests/test_data.py astropy-0.3.1.six/astrop
      from ..data import download_file
  
      with pytest.raises(URLError):
-diff -ur astropy-0.3.1/astropy/utils/tests/test_odict.py astropy-0.3.1.six/astropy/utils/tests/test_odict.py
---- astropy-0.3.1/astropy/utils/tests/test_odict.py	2014-03-04 22:54:46.617079030 +0100
-+++ astropy-0.3.1.six/astropy/utils/tests/test_odict.py	2014-03-04 23:06:17.236044976 +0100
+diff -ur astropy-0.3.2/astropy/utils/tests/test_odict.py astropy-0.3.2.six/astropy/utils/tests/test_odict.py
+--- astropy-0.3.2/astropy/utils/tests/test_odict.py	2014-05-19 11:41:00.578962595 +0200
++++ astropy-0.3.2.six/astropy/utils/tests/test_odict.py	2014-05-19 11:33:28.614306515 +0200
 @@ -10,7 +10,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -879,9 +919,9 @@ diff -ur astropy-0.3.1/astropy/utils/tests/test_odict.py astropy-0.3.1.six/astro
  
  import unittest
  import inspect
-diff -ur astropy-0.3.1/astropy/utils/tests/test_xml.py astropy-0.3.1.six/astropy/utils/tests/test_xml.py
---- astropy-0.3.1/astropy/utils/tests/test_xml.py	2014-03-04 22:54:46.618079038 +0100
-+++ astropy-0.3.1.six/astropy/utils/tests/test_xml.py	2014-03-04 23:06:17.329045548 +0100
+diff -ur astropy-0.3.2/astropy/utils/tests/test_xml.py astropy-0.3.2.six/astropy/utils/tests/test_xml.py
+--- astropy-0.3.2/astropy/utils/tests/test_xml.py	2014-05-19 11:41:00.579962603 +0200
++++ astropy-0.3.2.six/astropy/utils/tests/test_xml.py	2014-05-19 11:33:28.715307330 +0200
 @@ -2,7 +2,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -891,9 +931,9 @@ diff -ur astropy-0.3.1/astropy/utils/tests/test_xml.py astropy-0.3.1.six/astropy
  
  import io
  
-diff -ur astropy-0.3.1/astropy/utils/timer.py astropy-0.3.1.six/astropy/utils/timer.py
---- astropy-0.3.1/astropy/utils/timer.py	2014-03-04 22:54:46.600078899 +0100
-+++ astropy-0.3.1.six/astropy/utils/timer.py	2014-03-04 23:06:16.514040537 +0100
+diff -ur astropy-0.3.2/astropy/utils/timer.py astropy-0.3.2.six/astropy/utils/timer.py
+--- astropy-0.3.2/astropy/utils/timer.py	2014-05-19 11:41:00.559962441 +0200
++++ astropy-0.3.2.six/astropy/utils/timer.py	2014-05-19 11:33:27.314296022 +0200
 @@ -4,8 +4,8 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -905,9 +945,9 @@ diff -ur astropy-0.3.1/astropy/utils/timer.py astropy-0.3.1.six/astropy/utils/ti
  
  # STDLIB
  import time
-diff -ur astropy-0.3.1/astropy/utils/xml/check.py astropy-0.3.1.six/astropy/utils/xml/check.py
---- astropy-0.3.1/astropy/utils/xml/check.py	2014-03-04 22:54:46.600078899 +0100
-+++ astropy-0.3.1.six/astropy/utils/xml/check.py	2014-03-04 23:06:16.530040636 +0100
+diff -ur astropy-0.3.2/astropy/utils/xml/check.py astropy-0.3.2.six/astropy/utils/xml/check.py
+--- astropy-0.3.2/astropy/utils/xml/check.py	2014-05-19 11:41:00.560962449 +0200
++++ astropy-0.3.2.six/astropy/utils/xml/check.py	2014-05-19 11:33:27.333296175 +0200
 @@ -6,7 +6,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
@@ -917,9 +957,9 @@ diff -ur astropy-0.3.1/astropy/utils/xml/check.py astropy-0.3.1.six/astropy/util
  
  import re
  
-diff -ur astropy-0.3.1/astropy/utils/xml/iterparser.py astropy-0.3.1.six/astropy/utils/xml/iterparser.py
---- astropy-0.3.1/astropy/utils/xml/iterparser.py	2014-03-04 22:54:46.601078907 +0100
-+++ astropy-0.3.1.six/astropy/utils/xml/iterparser.py	2014-03-04 23:06:16.582040955 +0100
+diff -ur astropy-0.3.2/astropy/utils/xml/iterparser.py astropy-0.3.2.six/astropy/utils/xml/iterparser.py
+--- astropy-0.3.2/astropy/utils/xml/iterparser.py	2014-05-19 11:41:00.561962457 +0200
++++ astropy-0.3.2.six/astropy/utils/xml/iterparser.py	2014-05-19 11:33:27.397296691 +0200
 @@ -4,7 +4,7 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -929,9 +969,9 @@ diff -ur astropy-0.3.1/astropy/utils/xml/iterparser.py astropy-0.3.1.six/astropy
  
  # STDLIB
  import collections
-diff -ur astropy-0.3.1/astropy/utils/xml/writer.py astropy-0.3.1.six/astropy/utils/xml/writer.py
---- astropy-0.3.1/astropy/utils/xml/writer.py	2014-03-04 22:54:46.602078914 +0100
-+++ astropy-0.3.1.six/astropy/utils/xml/writer.py	2014-03-04 23:06:16.634041275 +0100
+diff -ur astropy-0.3.2/astropy/utils/xml/writer.py astropy-0.3.2.six/astropy/utils/xml/writer.py
+--- astropy-0.3.2/astropy/utils/xml/writer.py	2014-05-19 11:41:00.562962465 +0200
++++ astropy-0.3.2.six/astropy/utils/xml/writer.py	2014-05-19 11:33:27.457297176 +0200
 @@ -5,7 +5,7 @@
  """
  from __future__ import (absolute_import, division, print_function,
@@ -941,10 +981,10 @@ diff -ur astropy-0.3.1/astropy/utils/xml/writer.py astropy-0.3.1.six/astropy/uti
  
  # STDLIB
  import contextlib
-diff -ur astropy-0.3.1/astropy/wcs/setup_package.py astropy-0.3.1.six/astropy/wcs/setup_package.py
---- astropy-0.3.1/astropy/wcs/setup_package.py	2014-03-04 22:54:46.592078837 +0100
-+++ astropy-0.3.1.six/astropy/wcs/setup_package.py	2014-03-04 23:06:16.232038804 +0100
-@@ -11,7 +11,7 @@
+diff -ur astropy-0.3.2/astropy/wcs/setup_package.py astropy-0.3.2.six/astropy/wcs/setup_package.py
+--- astropy-0.3.2/astropy/wcs/setup_package.py	2014-05-19 11:41:00.551962376 +0200
++++ astropy-0.3.2.six/astropy/wcs/setup_package.py	2014-05-19 11:33:27.003293511 +0200
+@@ -12,7 +12,7 @@
  import sys
  
  from astropy import setup_helpers
@@ -953,9 +993,9 @@ diff -ur astropy-0.3.1/astropy/wcs/setup_package.py astropy-0.3.1.six/astropy/wc
  
  WCSROOT = os.path.relpath(os.path.dirname(__file__))
  WCSVERSION = "4.10"
-diff -ur astropy-0.3.1/astropy/wcs/tests/test_pickle.py astropy-0.3.1.six/astropy/wcs/tests/test_pickle.py
---- astropy-0.3.1/astropy/wcs/tests/test_pickle.py	2014-03-04 22:54:46.590078822 +0100
-+++ astropy-0.3.1.six/astropy/wcs/tests/test_pickle.py	2014-03-04 23:06:16.162038373 +0100
+diff -ur astropy-0.3.2/astropy/wcs/tests/test_pickle.py astropy-0.3.2.six/astropy/wcs/tests/test_pickle.py
+--- astropy-0.3.2/astropy/wcs/tests/test_pickle.py	2014-05-19 11:41:00.549962360 +0200
++++ astropy-0.3.2.six/astropy/wcs/tests/test_pickle.py	2014-05-19 11:33:26.919292833 +0200
 @@ -6,7 +6,7 @@
  import numpy as np
  from numpy.testing import assert_array_almost_equal
@@ -965,9 +1005,9 @@ diff -ur astropy-0.3.1/astropy/wcs/tests/test_pickle.py astropy-0.3.1.six/astrop
  from ...utils.data import get_pkg_data_contents, get_pkg_data_fileobj
  from ...utils.misc import NumpyRNGContext
  from ...io import fits
-diff -ur astropy-0.3.1/astropy/wcs/tests/test_wcs.py astropy-0.3.1.six/astropy/wcs/tests/test_wcs.py
---- astropy-0.3.1/astropy/wcs/tests/test_wcs.py	2014-03-04 22:54:46.589078814 +0100
-+++ astropy-0.3.1.six/astropy/wcs/tests/test_wcs.py	2014-03-04 23:06:16.129038170 +0100
+diff -ur astropy-0.3.2/astropy/wcs/tests/test_wcs.py astropy-0.3.2.six/astropy/wcs/tests/test_wcs.py
+--- astropy-0.3.2/astropy/wcs/tests/test_wcs.py	2014-05-19 11:41:00.548962352 +0200
++++ astropy-0.3.2.six/astropy/wcs/tests/test_wcs.py	2014-05-19 11:33:26.899292672 +0200
 @@ -1,7 +1,7 @@
  # Licensed under a 3-clause BSD style license - see LICENSE.rst
  from __future__ import absolute_import, division, print_function, unicode_literals
@@ -977,9 +1017,9 @@ diff -ur astropy-0.3.1/astropy/wcs/tests/test_wcs.py astropy-0.3.1.six/astropy/w
  
  import os
  import sys
-diff -ur astropy-0.3.1/astropy/wcs/wcs.py astropy-0.3.1.six/astropy/wcs/wcs.py
---- astropy-0.3.1/astropy/wcs/wcs.py	2014-03-04 22:54:46.595078860 +0100
-+++ astropy-0.3.1.six/astropy/wcs/wcs.py	2014-03-04 23:06:16.327039388 +0100
+diff -ur astropy-0.3.2/astropy/wcs/wcs.py astropy-0.3.2.six/astropy/wcs/wcs.py
+--- astropy-0.3.2/astropy/wcs/wcs.py	2014-05-19 11:41:00.555962409 +0200
++++ astropy-0.3.2.six/astropy/wcs/wcs.py	2014-05-19 11:33:27.099294286 +0200
 @@ -39,7 +39,7 @@
  import numpy as np
  

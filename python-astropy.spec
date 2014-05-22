@@ -2,20 +2,20 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 0.3.1
-Release: 3%{?dist}
+Version: 0.3.2
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
 Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
-Patch0: python-astropy-system-configobj.patch
-Patch1: python-astropy-system-pytest.patch
-Patch2: python-astropy-system-six.patch
-Patch3: python-astropy-backport-six15.patch
-# https://github.com/astropy/astropy/pull/2223
-Patch4: python-astropy-install.patch
+Patch0: python-astropy-system-wcslib.patch
+Patch1: python-astropy-system-configobj.patch
+Patch2: python-astropy-system-pytest.patch
+Patch3: python-astropy-system-six.patch
+Patch4: python-astropy-bug2171.patch
+Patch5: python-astropy-skiptest.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -116,21 +116,24 @@ rm -rf cextern/expat
 rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
+%patch0 -p1
 
 # Unbundle configobj
 rm -rf astropy/extern/configobj*
-%patch0 -p1
+%patch1 -p1
 
 # Unbundle pytest
 rm -rf astropy/extern/pytest*
-%patch1 -p1
+%patch2 -p1
 
 # Unbundle six
 rm -rf astropy/extern/six.py*
-%patch2 -p1
 %patch3 -p1
 
+# https://github.com/astropy/astropy/issues/2171
 %patch4 -p1
+# https://github.com/astropy/astropy/issues/2516
+%patch5 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_expat=1" >> setup.cfg
@@ -188,12 +191,12 @@ done
 # https://github.com/astropy/astropy/issues/2171
 # gets fixed
 pushd %{buildroot}/%{python2_sitearch}
-#py.test-%{python2_version}  astropy
+py.test-%{python2_version}  astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-#py.test-%{python3_version}  astropy
+py.test-%{python3_version}  astropy
 popd
 %endif # with_python3
  
@@ -221,6 +224,12 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon May 19 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-1
+- New upstream (0.3.2)
+- Enable checks
+- Patch to fix upstream bug 2171
+- Disable proplematic test (2516)
+
 * Wed May 14 2014 Bohuslav Kabrda <bkabrda@redhat.com> - 0.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Changes/Python_3.4
 
