@@ -1,0 +1,36 @@
+diff -ur astropy-0.3.2/astropy/coordinates/angle_utilities.py astropy-0.3.2.ply/astropy/coordinates/angle_utilities.py
+--- astropy-0.3.2/astropy/coordinates/angle_utilities.py	2014-05-22 11:59:59.700577989 +0200
++++ astropy-0.3.2.ply/astropy/coordinates/angle_utilities.py	2014-05-22 12:01:18.907194201 +0200
+@@ -51,7 +51,7 @@
+ 
+     @classmethod
+     def _make_parser(cls):
+-        from ..extern.ply import lex, yacc
++        from ply import lex, yacc
+ 
+         # List of token names.
+         tokens = (
+diff -ur astropy-0.3.2/astropy/units/format/cds.py astropy-0.3.2.ply/astropy/units/format/cds.py
+--- astropy-0.3.2/astropy/units/format/cds.py	2014-05-22 11:59:59.814578873 +0200
++++ astropy-0.3.2.ply/astropy/units/format/cds.py	2014-05-22 12:01:32.922303728 +0200
+@@ -63,7 +63,7 @@
+         YACC grammar in the `unity library
+         <https://bitbucket.org/nxg/unity/>`_.
+         """
+-        from ...extern.ply import lex, yacc
++        from ply import lex, yacc
+ 
+         tokens = (
+             'PRODUCT',
+diff -ur astropy-0.3.2/astropy/units/format/generic.py astropy-0.3.2.ply/astropy/units/format/generic.py
+--- astropy-0.3.2/astropy/units/format/generic.py	2014-05-22 11:59:59.817578896 +0200
++++ astropy-0.3.2.ply/astropy/units/format/generic.py	2014-05-22 12:01:48.698427183 +0200
+@@ -48,7 +48,7 @@
+         formats, the only difference being the set of available unit
+         strings.
+         """
+-        from ...extern.ply import lex, yacc
++        from ply import lex, yacc
+ 
+         tokens = (
+             'DOUBLE_STAR',

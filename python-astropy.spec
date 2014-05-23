@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -16,10 +16,11 @@ Patch2: python-astropy-system-pytest.patch
 Patch3: python-astropy-system-six.patch
 Patch4: python-astropy-bug2171.patch
 Patch5: python-astropy-skiptest.patch
+Patch6: python-astropy-system-ply.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
-BuildRequires: git Cython pytest python-six
+BuildRequires: git Cython pytest python-six python-ply
 BuildRequires: python-sphinx graphviz
 BuildRequires: python-matplotlib
 BuildRequires: python-configobj
@@ -29,10 +30,12 @@ BuildRequires: wcslib-devel >= 4.20
 BuildRequires: erfa-devel
 
 Requires: numpy
-Requires: python-configobj pytest python-six
+Requires: python-configobj pytest python-six python-ply
 # Optionals
 Requires: scipy h5py
 Requires: /usr/bin/xmllint
+
+Provides: bundled(jquery) = 1.10
 
 # we don't want to provide private python extension libs
 %global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
@@ -58,7 +61,7 @@ This package contains the full API documentation for %{name}.
 %package -n python3-%{upname}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python3-devel python3-setuptools python3-numpy
-BuildRequires: git python3-Cython python3-pytest python3-six
+BuildRequires: git python3-Cython python3-pytest python3-six python3-ply
 BuildRequires: python3-scipy python3-h5py
 BuildRequires: python3-sphinx graphviz
 BuildRequires: python3-matplotlib
@@ -74,9 +77,12 @@ Requires: python3-numpy
 Requires: python3-configobj
 Requires: python3-pytest
 Requires: python3-six
+Requires: python3-ply
 # Optionals
 Requires: python3-scipy python3-h5py
 Requires: /usr/bin/xmllint
+
+Provides: bundled(jquery) = 1.10
 
 %description -n python3-%{upname}
 The Astropy project is a common effort to develop a single core package 
@@ -129,6 +135,10 @@ rm -rf astropy/extern/pytest*
 # Unbundle six
 rm -rf astropy/extern/six.py*
 %patch3 -p1
+
+# Unbundle ply
+rm -rf astropy/extern/ply*
+%patch6 -p1
 
 # https://github.com/astropy/astropy/issues/2171
 %patch4 -p1
@@ -187,9 +197,6 @@ for i in %{buildroot}/usr/bin/*; do
 done
 
 %check
-# Disable checks until 
-# https://github.com/astropy/astropy/issues/2171
-# gets fixed
 pushd %{buildroot}/%{python2_sitearch}
 py.test-%{python2_version}  astropy
 popd
@@ -224,6 +231,10 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu May 22 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-3
+- Astropy bundles jquery
+- Unbundle plpy
+
 * Thu May 22 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-2
 - Add missing patches
 
