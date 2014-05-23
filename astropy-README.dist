@@ -10,3 +10,4 @@ uses the system package:
  * pytest
  * configobj
  * six
+ * ply

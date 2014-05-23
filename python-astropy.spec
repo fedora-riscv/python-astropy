@@ -2,28 +2,27 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 0.3
-Release: 8%{?dist}
+Version: 0.3.2
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
 Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
-Patch0: python-astropy-system-configobj.patch
-Patch1: python-astropy-system-pytest.patch
-Patch2: python-astropy-system-six.patch
-#
-Patch3: python-astropy-wcslib320.patch
-Patch4: python-astropy-install.patch
+Patch0: python-astropy-system-wcslib.patch
+Patch1: python-astropy-system-configobj.patch
+Patch2: python-astropy-system-pytest.patch
+Patch3: python-astropy-system-six.patch
+Patch4: python-astropy-bug2171.patch
+Patch5: python-astropy-skiptest.patch
+Patch6: python-astropy-system-ply.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
-BuildRequires: git Cython pytest python-six
+BuildRequires: git Cython pytest python-six python-ply
 BuildRequires: python-sphinx graphviz
 BuildRequires: python-matplotlib
-# Due to bug #1030396
-BuildRequires: python-matplotlib-qt4
 BuildRequires: python-configobj
 BuildRequires: expat-devel
 BuildRequires: cfitsio-devel
@@ -31,10 +30,12 @@ BuildRequires: wcslib-devel >= 4.20
 BuildRequires: erfa-devel
 
 Requires: numpy
-Requires: python-configobj pytest python-six
+Requires: python-configobj pytest python-six python-ply
 # Optionals
 Requires: scipy h5py
 Requires: /usr/bin/xmllint
+
+Provides: bundled(jquery) = 1.10
 
 # we don't want to provide private python extension libs
 %global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
@@ -60,12 +61,10 @@ This package contains the full API documentation for %{name}.
 %package -n python3-%{upname}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python3-devel python3-setuptools python3-numpy
-BuildRequires: git python3-Cython python3-pytest python3-six
+BuildRequires: git python3-Cython python3-pytest python3-six python3-ply
 BuildRequires: python3-scipy python3-h5py
 BuildRequires: python3-sphinx graphviz
 BuildRequires: python3-matplotlib
-# Due to bug #1030396
-BuildRequires: python3-matplotlib-qt4
 BuildRequires: python3-configobj
 #
 BuildRequires: expat-devel
@@ -78,9 +77,12 @@ Requires: python3-numpy
 Requires: python3-configobj
 Requires: python3-pytest
 Requires: python3-six
+Requires: python3-ply
 # Optionals
 Requires: python3-scipy python3-h5py
 Requires: /usr/bin/xmllint
+
+Provides: bundled(jquery) = 1.10
 
 %description -n python3-%{upname}
 The Astropy project is a common effort to develop a single core package 
@@ -120,21 +122,28 @@ rm -rf cextern/expat
 rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
+%patch0 -p1
 
 # Unbundle configobj
 rm -rf astropy/extern/configobj*
-%patch0 -p1
+%patch1 -p1
 
 # Unbundle pytest
 rm -rf astropy/extern/pytest*
-%patch1 -p1
+%patch2 -p1
 
 # Unbundle six
 rm -rf astropy/extern/six.py*
-%patch2 -p1
-
 %patch3 -p1
+
+# Unbundle ply
+rm -rf astropy/extern/ply*
+%patch6 -p1
+
+# https://github.com/astropy/astropy/issues/2171
 %patch4 -p1
+# https://github.com/astropy/astropy/issues/2516
+%patch5 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_expat=1" >> setup.cfg
@@ -188,17 +197,19 @@ for i in %{buildroot}/usr/bin/*; do
 done
 
 %check
-ASTROPY_USE_SYSTEM_PYTEST=1 %{__python2} setup.py test
+pushd %{buildroot}/%{python2_sitearch}
+py.test-%{python2_version}  astropy
+popd
+
 %if 0%{?with_python3}
-pushd %{py3dir}
-ASTROPY_USE_SYSTEM_PYTEST=1 %{__python3} setup.py test
+pushd %{buildroot}/%{python3_sitearch}
+py.test-%{python3_version}  astropy
 popd
 %endif # with_python3
  
 %files
 %doc README.rst README.dist licenses/LICENSE.rst
 %{python2_sitearch}/*
-%exclude %{python2_sitearch}/astropy/utils/tests/data/.hidden_file.txt
 
 %files -n %{upname}-tools
 %{_bindir}/*
@@ -220,6 +231,14 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu May 22 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-1
+- New upstream (0.3.2)
+- Enable checks
+- Patch to fix upstream bug 2171
+- Disable proplematic test (2516)
+- Astropy bundles jquery
+- Unbundle plpy
+
 * Tue Mar 25 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3-8
 - Patch to fix https://github.com/astropy/astropy/pull/2223
 
