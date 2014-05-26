@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -14,9 +14,12 @@ Patch0: python-astropy-system-wcslib.patch
 Patch1: python-astropy-system-configobj.patch
 Patch2: python-astropy-system-pytest.patch
 Patch3: python-astropy-system-six.patch
-Patch4: python-astropy-bug2171.patch
+# The fix works with 3.4 but no with 3.3.2
+#Patch4: python-astropy-bug2171.patch
+Patch4: python-astropy-skiptest2171.patch
 Patch5: python-astropy-skiptest.patch
 Patch6: python-astropy-system-ply.patch
+Patch7: python-astropy-wcslib323.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -26,7 +29,7 @@ BuildRequires: python-matplotlib
 BuildRequires: python-configobj
 BuildRequires: expat-devel
 BuildRequires: cfitsio-devel
-BuildRequires: wcslib-devel >= 4.20
+BuildRequires: wcslib-devel >= 4.23
 BuildRequires: erfa-devel
 
 Requires: numpy
@@ -68,7 +71,7 @@ BuildRequires: python3-matplotlib
 BuildRequires: python3-configobj
 #
 BuildRequires: expat-devel
-BuildRequires: wcslib-devel >= 4.20
+BuildRequires: wcslib-devel >= 4.23
 BuildRequires: erfa-devel
 BuildRequires: cfitsio-devel
 BuildRequires: python3-devel
@@ -123,6 +126,8 @@ rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
 %patch0 -p1
+# WCSLIB 4.23
+%patch7 -p1
 
 # Unbundle configobj
 rm -rf astropy/extern/configobj*
@@ -231,6 +236,10 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu May 22 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-2
+- Build with wcslib 4.23
+- Skip test, bug 2171
+
 * Thu May 22 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-1
 - New upstream (0.3.2)
 - Enable checks
