@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.3.2
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -236,6 +236,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Tue May 27 2014 Orion Poplawski <orion@cora.nwra.com> - 0.3.2-5
+- Rebuild for Python 3.4
+
 * Thu May 22 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-4
 - Build with wcslib 4.23
 - Skip test, bug 2171
