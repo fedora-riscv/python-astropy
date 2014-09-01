@@ -1,12 +1,13 @@
-diff -ur astropy-0.3rc1/astropy/tests/helper.py astropy-0.3rc1.pytest/astropy/tests/helper.py
---- astropy-0.3rc1/astropy/tests/helper.py	2013-11-19 12:58:43.970955591 +0100
-+++ astropy-0.3rc1.pytest/astropy/tests/helper.py	2013-11-19 13:00:09.510620451 +0100
-@@ -34,7 +34,7 @@
- 
- from .. import test
+diff -ur astropy-0.4.1/astropy/tests/helper.py astropy-0.4.1.pytest/astropy/tests/helper.py
+--- astropy-0.4.1/astropy/tests/helper.py	2014-09-01 23:06:03.280899166 +0200
++++ astropy-0.4.1.pytest/astropy/tests/helper.py	2014-09-01 23:08:32.232105514 +0200
+@@ -37,7 +37,8 @@
+ from ..utils.exceptions import AstropyWarning
+ from ..config import configuration
  
 -if os.environ.get('ASTROPY_USE_SYSTEM_PYTEST') or '_pytest' in sys.modules:
-+if True: # Use system pytest always, modified in the Fedora package
++# Use system pytest always, modified in the Fedora package
++if True or os.environ.get('ASTROPY_USE_SYSTEM_PYTEST') or '_pytest' in sys.modules:
      import pytest
  
  else:

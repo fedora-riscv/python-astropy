@@ -1,12 +1,14 @@
-diff -ur astropy-0.3rc1/astropy/config/configuration.py astropy-0.3rc1.configobj/astropy/config/configuration.py
---- astropy-0.3rc1/astropy/config/configuration.py	2013-11-19 12:36:12.001071643 +0100
-+++ astropy-0.3rc1.configobj/astropy/config/configuration.py	2013-11-19 12:37:28.962673971 +0100
-@@ -24,7 +24,7 @@
+diff -ur astropy-0.4.1/astropy/config/configuration.py astropy-0.4.1.configobj/astropy/config/configuration.py
+--- astropy-0.4.1/astropy/config/configuration.py	2014-09-01 22:41:30.066853605 +0200
++++ astropy-0.4.1.configobj/astropy/config/configuration.py	2014-09-01 22:40:50.793528942 +0200
+@@ -23,7 +23,8 @@
+ import types
  from warnings import warn
  
- from ..extern import six
 -from ..extern.configobj import configobj, validate
-+import configobj, validate
- from ..utils.exceptions import AstropyWarning
- 
- 
++import configobj
++import validate
+ from ..utils.exceptions import AstropyWarning, AstropyDeprecationWarning
+ from ..utils import find_current_module
+ from ..utils.misc import InheritDocstrings
+
