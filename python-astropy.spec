@@ -15,6 +15,8 @@ Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
 Patch3: python-astropy-configobj5.patch
+# Disable problematic test (upstream 2516)
+Patch4: python-astropy-skiptest2516.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -134,6 +136,9 @@ rm -rf astropy/extern/pytest*
 rm -rf astropy/extern/ply*
 cp %{SOURCE2} astropy/extern/ply.py
 
+# Disable problematic test (upstream #2516)
+%patch4 -p1
+
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
 
@@ -184,12 +189,12 @@ done
 
 %check
 pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not test_web_profile" -x astropy
+py.test-%{python2_version} -k "not test_web_profile" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not test_web_profile" -x astropy
+py.test-%{python3_version} -k "not test_web_profile" astropy
 popd
 %endif # with_python3
  
@@ -253,7 +258,7 @@ popd
 - New upstream (0.3.2)
 - Enable checks
 - Patch to fix upstream bug 2171
-- Disable proplematic test (2516)
+- Disable problematic test (upstream 2516)
 
 * Wed May 14 2014 Bohuslav Kabrda <bkabrda@redhat.com> - 0.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Changes/Python_3.4
