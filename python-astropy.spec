@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.4.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -11,15 +11,10 @@ URL: http://astropy.org
 Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
-Patch0: python-astropy-system-wcslib.patch
-Patch1: python-astropy-system-configobj.patch
-Patch2: python-astropy-system-pytest.patch
-Patch3: python-astropy-system-six.patch
-# The fix works with 3.4 but no with 3.3.2
-#Patch4: python-astropy-bug2171.patch
-Patch4: python-astropy-skiptest2171.patch
-Patch5: python-astropy-skiptest.patch
-Patch7: python-astropy-wcslib323.patch
+Patch0: python-astropy-system-configobj.patch
+Patch1: python-astropy-system-pytest.patch
+Patch2: python-astropy-system-six.patch
+Patch3: python-astropy-configobj5.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -39,9 +34,6 @@ Requires: scipy h5py
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.10
-
-# we don't want to provide private python extension libs
-%global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -128,24 +120,22 @@ rm -rf cextern/wcslib
 
 # Unbundle configobj
 rm -rf astropy/extern/configobj*
-%patch1 -p1
+%patch0 -p1
+%patch3 -p1
 
 # Unbundle pytest
 rm -rf astropy/extern/pytest*
-%patch2 -p1
+%patch1 -p1
 
 # Unbundle six
-%patch3 -p1
+%patch2 -p1
 
 # Unbundle ply
 rm -rf astropy/extern/ply*
 cp %{SOURCE2} astropy/extern/ply.py
 
 echo "[build]" >> setup.cfg
-echo "use_system_expat=1" >> setup.cfg
-echo "use_system_cfitsio=1" >> setup.cfg
-echo "use_system_erfa=1" >> setup.cfg
-echo "use_system_wcslib=1" >> setup.cfg
+echo "use_system_libraries=1" >> setup.cfg
 
 find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python2}|'
 
@@ -157,16 +147,16 @@ find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 
 %build
-CFLAGS="%{optflags}" %{__python2} setup.py build 
-%{__python2} setup.py build_sphinx
+CFLAGS="%{optflags}" %{__python2} setup.py build --offline
+%{__python2} setup.py build_sphinx --offline
 rm -f docs/_build/html/.buildinfo
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-CFLAGS="%{optflags}" %{__python3} setup.py build
+CFLAGS="%{optflags}" %{__python3} setup.py build --offline
 # Not working, python3-sphinx bug
 # https://bugzilla.redhat.com/show_bug.cgi?id=1014505
-#%{__python3} setup.py build_sphinx
+%{__python3} setup.py build_sphinx --offline
 popd
 # Copying the python2 docs for the moment
 mkdir -p docs/_build3/
@@ -177,11 +167,11 @@ cp -r docs/_build/html docs/_build3/
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-%{__python3} setup.py install --skip-build --root %{buildroot}
+%{__python3} setup.py install --skip-build --root %{buildroot} --offline
 popd
 %endif # with_python3
 
-%{__python2} setup.py install --skip-build --root %{buildroot}
+%{__python2} setup.py install --skip-build --root %{buildroot} --offline
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
@@ -194,12 +184,12 @@ done
 
 %check
 pushd %{buildroot}/%{python2_sitearch}
-#py.test-%{python2_version}  astropy
+py.test-%{python2_version} -k "not test_web_profile" -x astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-#py.test-%{python3_version}  astropy
+py.test-%{python3_version} -k "not test_web_profile" -x astropy
 popd
 %endif # with_python3
  
@@ -227,6 +217,10 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Dec 05 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.2-2
+- Fix to use configobj 5
+- Patches reorganized
+
 * Thu Sep 25 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.2-1
 - New upstream (0.4.2)
 
