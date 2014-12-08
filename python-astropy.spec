@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.4.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -228,6 +228,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Tue Dec 09 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.2-4
+- Update patch for bug 2516
+
 * Mon Dec 08 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.2-3
 - Mark problematic tests as xfail via patch
 
