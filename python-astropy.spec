@@ -3,7 +3,7 @@
 
 Name: python-astropy
 Version: 0.4.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -16,7 +16,11 @@ Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
 Patch3: python-astropy-configobj5.patch
 # Disable problematic test (upstream 2516)
+# https://github.com/astropy/astropy/issues/2516
 Patch4: python-astropy-skiptest2516.patch
+# Disable problematic test (upstream 3180)
+# https://github.com/astropy/astropy/issues/3180
+Patch5: python-astropy-skiptest3180.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -138,6 +142,8 @@ cp %{SOURCE2} astropy/extern/ply.py
 
 # Disable problematic test (upstream #2516)
 %patch4 -p1
+# Mark problematic test as xfail (upstream #3180)
+%patch5 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
@@ -222,6 +228,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Dec 08 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.2-3
+- Mark problematic tests as xfail via patch
+
 * Fri Dec 05 2014 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.2-2
 - Fix to use configobj 5
 - Patches reorganized

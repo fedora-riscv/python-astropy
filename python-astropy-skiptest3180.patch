@@ -1,0 +1,27 @@
+diff -ur astropy-0.4.2/astropy/table/tests/test_groups.py astropy-0.4.2.xxxx/astropy/table/tests/test_groups.py
+--- astropy-0.4.2/astropy/table/tests/test_groups.py	2014-12-08 23:29:00.055308187 +0100
++++ astropy-0.4.2.xxxx/astropy/table/tests/test_groups.py	2014-12-08 23:28:05.222892528 +0100
+@@ -245,6 +245,7 @@
+         assert np.all(t2.groups.keys['a'] == np.array([0, 2]))
+ 
+ 
++@pytest.mark.xfail(reason="Skip in Fedora. (github isssue #3180)")
+ def test_grouped_item_access():
+     """
+     Test that column slicing preserves grouping
+@@ -398,6 +399,7 @@
+     assert 'grouped_by_table_cols' not in tg['c'].groups.keys.meta
+ 
+ 
++@pytest.mark.xfail(reason="Skip in Fedora. (github isssue #3180)")
+ def test_table_aggregate():
+     """
+     Aggregate a table
+@@ -518,6 +520,7 @@
+                              '  2']
+ 
+ 
++@pytest.mark.xfail(reason="Skip in Fedora. (github isssue #3180)")
+ def test_column_aggregate():
+     """
+     Aggregate a single table column
