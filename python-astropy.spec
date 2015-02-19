@@ -2,7 +2,7 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 0.4.4
+Version: 1.0
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -14,13 +14,6 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
-Patch3: python-astropy-configobj5.patch
-# Disable problematic test (upstream 2516)
-# https://github.com/astropy/astropy/issues/2516
-Patch4: python-astropy-skiptest2516.patch
-# Disable problematic test (upstream 3180)
-# https://github.com/astropy/astropy/issues/3180
-Patch5: python-astropy-skiptest3180.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -30,8 +23,10 @@ BuildRequires: python-matplotlib
 BuildRequires: python-configobj
 BuildRequires: expat-devel
 BuildRequires: cfitsio-devel
-BuildRequires: wcslib-devel >= 4.23
+BuildRequires: wcslib-devel >= 4.25
 BuildRequires: erfa-devel
+# 
+BuildRequires: texlive-ucs
 
 Requires: numpy
 Requires: python-configobj pytest python-six python-ply
@@ -39,7 +34,7 @@ Requires: python-configobj pytest python-six python-ply
 Requires: scipy h5py
 Requires: /usr/bin/xmllint
 
-Provides: bundled(jquery) = 1.10
+Provides: bundled(jquery) = 1.11
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -69,10 +64,12 @@ BuildRequires: python3-matplotlib
 BuildRequires: python3-configobj
 #
 BuildRequires: expat-devel
-BuildRequires: wcslib-devel >= 4.23
+BuildRequires: wcslib-devel >= 4.25
 BuildRequires: erfa-devel
 BuildRequires: cfitsio-devel
 BuildRequires: python3-devel
+#
+BuildRequires: texlive-ucs
 
 Requires: python3-numpy
 Requires: python3-configobj
@@ -83,7 +80,7 @@ Requires: python3-ply
 Requires: python3-scipy python3-h5py
 Requires: /usr/bin/xmllint
 
-Provides: bundled(jquery) = 1.10
+Provides: bundled(jquery) = 1.11
 
 %description -n python3-%{upname}
 The Astropy project is a common effort to develop a single core package 
@@ -107,7 +104,7 @@ This package contains the full API documentation for %{name}.
 %package -n %{upname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
-Requires: python-%{upname} = %{version}-%{release}
+Requires: python3-%{upname} = %{version}-%{release}
 
 %description -n %{upname}-tools
 Utilities provided by Astropy: 'volint' for validating a Virtual Observatory 
@@ -117,6 +114,14 @@ files, 'wcslint' for validating the WCS keywords in a FITS file.
 %setup -qn %{upname}-%{version}
 cp %{SOURCE1} README.dist
 rm -rf astropy*egg-info
+# Use system configobj
+%patch0 -p1
+# Use system pytest
+%patch1 -p1
+# Use system six
+%patch2 -p1
+# Use system ply
+cp %{SOURCE2} astropy/extern/ply.py
 
 # Remove expat, erfa, cfitsio and wcslib
 rm -rf cextern/expat
@@ -124,36 +129,13 @@ rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
 
-# Unbundle configobj
-rm -rf astropy/extern/configobj*
-%patch0 -p1
-%patch3 -p1
-
-# Unbundle pytest
-rm -rf astropy/extern/pytest*
-%patch1 -p1
-
-# Unbundle six
-%patch2 -p1
-
-# Unbundle ply
-rm -rf astropy/extern/ply*
-cp %{SOURCE2} astropy/extern/ply.py
-
-# Disable problematic test (upstream #2516)
-%patch4 -p1
-# Mark problematic test as xfail (upstream #3180)
-%patch5 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
 
-find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python2}|'
-
 %if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
-find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %endif # with_python3
 
 
@@ -165,13 +147,11 @@ rm -f docs/_build/html/.buildinfo
 %if 0%{?with_python3}
 pushd %{py3dir}
 CFLAGS="%{optflags}" %{__python3} setup.py build --offline
-# Not working, python3-sphinx bug
-# https://bugzilla.redhat.com/show_bug.cgi?id=1014505
 %{__python3} setup.py build_sphinx --offline
+rm -f docs/_build/html/.buildinfo
 popd
-# Copying the python2 docs for the moment
 mkdir -p docs/_build3/
-cp -r docs/_build/html docs/_build3/
+cp -r %{py3dir}/docs/_build/html docs/_build3/
 %endif # with_python3
 
 %install
@@ -186,48 +166,45 @@ popd
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
-# install_scripts target seems to overwrite the shebang of the scripts
-# it doesn't matter the the order of the installs
-# fixing it here
-for i in %{buildroot}/usr/bin/*; do 
- sed -i '1s|^#!%{__python3}|#!%{__python2}|' $i
-done
-
 %check
 pushd %{buildroot}/%{python2_sitearch}
-#py.test-%{python2_version} -k "not test_web_profile" astropy
+py.test-%{python2_version} -k "not test_web_profile" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-#py.test-%{python3_version} -k "not test_web_profile" astropy
+py.test-%{python3_version} -k "not test_web_profile" astropy
 popd
 %endif # with_python3
  
 %files
-%doc README.rst README.dist licenses/LICENSE.rst
+%doc README.rst README.dist
+%license licenses/LICENSE.rst
 %{python2_sitearch}/*
 
 %files -n %{upname}-tools
 %{_bindir}/*
-# These two are provided by pyfits
-%exclude %{_bindir}/fitsdiff
-%exclude %{_bindir}/fitscheck
 
 %files doc
-%doc README.rst README.dist licenses/LICENSE.rst docs/_build/html
+%doc README.rst README.dist docs/_build/html
+%license licenses/LICENSE.rst
 
 %if 0%{?with_python3}
 %files -n python3-%{upname}
-%doc README.rst licenses/LICENSE.rst README.dist
+%doc README.rst README.dist
+%license licenses/LICENSE.rst
 %{python3_sitearch}/*
 
 %files -n python3-%{upname}-doc
-%doc README.rst README.dist licenses/LICENSE.rst docs/_build3/html
+%doc README.rst README.dist docs/_build3/html
+%license licenses/LICENSE.rst
 
 %endif # with_python3
 
 %changelog
+* Thu Feb 19 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0-1
+- New upstream (1.0)
+
 * Thu Jan 22 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 0.4.4-1
 - New upstream (0.4.4)
 
