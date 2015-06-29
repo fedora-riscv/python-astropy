@@ -5,7 +5,7 @@
 
 Name: python-astropy
 Version: 1.0.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -107,10 +107,12 @@ This package contains the full API documentation for %{name}.
 Summary: Astropy utility tools
 BuildArch: noarch
 Requires: python3-%{upname} = %{version}-%{release}
+Obsoletes: pyfits-tools < 3.3-6
+# 
+Provides: pyfits-tools
 
 %description -n %{upname}-tools
-Utilities provided by Astropy: 'volint' for validating a Virtual Observatory 
-files, 'wcslint' for validating the WCS keywords in a FITS file.
+Utilities provided by Astropy
  
 %prep
 %setup -qn %{upname}-%{version}
@@ -204,6 +206,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Jun 29 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.3-2
+- Obsolete pyfits-tools (fixes bz #1236562)
+
 * Tue Jun 16 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.3-1
 - New upstream (1.0.3), with 2015-06-30 leap second
 
