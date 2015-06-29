@@ -5,7 +5,7 @@
 
 Name: python-astropy
 Version: 1.0.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -16,6 +16,9 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
+# Make tests compatible with pytest 2.3.5 on EL7
+# https://github.com/astropy/astropy/pull/3900
+Patch3: python-astropy-pytest23.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -123,7 +126,13 @@ rm -rf astropy*egg-info
 # Use system pytest
 %patch1 -p1
 # Use system six
+# Too old on EL7 for now - https://bugzilla.redhat.com/show_bug.cgi?id=1185409
+%if 0%{?fedora}
 %patch2 -p1
+%endif
+%if 0%{?rhel} == 7
+%patch3 -p1 -b .pytest23
+%endif
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
 
@@ -159,27 +168,31 @@ cp -r %{py3dir}/docs/_build/html docs/_build3/
 %endif # with_python3
 
 %install
+%if 0%{?fedora} >= 22
+%{__python2} setup.py install --skip-build --root %{buildroot} --offline
+%endif
 
 %if 0%{?with_python3}
-
-%{__python2} setup.py install --skip-build --root %{buildroot} --offline
-
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --root %{buildroot} --offline
 popd
 %endif # with_python3
+
+%if 0%{?fedora} < 22
+%{__python2} setup.py install --skip-build --root %{buildroot} --offline
+%endif
 
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
 pushd %{buildroot}/%{python2_sitearch}
-#py.test-%{python2_version} -k "not test_web_profile" astropy
+py.test-%{python2_version} -k "not test_web_profile" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-#py.test-%{python3_version} -k "not test_web_profile" astropy
+py.test-%{python3_version} -k "not test_web_profile" astropy
 popd
 %endif # with_python3
  
@@ -208,6 +221,11 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Jul 13 2015 Orion Poplawski <orion@cora.nwra.com> - 1.0.3-4
+- Make python3 default only in F22+
+- Add patch to support pytest 2.3.5 in EL7.
+- Do not apply system six patch on EL for now, too old.
+
 * Mon Jun 29 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.3-3
 - Obsolete pyfits-tools (fixes bz #1236562)
 - astropy-tools requires python3
