@@ -40,6 +40,8 @@ Requires: scipy h5py
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
+# Tests fail on ppc64
+ExcludeArch: ppc64
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -225,6 +227,7 @@ popd
 - Make python3 default only in F22+
 - Add patch to support pytest 2.3.5 in EL7.
 - Do not apply system six patch on EL for now, too old.
+- Do not build on ppc64 - tests fail
 
 * Mon Jun 29 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.3-3
 - Obsolete pyfits-tools (fixes bz #1236562)
