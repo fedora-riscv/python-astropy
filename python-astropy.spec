@@ -5,7 +5,7 @@
 
 Name: python-astropy
 Version: 1.0.3
-Release: 4%{?dist}
+Release: 4%{?dist}.1
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -111,10 +111,14 @@ This package contains the full API documentation for %{name}.
 %package -n %{upname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
+%if 0%{?fedora} >= 22
 Requires: python3-%{upname} = %{version}-%{release}
 Obsoletes: pyfits-tools < 3.3-6
-# 
 Provides: pyfits-tools
+%else
+Requires: python-%{upname} = %{version}-%{release}
+%endif
+
 
 %description -n %{upname}-tools
 Utilities provided by Astropy
@@ -171,8 +175,8 @@ cp -r %{py3dir}/docs/_build/html docs/_build3/
 
 %install
 %if 0%{?fedora} >= 22
+
 %{__python2} setup.py install --skip-build --root %{buildroot} --offline
-%endif
 
 %if 0%{?with_python3}
 pushd %{py3dir}
@@ -180,9 +184,17 @@ pushd %{py3dir}
 popd
 %endif # with_python3
 
-%if 0%{?fedora} < 22
+%else
+
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py install --skip-build --root %{buildroot} --offline
+popd
+%endif # with_python3
+
 %{__python2} setup.py install --skip-build --root %{buildroot} --offline
-%endif
+
+%endif # fedora >= 22
 
 
 find %{buildroot} -name "*.so" | xargs chmod 755
@@ -205,6 +217,11 @@ popd
 
 %files -n %{upname}-tools
 %{_bindir}/*
+%if 0%{?fedora} < 22
+# These two are provided by pyfits
+%exclude %{_bindir}/fitsdiff
+%exclude %{_bindir}/fitscheck
+%endif # fedora < 22
 
 %files doc
 %doc README.rst README.dist docs/_build/html
@@ -223,6 +240,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed Jul 15 2015 Orion Poplawski <orion@cora.nwra.com> - 1.0.3-4.1
+- Handle changes regarding python3 and pyfits-tools in fedora >= 22
+
 * Mon Jul 13 2015 Orion Poplawski <orion@cora.nwra.com> - 1.0.3-4
 - Make python3 default only in F22+
 - Add patch to support pytest 2.3.5 in EL7.
