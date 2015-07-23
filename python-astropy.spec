@@ -136,9 +136,7 @@ rm -rf astropy*egg-info
 %if 0%{?fedora}
 %patch2 -p1
 %endif
-%if 0%{?rhel} == 7
 %patch3 -p1 -b .pytest23
-%endif
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
 
