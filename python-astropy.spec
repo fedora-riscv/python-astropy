@@ -4,8 +4,8 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 1.0.3
-Release: 3%{?dist}
+Version: 1.0.4
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -37,6 +37,7 @@ Requires: scipy h5py
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
+Provides: python2-%{upname}
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -106,10 +107,14 @@ This package contains the full API documentation for %{name}.
 %package -n %{upname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
+%if 0%{?fedora} >= 22
 Requires: python3-%{upname} = %{version}-%{release}
 Obsoletes: pyfits-tools < 3.3-6
-# 
 Provides: pyfits-tools
+%else
+Requires: python-%{upname} = %{version}-%{release}
+%endif
+
 
 %description -n %{upname}-tools
 Utilities provided by Astropy
@@ -159,27 +164,40 @@ cp -r %{py3dir}/docs/_build/html docs/_build3/
 %endif # with_python3
 
 %install
-
-%if 0%{?with_python3}
+%if 0%{?fedora} >= 22
 
 %{__python2} setup.py install --skip-build --root %{buildroot} --offline
 
+%if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build --root %{buildroot} --offline
 popd
 %endif # with_python3
 
+%else
+
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py install --skip-build --root %{buildroot} --offline
+popd
+%endif # with_python3
+
+%{__python2} setup.py install --skip-build --root %{buildroot} --offline
+
+%endif # fedora >= 22
+
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
+
 %check
 pushd %{buildroot}/%{python2_sitearch}
-#py.test-%{python2_version} -k "not test_web_profile" astropy
+py.test-%{python2_version} astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-#py.test-%{python3_version} -k "not test_web_profile" astropy
+py.test-%{python3_version} astropy
 popd
 %endif # with_python3
  
@@ -190,6 +208,11 @@ popd
 
 %files -n %{upname}-tools
 %{_bindir}/*
+%if 0%{?fedora} < 22
+# These two are provided by pyfits
+%exclude %{_bindir}/fitsdiff
+%exclude %{_bindir}/fitscheck
+%endif # fedora < 22
 
 %files doc
 %doc README.rst README.dist docs/_build/html
@@ -208,6 +231,13 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Sep 14 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.4-1
+- New upstream (1.0.4)
+
+* Tue Jun 30 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.3-4
+- Reenable tests
+- Handle changes regarding python3 and pyfits-tools in fedora >= 22
+
 * Mon Jun 29 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.3-3
 - Obsolete pyfits-tools (fixes bz #1236562)
 - astropy-tools requires python3
