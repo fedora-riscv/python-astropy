@@ -4,8 +4,8 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 1.0.4
-Release: 2%{?dist}
+Version: 1.0.5
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -233,6 +233,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Tue Oct 06 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.5-1
+- New upstream (1.0.5)
+
 * Mon Sep 14 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.4-2
 - Disable some tests that fail with numpy 1.10
 
