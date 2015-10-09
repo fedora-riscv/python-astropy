@@ -5,7 +5,7 @@
 
 Name: python-astropy
 Version: 1.0.5
-Release: 1%{?dist}.1
+Release: 1%{?dist}.2
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -139,6 +139,8 @@ rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
 
+# Fixes https://github.com/astropy/astropy/issues/4226
+%patch3 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
@@ -232,8 +234,9 @@ popd
 %endif # with_python3
 
 %changelog
-* Fri Oct 09 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.5-1
+* Fri Oct 09 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.5-1.2
 - New upstream (1.0.5)
+- Apply the patch (github astropy #4226)
 
 * Thu Sep 17 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.4-1.1
 - Disable test_web_profile again
