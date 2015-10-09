@@ -4,7 +4,7 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 1.0.4
+Version: 1.0.5
 Release: 1%{?dist}.1
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -16,6 +16,7 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
+Patch3: https://github.com/mhvk/astropy/commit/8476d178c6daebbd2e62156f323e8f53e769ee85.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -37,7 +38,7 @@ Requires: scipy h5py
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
-Provides: python2-%{upname}
+Provides: python2-%{upname} = %{version}-%{release}
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -110,7 +111,7 @@ BuildArch: noarch
 %if 0%{?fedora} >= 22
 Requires: python3-%{upname} = %{version}-%{release}
 Obsoletes: pyfits-tools < 3.3-6
-Provides: pyfits-tools
+Provides: pyfits-tools 
 %else
 Requires: python-%{upname} = %{version}-%{release}
 %endif
@@ -231,6 +232,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Oct 09 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.5-1
+- New upstream (1.0.5)
+
 * Thu Sep 17 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.4-1.1
 - Disable test_web_profile again
 
