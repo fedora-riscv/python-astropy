@@ -4,8 +4,8 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 1.0.5
-Release: 2%{?dist}
+Version: 1.0.6
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -16,7 +16,6 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
-Patch3: https://github.com/mhvk/astropy/commit/8476d178c6daebbd2e62156f323e8f53e769ee85.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -139,9 +138,6 @@ rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
 
-# Fixes https://github.com/astropy/astropy/issues/4226
-%patch3 -p1
-
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
 
@@ -192,7 +188,6 @@ popd
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
-
 # Disable some tests that fail with numpy 1.10
 # https://github.com/astropy/astropy/issues/3854
 %check
@@ -236,6 +231,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed Oct 28 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.6-1
+- New upstream (1.0.6), with better support of numpy 1.10
+
 * Fri Oct 09 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.5-2
 - Fixes test problem https://github.com/astropy/astropy/issues/4226
 
