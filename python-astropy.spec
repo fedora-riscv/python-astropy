@@ -17,6 +17,7 @@ Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
 Patch3: https://github.com/mhvk/astropy/commit/8476d178c6daebbd2e62156f323e8f53e769ee85.patch
+Patch4: python-astropy-pytest23.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -146,6 +147,7 @@ rm -rf cextern/wcslib
 
 # Fixes https://github.com/astropy/astropy/issues/4226
 %patch3 -p1
+%patch4 -p1 -b .pytest23
 
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
@@ -241,6 +243,7 @@ popd
 %changelog
 * Wed Oct 28 2015 Orion Poplawski <orion@cora.nwra.com> - 1.0.5-1
 - New upstream (1.0.5)
+- Update pytest23 patch
 
 * Wed Jul 15 2015 Orion Poplawski <orion@cora.nwra.com> - 1.0.3-4.1
 - Handle changes regarding python3 and pyfits-tools in fedora >= 22
