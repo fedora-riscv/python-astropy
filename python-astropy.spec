@@ -5,7 +5,7 @@
 
 Name: python-astropy
 Version: 1.0.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -188,16 +188,14 @@ popd
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
-# Disable some tests that fail with numpy 1.10
-# https://github.com/astropy/astropy/issues/3854
 %check
 pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not test_web_profile and not test_checksum" astropy
+py.test-%{python2_version} -k "not test_web_profile" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not test_web_profile and not test_checksum and not test_connect and not test_table" astropy
+py.test-%{python3_version} -k "not test_web_profile" astropy
 popd
 %endif # with_python3
  
@@ -231,6 +229,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Nov 06 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.6-2
+- Enabled again tests that failed with numpy 1.10
+
 * Wed Oct 28 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.6-1
 - New upstream (1.0.6), with better support of numpy 1.10
 
