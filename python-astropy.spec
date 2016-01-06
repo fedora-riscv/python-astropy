@@ -4,13 +4,13 @@
 %global upname astropy
 
 Name: python-astropy
-Version: 1.0.6
-Release: 3%{?dist}
+Version: 1.1
+Release: 1.post2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
-Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.tar.gz
+Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.post2.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
@@ -30,10 +30,13 @@ BuildRequires: erfa-devel
 # 
 BuildRequires: texlive-ucs
 
+BuildRequires: PyYAML
+
 Requires: numpy
 Requires: python-configobj pytest python-six python-ply
 # Optionals
 Requires: scipy h5py
+Requires: PyYAML
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
@@ -48,6 +51,7 @@ functionality, as well as frameworks for cosmology, unit handling, and
 coordinate transformations.
 
 %package doc
+Provides: python2-%{upname}-doc = %{version}-%{release}
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
@@ -73,6 +77,7 @@ BuildRequires: cfitsio-devel
 BuildRequires: python3-devel
 #
 BuildRequires: texlive-ucs
+BuildRequires: python3-PyYAML
 
 Requires: python3-numpy
 Requires: python3-configobj
@@ -81,6 +86,7 @@ Requires: python3-six
 Requires: python3-ply
 # Optionals
 Requires: python3-scipy python3-h5py
+Requires: python3-PyYAML
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
@@ -120,8 +126,10 @@ Requires: python-%{upname} = %{version}-%{release}
 Utilities provided by Astropy
  
 %prep
-%setup -qn %{upname}-%{version}
+%setup -qn %{upname}-%{version}.post2
 cp %{SOURCE1} README.dist
+# Required to support wcslib 4.5
+find -name wcsconfig.h -delete
 rm -rf astropy*egg-info
 # Use system configobj
 %patch0 -p1
@@ -155,11 +163,11 @@ rm -f docs/_build/html/.buildinfo
 %if 0%{?with_python3}
 pushd %{py3dir}
 CFLAGS="%{optflags}" %{__python3} setup.py build --offline
-%{__python3} setup.py build_sphinx --offline
-rm -f docs/_build/html/.buildinfo
+#%{__python3} setup.py build_sphinx --offline
+#rm -f docs/_build/html/.buildinfo
 popd
 mkdir -p docs/_build3/
-cp -r %{py3dir}/docs/_build/html docs/_build3/
+#cp -r %{py3dir}/docs/_build/html docs/_build3/
 %endif # with_python3
 
 %install
@@ -223,12 +231,15 @@ popd
 %{python3_sitearch}/*
 
 %files -n python3-%{upname}-doc
-%doc README.rst README.dist docs/_build3/html
+%doc README.rst README.dist docs/_build/html
 %license licenses/LICENSE.rst
 
 %endif # with_python3
 
 %changelog
+* Wed Jan 06 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1-1.post2
+- New upstream (1.1.post2)
+
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
