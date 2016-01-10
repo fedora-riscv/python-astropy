@@ -1,16 +1,16 @@
 %if 0%{?fedora}
 %global with_python3 1
 %endif
-%global upname astropy
+%global srcname astropy
 
 Name: python-astropy
-Version: 1.1
-Release: 1.post2%{?dist}
+Version: 1.1.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
-Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.post2.tar.gz
+Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
@@ -40,7 +40,7 @@ Requires: PyYAML
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
-Provides: python2-%{upname} = %{version}-%{release}
+Provides: python2-%{srcname} = %{version}-%{release}
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -51,7 +51,7 @@ functionality, as well as frameworks for cosmology, unit handling, and
 coordinate transformations.
 
 %package doc
-Provides: python2-%{upname}-doc = %{version}-%{release}
+Provides: python2-%{srcname}-doc = %{version}-%{release}
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
@@ -61,7 +61,7 @@ Summary: Documentation for %{name}, includes full API docs
 This package contains the full API documentation for %{name}.
 
 %if 0%{?with_python3}
-%package -n python3-%{upname}
+%package -n python3-%{srcname}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python3-devel python3-setuptools python3-numpy
 BuildRequires: git python3-Cython python3-pytest python3-six python3-ply
@@ -91,7 +91,7 @@ Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
 
-%description -n python3-%{upname}
+%description -n python3-%{srcname}
 The Astropy project is a common effort to develop a single core package 
 for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
 already merged in, and many more components being worked on. In 
@@ -99,34 +99,34 @@ particular, we are developing imaging, photometric, and spectroscopic
 functionality, as well as frameworks for cosmology, unit handling, and 
 coordinate transformations.
 
-%package -n python3-%{upname}-doc
+%package -n python3-%{srcname}-doc
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
 # BuildArch: noarch
  
-%description -n python3-%{upname}-doc
+%description -n python3-%{srcname}-doc
 This package contains the full API documentation for %{name}.
 
 %endif # with_python3
 
-%package -n %{upname}-tools
+%package -n %{srcname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
 %if 0%{?fedora} >= 22
-Requires: python3-%{upname} = %{version}-%{release}
+Requires: python3-%{srcname} = %{version}-%{release}
 Obsoletes: pyfits-tools < 3.3-6
 Provides: pyfits-tools = %{version}-%{release}
 %else
-Requires: python-%{upname} = %{version}-%{release}
+Requires: python-%{srcname} = %{version}-%{release}
 %endif
 
 
-%description -n %{upname}-tools
+%description -n %{srcname}-tools
 Utilities provided by Astropy
  
 %prep
-%setup -qn %{upname}-%{version}.post2
+%setup -qn %{srcname}-%{version}
 cp %{SOURCE1} README.dist
 # Required to support wcslib 4.5
 find -name wcsconfig.h -delete
@@ -212,7 +212,7 @@ popd
 %license licenses/LICENSE.rst
 %{python2_sitearch}/*
 
-%files -n %{upname}-tools
+%files -n %{srcname}-tools
 %{_bindir}/*
 %if 0%{?fedora} < 22
 # These two are provided by pyfits
@@ -225,18 +225,21 @@ popd
 %license licenses/LICENSE.rst
 
 %if 0%{?with_python3}
-%files -n python3-%{upname}
+%files -n python3-%{srcname}
 %doc README.rst README.dist
 %license licenses/LICENSE.rst
 %{python3_sitearch}/*
 
-%files -n python3-%{upname}-doc
+%files -n python3-%{srcname}-doc
 %doc README.rst README.dist docs/_build/html
 %license licenses/LICENSE.rst
 
 %endif # with_python3
 
 %changelog
+* Sun Jan 10 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1.1-1
+- New upstream (1.1.1)
+
 * Wed Jan 06 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1-1.post2
 - New upstream (1.1.post2)
 
