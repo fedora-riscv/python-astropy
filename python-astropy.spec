@@ -1,11 +1,11 @@
 %if 0%{?fedora}
 %global with_python3 1
 %endif
-%global upname astropy
+%global srcname astropy
 
 Name: python-astropy
-Version: 1.0.5
-Release: 2%{?dist}
+Version: 1.1.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -16,7 +16,6 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
-Patch3: https://github.com/mhvk/astropy/commit/8476d178c6daebbd2e62156f323e8f53e769ee85.patch
 
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
@@ -31,14 +30,17 @@ BuildRequires: erfa-devel
 # 
 BuildRequires: texlive-ucs
 
+BuildRequires: PyYAML
+
 Requires: numpy
 Requires: python-configobj pytest python-six python-ply
 # Optionals
 Requires: scipy h5py
+Requires: PyYAML
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
-Provides: python2-%{upname} = %{version}-%{release}
+Provides: python2-%{srcname} = %{version}-%{release}
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -49,6 +51,7 @@ functionality, as well as frameworks for cosmology, unit handling, and
 coordinate transformations.
 
 %package doc
+Provides: python2-%{srcname}-doc = %{version}-%{release}
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
@@ -58,7 +61,7 @@ Summary: Documentation for %{name}, includes full API docs
 This package contains the full API documentation for %{name}.
 
 %if 0%{?with_python3}
-%package -n python3-%{upname}
+%package -n python3-%{srcname}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python3-devel python3-setuptools python3-numpy
 BuildRequires: git python3-Cython python3-pytest python3-six python3-ply
@@ -74,6 +77,7 @@ BuildRequires: cfitsio-devel
 BuildRequires: python3-devel
 #
 BuildRequires: texlive-ucs
+BuildRequires: python3-PyYAML
 
 Requires: python3-numpy
 Requires: python3-configobj
@@ -82,11 +86,12 @@ Requires: python3-six
 Requires: python3-ply
 # Optionals
 Requires: python3-scipy python3-h5py
+Requires: python3-PyYAML
 Requires: /usr/bin/xmllint
 
 Provides: bundled(jquery) = 1.11
 
-%description -n python3-%{upname}
+%description -n python3-%{srcname}
 The Astropy project is a common effort to develop a single core package 
 for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
 already merged in, and many more components being worked on. In 
@@ -94,35 +99,37 @@ particular, we are developing imaging, photometric, and spectroscopic
 functionality, as well as frameworks for cosmology, unit handling, and 
 coordinate transformations.
 
-%package -n python3-%{upname}-doc
+%package -n python3-%{srcname}-doc
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
 # BuildArch: noarch
  
-%description -n python3-%{upname}-doc
+%description -n python3-%{srcname}-doc
 This package contains the full API documentation for %{name}.
 
 %endif # with_python3
 
-%package -n %{upname}-tools
+%package -n %{srcname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
 %if 0%{?fedora} >= 22
-Requires: python3-%{upname} = %{version}-%{release}
+Requires: python3-%{srcname} = %{version}-%{release}
 Obsoletes: pyfits-tools < 3.3-6
 Provides: pyfits-tools = %{version}-%{release}
 %else
-Requires: python-%{upname} = %{version}-%{release}
+Requires: python-%{srcname} = %{version}-%{release}
 %endif
 
 
-%description -n %{upname}-tools
+%description -n %{srcname}-tools
 Utilities provided by Astropy
  
 %prep
-%setup -qn %{upname}-%{version}
+%setup -qn %{srcname}-%{version}
 cp %{SOURCE1} README.dist
+# Required to support wcslib 4.5
+find -name wcsconfig.h -delete
 rm -rf astropy*egg-info
 # Use system configobj
 %patch0 -p1
@@ -138,9 +145,6 @@ rm -rf cextern/expat
 rm -rf cextern/erfa
 rm -rf cextern/cfitsio
 rm -rf cextern/wcslib
-
-# Fixes https://github.com/astropy/astropy/issues/4226
-%patch3 -p1
 
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
@@ -159,11 +163,11 @@ rm -f docs/_build/html/.buildinfo
 %if 0%{?with_python3}
 pushd %{py3dir}
 CFLAGS="%{optflags}" %{__python3} setup.py build --offline
-%{__python3} setup.py build_sphinx --offline
-rm -f docs/_build/html/.buildinfo
+#%{__python3} setup.py build_sphinx --offline
+#rm -f docs/_build/html/.buildinfo
 popd
 mkdir -p docs/_build3/
-cp -r %{py3dir}/docs/_build/html docs/_build3/
+#cp -r %{py3dir}/docs/_build/html docs/_build3/
 %endif # with_python3
 
 %install
@@ -197,12 +201,12 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 # https://github.com/astropy/astropy/issues/3854
 %check
 pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not test_web_profile and not test_checksum" astropy
+py.test-%{python2_version} -k "not test_web_profile" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not test_web_profile and not test_checksum and not test_connect and not test_table" astropy
+py.test-%{python3_version} -k "not test_web_profile" astropy
 popd
 %endif # with_python3
  
@@ -211,7 +215,7 @@ popd
 %license licenses/LICENSE.rst
 %{python2_sitearch}/*
 
-%files -n %{upname}-tools
+%files -n %{srcname}-tools
 %{_bindir}/*
 %if 0%{?fedora} < 22
 # These two are provided by pyfits
@@ -224,18 +228,21 @@ popd
 %license licenses/LICENSE.rst
 
 %if 0%{?with_python3}
-%files -n python3-%{upname}
+%files -n python3-%{srcname}
 %doc README.rst README.dist
 %license licenses/LICENSE.rst
 %{python3_sitearch}/*
 
-%files -n python3-%{upname}-doc
-%doc README.rst README.dist docs/_build3/html
+%files -n python3-%{srcname}-doc
+%doc README.rst README.dist docs/_build/html
 %license licenses/LICENSE.rst
 
 %endif # with_python3
 
 %changelog
+* Sun Jan 10 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1.1-1
+- New upstream (1.1.1)
+
 * Fri Oct 09 2015 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.5-2
 - Fixes test problem https://github.com/astropy/astropy/issues/4226
 
