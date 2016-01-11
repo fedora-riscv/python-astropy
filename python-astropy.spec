@@ -1,11 +1,14 @@
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 7
 %global with_python3 1
 %endif
+# Not quite yet in Fedora
+%{!?python3_pkgversion:%global python3_pkgversion 3}
+
 %global srcname astropy
 
 Name: python-astropy
 Version: 1.1.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -17,6 +20,16 @@ Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
 
+%description
+The Astropy project is a common effort to develop a single core package 
+for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
+already merged in, and many more components being worked on. In 
+particular, we are developing imaging, photometric, and spectroscopic 
+functionality, as well as frameworks for cosmology, unit handling, and 
+coordinate transformations.
+
+%package -n python2-%{srcname}
+Summary: A Community Python Library for Astronomy
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
 BuildRequires: git Cython pytest python-six python-ply
@@ -39,10 +52,10 @@ Requires: scipy h5py
 Requires: PyYAML
 Requires: /usr/bin/xmllint
 
+%{?python_provide:%python_provide python2-%{srcname}}
 Provides: bundled(jquery) = 1.11
-Provides: python2-%{srcname} = %{version}-%{release}
 
-%description
+%description -n python2-%{srcname}
 The Astropy project is a common effort to develop a single core package 
 for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
 already merged in, and many more components being worked on. In 
@@ -50,48 +63,58 @@ particular, we are developing imaging, photometric, and spectroscopic
 functionality, as well as frameworks for cosmology, unit handling, and 
 coordinate transformations.
 
-%package doc
-Provides: python2-%{srcname}-doc = %{version}-%{release}
+%package -n python2-%{srcname}-doc
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
 # BuildArch: noarch
+%{?python_provide:%python_provide python2-%{srcname}-doc}
  
-%description doc
+%description -n python2-%{srcname}-doc
 This package contains the full API documentation for %{name}.
 
+
 %if 0%{?with_python3}
-%package -n python3-%{srcname}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary: A Community Python Library for Astronomy
-BuildRequires: python3-devel python3-setuptools python3-numpy
-BuildRequires: git python3-Cython python3-pytest python3-six python3-ply
-BuildRequires: python3-scipy python3-h5py
-BuildRequires: python3-sphinx graphviz
-BuildRequires: python3-matplotlib
-BuildRequires: python3-configobj
+BuildRequires: python%{python3_pkgversion}-devel
+BuildRequires: python%{python3_pkgversion}-setuptools
+BuildRequires: python%{python3_pkgversion}-numpy
+BuildRequires: git
+BuildRequires: python%{python3_pkgversion}-Cython
+BuildRequires: python%{python3_pkgversion}-pytest
+BuildRequires: python%{python3_pkgversion}-six
+BuildRequires: python%{python3_pkgversion}-ply
+BuildRequires: python%{python3_pkgversion}-scipy
+BuildRequires: python%{python3_pkgversion}-h5py
+BuildRequires: python%{python3_pkgversion}-sphinx graphviz
+BuildRequires: python%{python3_pkgversion}-matplotlib
+BuildRequires: python%{python3_pkgversion}-configobj
 #
 BuildRequires: expat-devel
 BuildRequires: wcslib-devel >= 4.25
 BuildRequires: erfa-devel
 BuildRequires: cfitsio-devel
-BuildRequires: python3-devel
+BuildRequires: python%{python3_pkgversion}-devel
 #
 BuildRequires: texlive-ucs
-BuildRequires: python3-PyYAML
+BuildRequires: python%{python3_pkgversion}-PyYAML
 
-Requires: python3-numpy
-Requires: python3-configobj
-Requires: python3-pytest
-Requires: python3-six
-Requires: python3-ply
+Requires: python%{python3_pkgversion}-numpy
+Requires: python%{python3_pkgversion}-configobj
+Requires: python%{python3_pkgversion}-pytest
+Requires: python%{python3_pkgversion}-six
+Requires: python%{python3_pkgversion}-ply
 # Optionals
-Requires: python3-scipy python3-h5py
-Requires: python3-PyYAML
+Requires: python%{python3_pkgversion}-scipy
+Requires: python%{python3_pkgversion}-h5py
+Requires: python%{python3_pkgversion}-PyYAML
 Requires: /usr/bin/xmllint
 
+%{?python_provide:%python_provide python2-%{srcname}}
 Provides: bundled(jquery) = 1.11
 
-%description -n python3-%{srcname}
+%description -n python%{python3_pkgversion}-%{srcname}
 The Astropy project is a common effort to develop a single core package 
 for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
 already merged in, and many more components being worked on. In 
@@ -99,13 +122,14 @@ particular, we are developing imaging, photometric, and spectroscopic
 functionality, as well as frameworks for cosmology, unit handling, and 
 coordinate transformations.
 
-%package -n python3-%{srcname}-doc
+%package -n python%{python3_pkgversion}-%{srcname}-doc
 Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
 # BuildArch: noarch
+%{?python_provide:%python_provide python3-%{srcname}-doc}
  
-%description -n python3-%{srcname}-doc
+%description -n python%{python3_pkgversion}-%{srcname}-doc
 This package contains the full API documentation for %{name}.
 
 %endif # with_python3
@@ -113,8 +137,8 @@ This package contains the full API documentation for %{name}.
 %package -n %{srcname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
-%if 0%{?fedora} >= 22
-Requires: python3-%{srcname} = %{version}-%{release}
+%if 0%{?fedora}
+Requires: python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
 Obsoletes: pyfits-tools < 3.3-6
 Provides: pyfits-tools = %{version}-%{release}
 %else
@@ -149,49 +173,38 @@ rm -rf cextern/wcslib
 echo "[build]" >> setup.cfg
 echo "use_system_libraries=1" >> setup.cfg
 
-%if 0%{?with_python3}
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-%endif # with_python3
-
 
 %build
-CFLAGS="%{optflags}" %{__python2} setup.py build --offline
+%global py_setup_args --offline
+%{py2_build}
 %{__python2} setup.py build_sphinx --offline
 rm -f docs/_build/html/.buildinfo
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-CFLAGS="%{optflags}" %{__python3} setup.py build --offline
+%{py3_build}
 #%{__python3} setup.py build_sphinx --offline
 #rm -f docs/_build/html/.buildinfo
-popd
 mkdir -p docs/_build3/
-#cp -r %{py3dir}/docs/_build/html docs/_build3/
 %endif # with_python3
 
 %install
-%if 0%{?fedora} >= 22
+%if 0%{?fedora}
 
-%{__python2} setup.py install --skip-build --root %{buildroot} --offline
+%{py2_install}
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py install --skip-build --root %{buildroot} --offline
-popd
+%{py3_install}
 %endif # with_python3
 
 %else
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py install --skip-build --root %{buildroot} --offline
-popd
+%{py3_install}
 %endif # with_python3
 
-%{__python2} setup.py install --skip-build --root %{buildroot} --offline
+%{py2_install}
 
-%endif # fedora >= 22
+%endif # fedora
 
 
 find %{buildroot} -name "*.so" | xargs chmod 755
@@ -207,36 +220,35 @@ py.test-%{python3_version} -k "not test_web_profile" astropy
 popd
 %endif # with_python3
  
-%files
+%files -n python2-%{srcname}
 %doc README.rst README.dist
 %license licenses/LICENSE.rst
 %{python2_sitearch}/*
 
 %files -n %{srcname}-tools
 %{_bindir}/*
-%if 0%{?fedora} < 22
-# These two are provided by pyfits
-%exclude %{_bindir}/fitsdiff
-%exclude %{_bindir}/fitscheck
-%endif # fedora < 22
 
-%files doc
+%files -n python2-%{srcname}-doc
 %doc README.rst README.dist docs/_build/html
 %license licenses/LICENSE.rst
 
 %if 0%{?with_python3}
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %doc README.rst README.dist
 %license licenses/LICENSE.rst
 %{python3_sitearch}/*
 
-%files -n python3-%{srcname}-doc
+%files -n python%{python3_pkgversion}-%{srcname}-doc
 %doc README.rst README.dist docs/_build/html
 %license licenses/LICENSE.rst
 
 %endif # with_python3
 
 %changelog
+* Mon Jan 11 2016 Orion Poplawski <orion@cora.nwra.com> - 1.1.1-2
+- Modernize spec
+- Prepare for python3 in EPEL
+
 * Sun Jan 10 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1.1-1
 - New upstream (1.1.1)
 
