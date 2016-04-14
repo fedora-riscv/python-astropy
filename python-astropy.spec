@@ -7,8 +7,8 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 1.1.1
-Release: 3%{?dist}
+Version: 1.1.2
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -19,6 +19,17 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
+
+BuildRequires: python2-devel
+%if 0%{?with_python3}
+BuildRequires: python%{python3_pkgversion}-devel
+%endif # with_python3
+BuildRequires: git
+BuildRequires: expat-devel
+BuildRequires: cfitsio-devel
+BuildRequires: wcslib-devel >= 5.14
+BuildRequires: erfa-devel
+BuildRequires: texlive-ucs
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -32,17 +43,10 @@ coordinate transformations.
 Summary: A Community Python Library for Astronomy
 BuildRequires: python2-devel python-setuptools numpy
 BuildRequires: scipy h5py
-BuildRequires: git Cython pytest python-six python-ply
+BuildRequires: Cython pytest python-six python-ply
 BuildRequires: python-sphinx graphviz
 BuildRequires: python-matplotlib
 BuildRequires: python-configobj
-BuildRequires: expat-devel
-BuildRequires: cfitsio-devel
-BuildRequires: wcslib-devel >= 4.25
-BuildRequires: erfa-devel
-# 
-BuildRequires: texlive-ucs
-
 BuildRequires: PyYAML
 
 Requires: numpy
@@ -80,7 +84,6 @@ Summary: A Community Python Library for Astronomy
 BuildRequires: python%{python3_pkgversion}-devel
 BuildRequires: python%{python3_pkgversion}-setuptools
 BuildRequires: python%{python3_pkgversion}-numpy
-BuildRequires: git
 BuildRequires: python%{python3_pkgversion}-Cython
 BuildRequires: python%{python3_pkgversion}-pytest
 BuildRequires: python%{python3_pkgversion}-six
@@ -91,13 +94,7 @@ BuildRequires: python%{python3_pkgversion}-sphinx graphviz
 BuildRequires: python%{python3_pkgversion}-matplotlib
 BuildRequires: python%{python3_pkgversion}-configobj
 #
-BuildRequires: expat-devel
-BuildRequires: wcslib-devel >= 4.25
-BuildRequires: erfa-devel
-BuildRequires: cfitsio-devel
-BuildRequires: python%{python3_pkgversion}-devel
 #
-BuildRequires: texlive-ucs
 BuildRequires: python%{python3_pkgversion}-PyYAML
 
 Requires: python%{python3_pkgversion}-numpy
@@ -245,6 +242,10 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu Apr 14 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1.2-1
+- New upstream (1.1.2)
+- Uses wcslib 5
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
