@@ -7,13 +7,13 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 1.1.2
+Version: 1.2.1
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
-Source0: http://pypi.python.org/packages/source/a/astropy/astropy-%{version}.tar.gz
+Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
@@ -156,7 +156,7 @@ rm -rf astropy*egg-info
 %patch0 -p1
 # Use system pytest
 %patch1 -p1
-# Use system six
+## Use system six
 %patch2 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
@@ -242,6 +242,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Jul 15 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.2.1-1
+- New upstream (1.2.1)
+
 * Thu Apr 14 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.1.2-1
 - New upstream (1.1.2)
 - Uses wcslib 5
