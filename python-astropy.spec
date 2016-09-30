@@ -8,7 +8,7 @@
 
 Name: python-astropy
 Version: 1.2.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -19,6 +19,9 @@ Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
+# Fix problem with test 'test_circmean_against_scipy'
+# https://github.com/astropy/astropy/pull/5203
+Patch3: https://github.com/astropy/astropy/commit/2b363d2b1fb4c897fecedda563fb396d7c1bc6ec.patch
 
 BuildRequires: python2-devel
 %if 0%{?with_python3}
@@ -108,7 +111,7 @@ Requires: python%{python3_pkgversion}-h5py
 Requires: python%{python3_pkgversion}-PyYAML
 Requires: /usr/bin/xmllint
 
-%{?python_provide:%python_provide python2-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 Provides: bundled(jquery) = 1.11
 
 %description -n python%{python3_pkgversion}-%{srcname}
@@ -124,7 +127,7 @@ Summary: Documentation for %{name}, includes full API docs
 # Disabled for the moment to avoid name collision
 # of generated names between arches
 # BuildArch: noarch
-%{?python_provide:%python_provide python3-%{srcname}-doc}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}-doc}
  
 %description -n python%{python3_pkgversion}-%{srcname}-doc
 This package contains the full API documentation for %{name}.
@@ -160,6 +163,7 @@ rm -rf astropy*egg-info
 %patch2 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
+%patch3 -p1
 
 # Remove expat, erfa, cfitsio and wcslib
 rm -rf cextern/expat
@@ -242,6 +246,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Sep 30 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.2.1-3
+- Fix wrong provides of python3-astropy in python2-astropy (bz #1380135)
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.1-2
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
