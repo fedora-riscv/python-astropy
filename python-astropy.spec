@@ -1,8 +1,6 @@
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %global with_python3 1
 %endif
-# Not quite yet in Fedora
-%{!?python3_pkgversion:%global python3_pkgversion 3}
 
 %global srcname astropy
 
@@ -23,10 +21,6 @@ Patch2: python-astropy-system-six.patch
 # https://github.com/astropy/astropy/pull/5203
 Patch3: https://github.com/astropy/astropy/commit/2b363d2b1fb4c897fecedda563fb396d7c1bc6ec.patch
 
-BuildRequires: python2-devel
-%if 0%{?with_python3}
-BuildRequires: python%{python3_pkgversion}-devel
-%endif # with_python3
 BuildRequires: git
 BuildRequires: expat-devel
 BuildRequires: cfitsio-devel
