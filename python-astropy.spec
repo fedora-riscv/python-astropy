@@ -6,7 +6,7 @@
 
 Name: python-astropy
 Version: 1.2.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -240,6 +240,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Sun Nov 06 2016 Björn Esser <fedora@besser82.io> - 1.2.1-4
+- Rebuilt for ppc64
+
 * Fri Sep 30 2016 Sergio Pascual <sergiopr@fedoraproject.org> - 1.2.1-3
 - Fix wrong provides of python3-astropy in python2-astropy (bz #1380135)
 
