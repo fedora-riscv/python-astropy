@@ -35,7 +35,6 @@ Patch2: python-astropy-system-six.patch
 # Fix problem with test 'test_circmean_against_scipy'
 # https://github.com/astropy/astropy/pull/5203
 Patch3: https://github.com/astropy/astropy/commit/2b363d2b1fb4c897fecedda563fb396d7c1bc6ec.patch
-Patch4: https://patch-diff.githubusercontent.com/raw/astropy/astropy/pull/5466.patch
 
 BuildRequires: git
 BuildRequires: cfitsio-devel
@@ -187,7 +186,6 @@ rm -rf astropy*egg-info
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
 %patch3 -p1
-%patch4 -p1
 
 # Remove expat, erfa, cfitsio and wcslib
 rm -rf cextern/cfitsio
