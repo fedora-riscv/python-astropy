@@ -1,12 +1,27 @@
-%if 0%{?fedora} || 0%{?rhel} >= 7
+# Missing python3 deps in EPEL
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %global with_python3 1
+%endif
+
+# Doesn't work with erfa 1.3.0
+%if 0%{?fedora} >= 26
+%bcond_with system_erfa
+%else
+%bcond_without system_erfa
+%endif
+
+# EPEL has older wcslib
+%if 0%{?fedora} 
+%bcond_without system_wcslib
+%else
+%bcond_with system_wcslib
 %endif
 
 %global srcname astropy
 
 Name: python-astropy
 Version: 1.2.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -20,12 +35,21 @@ Patch2: python-astropy-system-six.patch
 # Fix problem with test 'test_circmean_against_scipy'
 # https://github.com/astropy/astropy/pull/5203
 Patch3: https://github.com/astropy/astropy/commit/2b363d2b1fb4c897fecedda563fb396d7c1bc6ec.patch
+Patch4: https://patch-diff.githubusercontent.com/raw/astropy/astropy/pull/5466.patch
 
 BuildRequires: git
-BuildRequires: expat-devel
 BuildRequires: cfitsio-devel
-BuildRequires: wcslib-devel >= 5.14
+BuildRequires: expat-devel
+%if %{with system_erfa}
 BuildRequires: erfa-devel
+%else
+Provides: bundled(erfa) = 1.2.0
+%endif
+%if %{with system_wcslib}
+BuildRequires: wcslib-devel >= 5.14
+%else
+Provides: bundled(wcslib) = 5.14
+%endif
 BuildRequires: texlive-ucs
 
 %description
@@ -39,17 +63,21 @@ coordinate transformations.
 %package -n python2-%{srcname}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python2-devel python-setuptools numpy
-BuildRequires: scipy h5py
+# Need 0.14 for scipy.special.factorial
+BuildRequires: scipy >= 0.14
+BuildRequires: h5py
 BuildRequires: Cython pytest python-six python-ply
 BuildRequires: python-sphinx graphviz
 BuildRequires: python-matplotlib
 BuildRequires: python-configobj
+BuildRequires: python2-pandas
 BuildRequires: PyYAML
 
 Requires: numpy
 Requires: python-configobj pytest python-six python-ply
 # Optionals
-Requires: scipy h5py
+Requires: scipy >= 0.14
+Requires: h5py
 Requires: PyYAML
 Requires: /usr/bin/xmllint
 
@@ -90,6 +118,7 @@ BuildRequires: python%{python3_pkgversion}-h5py
 BuildRequires: python%{python3_pkgversion}-sphinx graphviz
 BuildRequires: python%{python3_pkgversion}-matplotlib
 BuildRequires: python%{python3_pkgversion}-configobj
+BuildRequires: python%{python3_pkgversion}-pandas
 #
 #
 BuildRequires: python%{python3_pkgversion}-PyYAML
@@ -158,21 +187,36 @@ rm -rf astropy*egg-info
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
 %patch3 -p1
+%patch4 -p1
 
 # Remove expat, erfa, cfitsio and wcslib
-rm -rf cextern/expat
-rm -rf cextern/erfa
 rm -rf cextern/cfitsio
+%if %{with system_erfa}
+rm -rf cextern/erfa
+%endif
+rm -rf cextern/expat
+%if %{with system_wcslib}
 rm -rf cextern/wcslib
+%endif
 
 echo "[build]" >> setup.cfg
-echo "use_system_libraries=1" >> setup.cfg
+#echo "use_system_libraries=1" >> setup.cfg
+echo "use_system_cfitsio=1" >> setup.cfg
+%if %{with system_erfa}
+echo "use_system_erfa=1" >> setup.cfg
+%endif
+echo "use_system_expat=1" >> setup.cfg
+%if %{with system_wcslib}
+echo "use_system_wcslib=1" >> setup.cfg
+%endif
 
 
 %build
 %global py_setup_args --offline
 %{py2_build}
-%{__python2} setup.py build_sphinx --offline
+# Use cairo backend due to https://bugzilla.redhat.com/show_bug.cgi?id=1394975
+export MPLBACKEND=cairo
+%{__python2} setup.py build_sphinx --offline %{?epel:|| :}
 rm -f docs/_build/html/.buildinfo
 
 %if 0%{?with_python3}
@@ -206,12 +250,12 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
 pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not test_web_profile" astropy
+py.test-%{python2_version} -k "not (test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient)" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not test_web_profile" astropy
+py.test-%{python3_version} -k "not (test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient)" astropy
 popd
 %endif # with_python3
  
@@ -240,6 +284,12 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Nov 21 2016 Orion Poplawski <orion@cora.nwra.com> - 1.2.1-5
+- Use bundled erfa and wcslib where necessary (bug #1396601)
+- Specify scipy version requirements
+- Use cairo matplotlib backend due to ppc64 segfault
+- Add BR on pandas for tests
+
 * Sun Nov 06 2016 Björn Esser <fedora@besser82.io> - 1.2.1-4
 - Rebuilt for ppc64
 
