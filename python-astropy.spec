@@ -21,7 +21,7 @@
 
 Name: python-astropy
 Version: 1.2.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -282,6 +282,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-6
+- Rebuild for Python 3.6
+
 * Mon Nov 21 2016 Orion Poplawski <orion@cora.nwra.com> - 1.2.1-5
 - Use bundled erfa and wcslib where necessary (bug #1396601)
 - Specify scipy version requirements
