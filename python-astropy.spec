@@ -20,21 +20,18 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 1.2.1
-Release: 6%{?dist}
+Version: 1.3
+Release: 0.1.rc1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
-Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}.tar.gz
+Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}rc1.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-pytest.patch
 Patch2: python-astropy-system-six.patch
-# Fix problem with test 'test_circmean_against_scipy'
-# https://github.com/astropy/astropy/pull/5203
-Patch3: https://github.com/astropy/astropy/commit/2b363d2b1fb4c897fecedda563fb396d7c1bc6ec.patch
 
 BuildRequires: git
 BuildRequires: cfitsio-devel
@@ -172,7 +169,7 @@ Requires: python-%{srcname} = %{version}-%{release}
 Utilities provided by Astropy
  
 %prep
-%setup -qn %{srcname}-%{version}
+%setup -qn %{srcname}-%{version}rc1
 cp %{SOURCE1} README.dist
 # Required to support wcslib 4.5
 find -name wcsconfig.h -delete
@@ -185,7 +182,6 @@ rm -rf astropy*egg-info
 %patch2 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
-%patch3 -p1
 
 # Remove expat, erfa, cfitsio and wcslib
 rm -rf cextern/cfitsio
@@ -282,6 +278,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed Dec 21 2016 Orion Poplawski <orion@cora.nwra.com> - 1.3-0.1.rc1
+- Update to 1.3rc1
+
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-6
 - Rebuild for Python 3.6
 
