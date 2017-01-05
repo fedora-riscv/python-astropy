@@ -21,12 +21,12 @@
 
 Name: python-astropy
 Version: 1.3
-Release: 0.1.rc1%{?dist}
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
-Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}rc1.tar.gz
+Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
@@ -169,7 +169,7 @@ Requires: python-%{srcname} = %{version}-%{release}
 Utilities provided by Astropy
  
 %prep
-%setup -qn %{srcname}-%{version}rc1
+%setup -qn %{srcname}-%{version}
 cp %{SOURCE1} README.dist
 # Required to support wcslib 4.5
 find -name wcsconfig.h -delete
@@ -278,6 +278,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu Jan 5 2017 Orion Poplawski <orion@cora.nwra.com> - 1.3-1
+- Update to 1.3
+
 * Wed Dec 21 2016 Orion Poplawski <orion@cora.nwra.com> - 1.3-0.1.rc1
 - Update to 1.3rc1
 
