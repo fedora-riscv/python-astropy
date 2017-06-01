@@ -20,7 +20,7 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 1.3.2
+Version: 1.3.3
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -278,6 +278,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Thu Jun 01 2017 Christian Dersch <lupinix@mailbox.org> - 1.3.3-1
+- new version
+
 * Sun Apr 02 2017 Christian Dersch <lupinix@mailbox.org> - 1.3.2-1
 - new version
 
