@@ -20,8 +20,8 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 1.3.3
-Release: 3%{?dist}
+Version: 2.0.2
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -30,8 +30,8 @@ Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}.tar.gz
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
-Patch1: python-astropy-system-pytest.patch
-Patch2: python-astropy-system-six.patch
+Patch1: python-astropy-system-six.patch
+Patch2: python-astropy-fix-hdf5-test.patch
 
 BuildRequires: git
 BuildRequires: cfitsio-devel
@@ -176,9 +176,9 @@ find -name wcsconfig.h -delete
 rm -rf astropy*egg-info
 # Use system configobj
 %patch0 -p1
-# Use system pytest
-%patch1 -p1
 ## Use system six
+%patch1 -p1
+# Fix hdf5 test, https://github.com/astropy/astropy/pull/6535
 %patch2 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
@@ -244,18 +244,18 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
 pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not (test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient)" astropy
+py.test-%{python2_version} -k "not (test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile)" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not (test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient)" astropy
+py.test-%{python3_version} -k "not (test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile)" astropy
 popd
 %endif # with_python3
  
 %files -n python2-%{srcname}
 %doc README.rst README.dist
-%license licenses/LICENSE.rst
+%license LICENSE.rst
 %{python2_sitearch}/*
 
 %files -n %{srcname}-tools
@@ -263,21 +263,24 @@ popd
 
 %files -n python2-%{srcname}-doc
 %doc README.rst README.dist docs/_build/html
-%license licenses/LICENSE.rst
+%license LICENSE.rst
 
 %if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-%{srcname}
 %doc README.rst README.dist
-%license licenses/LICENSE.rst
+%license LICENSE.rst
 %{python3_sitearch}/*
 
 %files -n python%{python3_pkgversion}-%{srcname}-doc
 %doc README.rst README.dist docs/_build/html
-%license licenses/LICENSE.rst
+%license LICENSE.rst
 
 %endif # with_python3
 
 %changelog
+* Sun Oct 08 2017 Christian Dersch <lupinix@mailbox.org> - 2.0.2-1
+- new version
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 

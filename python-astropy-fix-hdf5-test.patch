@@ -1,0 +1,13 @@
+diff -Naur astropy/astropy/io/misc/tests/test_hdf5.py astropy.new/astropy/io/misc/tests/test_hdf5.py
+--- astropy/astropy/io/misc/tests/test_hdf5.py	2017-09-08 16:43:52.000000000 +0200
++++ astropy.new/astropy/io/misc/tests/test_hdf5.py	2017-10-08 11:18:36.312982468 +0200
+@@ -413,7 +413,8 @@
+     assert len(w) == 1
+     assert str(w[0].message).startswith(
+         "Attributes could not be written to the output HDF5 "
+-        "file: Unable to create attribute (Object header message is too large)")
++        "file: Unable to create attribute ")
++    assert "bject header message is too large" in str(w[0].message)
+ 
+ 
+ @pytest.mark.skipif('not HAS_H5PY')
