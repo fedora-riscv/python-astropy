@@ -17,7 +17,7 @@
 
 Name: python-astropy
 Version: 2.0.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
