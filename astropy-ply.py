@@ -23,7 +23,7 @@ def _find_module(name, path=None):
 
     return fh, path, descr
 
-_PLY_MIN_VERSION = StrictVersion('3.4')
+_PLY_MIN_VERSION = StrictVersion('3.9')
 
 # Update this to prevent Astropy from using its bundled copy of ply
 # (but only if some other version of at least _PLY_MIN_VERSION can

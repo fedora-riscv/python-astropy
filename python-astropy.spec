@@ -3,12 +3,8 @@
 %global with_python3 1
 %endif
 
-# Doesn't work with erfa 1.3.0
-%if 0%{?fedora} >= 26
-%bcond_with system_erfa
-%else
+# Works with system erfa
 %bcond_without system_erfa
-%endif
 
 # EPEL has older wcslib
 %if 0%{?fedora} 
@@ -39,12 +35,12 @@ BuildRequires: expat-devel
 %if %{with system_erfa}
 BuildRequires: erfa-devel
 %else
-Provides: bundled(erfa) = 1.2.0
+Provides: bundled(erfa) = 1.3.0
 %endif
 %if %{with system_wcslib}
 BuildRequires: wcslib-devel >= 5.14
 %else
-Provides: bundled(wcslib) = 5.14
+Provides: bundled(wcslib) = 5.16
 %endif
 BuildRequires: texlive-ucs
 
@@ -278,6 +274,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Mon Oct 09 2017 Sergio Pascual <sergiopr@fedoraproject.org> - 2.0.2-2
+- Use system erfa
+
 * Sun Oct 08 2017 Christian Dersch <lupinix@mailbox.org> - 2.0.2-1
 - new version
 
