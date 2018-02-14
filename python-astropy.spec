@@ -17,7 +17,7 @@
 
 Name: python-astropy
 Version: 2.0.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -75,6 +75,11 @@ Requires: /usr/bin/xmllint
 %{?python_provide:%python_provide python2-%{srcname}}
 Provides: bundled(jquery) = 1.11
 
+# wcsaxes has been merged into astropy, therefore we obsolete and provide
+# the old python-wcsaxes package here
+Provides:  python2-wcsaxes = %{version}-%{release}
+Obsoletes: python2-wcsaxes < 0.9-9
+
 %description -n python2-%{srcname}
 The Astropy project is a common effort to develop a single core package 
 for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
@@ -128,6 +133,11 @@ Requires: /usr/bin/xmllint
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 Provides: bundled(jquery) = 1.11
 
+# wcsaxes has been merged into astropy, therefore we obsolete and provide
+# the old python3-wcsaxes package here
+Provides:  python%{python3_pkgversion}-wcsaxes = %{version}-%{release}
+Obsoletes: python%{python3_pkgversion}-wcsaxes < 0.9-9
+
 %description -n python%{python3_pkgversion}-%{srcname}
 The Astropy project is a common effort to develop a single core package 
 for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
@@ -142,7 +152,12 @@ Summary: Documentation for %{name}, includes full API docs
 # of generated names between arches
 # BuildArch: noarch
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}-doc}
- 
+
+# wcsaxes has been merged into astropy, therefore we obsolete and provide
+# the old python3-wcsaxes-doc package here
+Provides:  python%{python3_pkgversion}-wcsaxes-doc = %{version}-%{release}
+Obsoletes: python%{python3_pkgversion}-wcsaxes-doc < 0.9-9
+
 %description -n python%{python3_pkgversion}-%{srcname}-doc
 This package contains the full API documentation for %{name}.
 
@@ -273,6 +288,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Wed Feb 14 2018 Christian Dersch <lupinix@mailbox.org> - 2.0.4-2
+- Provide and Obsolete python-wcsaxes, which has been merged into astropy
+
 * Tue Feb 13 2018 Christian Dersch <lupinix@mailbox.org> - 2.0.4-1
 - update to bugfix release 2.0.4
 - fixes FTBFS on rawhide (due to fixes for newer numpy etc.)
