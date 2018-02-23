@@ -17,7 +17,7 @@
 
 Name: python-astropy
 Version: 2.0.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -288,6 +288,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Feb 23 2018 Christian Dersch <lupinix@mailbox.org> - 2.0.4-3
+- rebuilt for cfitsio 3.420 (so version bump)
+
 * Wed Feb 14 2018 Christian Dersch <lupinix@mailbox.org> - 2.0.4-2
 - Provide and Obsolete python-wcsaxes, which has been merged into astropy
 
