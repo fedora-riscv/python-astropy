@@ -255,12 +255,12 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 # See https://github.com/astropy/astropy/issues/7214
 %ifnarch s390x
 pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not (test__str__ or test_repr_latex or test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile)" astropy
+py.test-%{python2_version} -k "not (test__str__ or test_repr_latex or test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile or test_mask_array)" astropy
 popd
 
 %if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not (test__str__ or test_repr_latex or test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile)" astropy
+py.test-%{python3_version} -k "not (test__str__ or test_repr_latex or test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile or test_mask_array)" astropy
 popd
 %endif # with_python3
 %endif # ifnarch s390x
