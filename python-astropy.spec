@@ -251,8 +251,6 @@ mkdir -p docs/_build3/
 find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
-# test__str__ and test_repr_latex failing due to issue with numpy 1.14.1
-# See https://github.com/astropy/astropy/issues/7214
 %ifnarch s390x
 pushd %{buildroot}/%{python2_sitearch}
 py.test-%{python2_version} -k "not (test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile or test_mask_array)" astropy
