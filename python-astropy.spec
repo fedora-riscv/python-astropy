@@ -1,8 +1,3 @@
-# Missing python3 deps in EPEL
-%if 0%{?fedora} || 0%{?rhel} >= 8
-%global with_python3 1
-%endif
-
 # Works with system erfa
 %bcond_without system_erfa
 
@@ -16,7 +11,7 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 2.0.5
+Version: 3.0.1
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -27,6 +22,9 @@ Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-six.patch
+# Disable known failing tests, taken from Debian
+# https://salsa.debian.org/debian-astro-team/astropy/blob/3b20ea052ab8bd0af505380eb4f0c357c901bb3b/debian/patches/Mark-all-known-test-failures-as-xfail.patch
+Patch2: python-astropy-Mark-all-known-test-failures-as-xfail.patch
 
 BuildRequires: git
 BuildRequires: cfitsio-devel
@@ -51,55 +49,6 @@ particular, we are developing imaging, photometric, and spectroscopic
 functionality, as well as frameworks for cosmology, unit handling, and 
 coordinate transformations.
 
-%package -n python2-%{srcname}
-Summary: A Community Python Library for Astronomy
-BuildRequires: python2-devel python-setuptools numpy
-# Need 0.14 for scipy.special.factorial
-BuildRequires: scipy >= 0.14
-BuildRequires: h5py
-BuildRequires: Cython pytest python-six python-ply
-BuildRequires: python-sphinx graphviz
-BuildRequires: python-matplotlib
-BuildRequires: python-configobj
-BuildRequires: python2-pandas
-BuildRequires: PyYAML
-
-Requires: numpy
-Requires: python-configobj pytest python-six python-ply
-# Optionals
-Requires: scipy >= 0.14
-Requires: h5py
-Requires: PyYAML
-Requires: /usr/bin/xmllint
-
-%{?python_provide:%python_provide python2-%{srcname}}
-Provides: bundled(jquery) = 1.11
-
-# wcsaxes has been merged into astropy, therefore we obsolete and provide
-# the old python-wcsaxes package here
-Provides:  python2-wcsaxes = %{version}-%{release}
-Obsoletes: python2-wcsaxes < 0.9-9
-
-%description -n python2-%{srcname}
-The Astropy project is a common effort to develop a single core package 
-for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
-already merged in, and many more components being worked on. In 
-particular, we are developing imaging, photometric, and spectroscopic 
-functionality, as well as frameworks for cosmology, unit handling, and 
-coordinate transformations.
-
-%package -n python2-%{srcname}-doc
-Summary: Documentation for %{name}, includes full API docs
-# Disabled for the moment to avoid name collision
-# of generated names between arches
-# BuildArch: noarch
-%{?python_provide:%python_provide python2-%{srcname}-doc}
- 
-%description -n python2-%{srcname}-doc
-This package contains the full API documentation for %{name}.
-
-
-%if 0%{?with_python3}
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python%{python3_pkgversion}-devel
@@ -107,6 +56,7 @@ BuildRequires: python%{python3_pkgversion}-setuptools
 BuildRequires: python%{python3_pkgversion}-numpy
 BuildRequires: python%{python3_pkgversion}-Cython
 BuildRequires: python%{python3_pkgversion}-pytest
+BuildRequires: python%{python3_pkgversion}-pytest-astropy
 BuildRequires: python%{python3_pkgversion}-six
 BuildRequires: python%{python3_pkgversion}-ply
 BuildRequires: python%{python3_pkgversion}-scipy
@@ -115,8 +65,6 @@ BuildRequires: python%{python3_pkgversion}-sphinx graphviz
 BuildRequires: python%{python3_pkgversion}-matplotlib
 BuildRequires: python%{python3_pkgversion}-configobj
 BuildRequires: python%{python3_pkgversion}-pandas
-#
-#
 BuildRequires: python%{python3_pkgversion}-PyYAML
 
 Requires: python%{python3_pkgversion}-numpy
@@ -161,7 +109,6 @@ Obsoletes: python%{python3_pkgversion}-wcsaxes-doc < 0.9-9
 %description -n python%{python3_pkgversion}-%{srcname}-doc
 This package contains the full API documentation for %{name}.
 
-%endif # with_python3
 
 %package -n %{srcname}-tools
 Summary: Astropy utility tools
@@ -190,6 +137,8 @@ rm -rf astropy*egg-info
 %patch1 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
+# Mark known test failures as xfail
+%patch2 -p1
 
 # Remove expat, erfa, cfitsio and wcslib
 rm -rf cextern/cfitsio
@@ -215,67 +164,29 @@ echo "use_system_wcslib=1" >> setup.cfg
 
 %build
 %global py_setup_args --offline
-%{py2_build}
 # Use cairo backend due to https://bugzilla.redhat.com/show_bug.cgi?id=1394975
 export MPLBACKEND=cairo
-%{__python2} setup.py build_sphinx --offline %{?epel:|| :}
+%{py3_build}
+%{__python3} setup.py build_sphinx --offline
 rm -f docs/_build/html/.buildinfo
 
-%if 0%{?with_python3}
-%{py3_build}
-#%{__python3} setup.py build_sphinx --offline
-#rm -f docs/_build/html/.buildinfo
-mkdir -p docs/_build3/
-%endif # with_python3
-
 %install
-%if 0%{?fedora}
-
-%{py2_install}
-
-%if 0%{?with_python3}
 %{py3_install}
-%endif # with_python3
-
-%else
-
-%if 0%{?with_python3}
-%{py3_install}
-%endif # with_python3
-
-%{py2_install}
-
-%endif # fedora
-
 
 find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
+# Tests on s390x tend to stuck (already for scipy used by astropy)
 %ifnarch s390x
-pushd %{buildroot}/%{python2_sitearch}
-py.test-%{python2_version} -k "not (test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile or test_mask_array)" astropy
-popd
-
-%if 0%{?with_python3}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not (test_write_read_roundtrip or test_web_profile or TestStandardProfileHTTPSHub or TestStandardProfileHTTPSHubClient or TestStandardProfile or test_mask_array)" astropy
+py.test-%{python3_version} -k "not test_write_read_roundtrip" astropy
 popd
-%endif # with_python3
 %endif # ifnarch s390x
  
-%files -n python2-%{srcname}
-%doc README.rst README.dist
-%license LICENSE.rst
-%{python2_sitearch}/*
 
 %files -n %{srcname}-tools
 %{_bindir}/*
 
-%files -n python2-%{srcname}-doc
-%doc README.rst README.dist docs/_build/html
-%license LICENSE.rst
-
-%if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-%{srcname}
 %doc README.rst README.dist
 %license LICENSE.rst
@@ -285,9 +196,13 @@ popd
 %doc README.rst README.dist docs/_build/html
 %license LICENSE.rst
 
-%endif # with_python3
-
 %changelog
+* Sat Mar 17 2018 Christian Dersch <lupinix@mailbox.org> - 3.0.1-1
+- new version
+- cleaned up excluded tests, adapted patch from Debian for known failures
+- removed Python 2 bits (in new package python2-astropy), astropy moved to
+  Python 3 only
+
 * Wed Mar 14 2018 Christian Dersch <lupinix@mailbox.org> - 2.0.5-1
 - new version
 - enabled fixed tests
