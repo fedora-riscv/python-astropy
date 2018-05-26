@@ -180,6 +180,8 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 %ifnarch s390x
 pushd %{buildroot}/%{python3_sitearch}
 py.test-%{python3_version} -k "not test_write_read_roundtrip" astropy
+# Remove spurious test relict
+rm -fr .pytest_cache
 popd
 %endif # ifnarch s390x
  
