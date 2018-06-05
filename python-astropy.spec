@@ -11,7 +11,7 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 3.0.2
+Version: 3.0.3
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -199,6 +199,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Tue Jun 05 2018 Sergio Pascual <sergiopr@fedoraproject.org> - 3.0.3-1
+- New release (3.0.3)
+
 * Sat May 26 2018 Christian Dersch <lupinix@mailbox.org> - 3.0.2-1
 - new version
 
