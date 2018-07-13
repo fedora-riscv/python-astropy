@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.0.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -202,6 +202,9 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 %license LICENSE.rst
 
 %changelog
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Thu Jun 28 2018 Christian Dersch <lupinix@fedoraproject.org> - 3.0.3-3
 - Disable tests until we have the pyyaml fix
   https://github.com/yaml/pyyaml/pull/181
