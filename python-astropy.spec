@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.0.3
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -26,6 +26,7 @@ Patch1: python-astropy-system-six.patch
 # https://salsa.debian.org/debian-astro-team/astropy/blob/3b20ea052ab8bd0af505380eb4f0c357c901bb3b/debian/patches/Mark-all-known-test-failures-as-xfail.patch
 Patch2: python-astropy-Mark-all-known-test-failures-as-xfail.patch
 
+BuildRequires: gcc
 BuildRequires: git
 BuildRequires: cfitsio-devel
 BuildRequires: expat-devel
@@ -202,6 +203,9 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 %license LICENSE.rst
 
 %changelog
+* Sun Jul 15 2018 Christian Dersch <lupinix@fedoraproject.org> - 3.0.3-5
+- BuildRequires: gcc
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
