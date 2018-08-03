@@ -11,20 +11,21 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 3.0.3
-Release: 5%{?dist}
+Version: 3.0.4
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
-Source0: https://pypi.io/packages/source/a/astropy/astropy-%{version}.tar.gz
+Source0: %{pypi_source}
 Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-six.patch
-# Disable known failing tests, taken from Debian
-# https://salsa.debian.org/debian-astro-team/astropy/blob/3b20ea052ab8bd0af505380eb4f0c357c901bb3b/debian/patches/Mark-all-known-test-failures-as-xfail.patch
-Patch2: python-astropy-Mark-all-known-test-failures-as-xfail.patch
+
+# Exclude s390x until broken numpy is fixed
+# https://bugzilla.redhat.com/show_bug.cgi?id=1610996
+ExcludeArch: s390x
 
 BuildRequires: gcc
 BuildRequires: git
@@ -138,8 +139,9 @@ rm -rf astropy*egg-info
 %patch1 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
-# Mark known test failures as xfail
-%patch2 -p1
+
+# Force Cython re-run
+echo "cython_version = 'unknown'" > astropy/cython_version.py
 
 # Remove expat, erfa, cfitsio and wcslib
 rm -rf cextern/cfitsio
@@ -177,17 +179,24 @@ rm -f docs/_build/html/.buildinfo
 find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
-# Disable tests until we have that fix in Fedoray pyyaml package
-# check: https://github.com/yaml/pyyaml/pull/181
+# Disable test test_fail_meta_serialize until we have fixed Fedora pyyaml package
 #
 # Tests on s390x tend to stuck (already for scipy used by astropy)
-#%%ifnarch s390x
-#pushd %%{buildroot}/%%{python3_sitearch}
-#py.test-%%{python3_version} -k "not test_write_read_roundtrip" astropy
+%ifnarch s390x %{power64}
+pushd %{buildroot}/%{python3_sitearch}
+py.test-%{python3_version} -k "not test_fail_meta_serialize" astropy
 # Remove spurious test relict
-#rm -fr .pytest_cache
-#popd
-#%%endif # ifnarch s390x
+rm -fr .pytest_cache
+popd
+%endif # ifnarch s390x %{power64}
+# Execute tests on power64 excluding failing test_str() and test_fail_meta_serialize()
+%ifarch %{power64}
+pushd %{buildroot}/%{python3_sitearch}
+py.test-%{python3_version} -k "(not test_fail_meta_serialize or test_str)" astropy
+# Remove spurious test relict
+rm -fr .pytest_cache
+popd
+%endif # ifarch %{power64}
  
 
 %files -n %{srcname}-tools
@@ -202,7 +211,13 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 %doc README.rst README.dist docs/_build/html
 %license LICENSE.rst
 
+
 %changelog
+* Fri Aug 03 2018 Christian Dersch <lupinix.fedora@gmail.com> - 3.0.4-1
+- new version (3.0.4)
+- reenable tests
+- ExcludeArch s390x until #1610996 is fixed
+
 * Sun Jul 15 2018 Christian Dersch <lupinix@fedoraproject.org> - 3.0.3-5
 - BuildRequires: gcc
 
