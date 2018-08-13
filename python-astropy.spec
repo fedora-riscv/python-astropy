@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.0.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -22,10 +22,6 @@ Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-six.patch
-
-# Exclude s390x until broken numpy is fixed
-# https://bugzilla.redhat.com/show_bug.cgi?id=1610996
-ExcludeArch: s390x
 
 BuildRequires: gcc
 BuildRequires: git
@@ -213,6 +209,9 @@ popd
 
 
 %changelog
+* Mon Aug 13 2018 Miro Hrončok <mhroncok@redhat.com> - 3.0.4-2
+- Enable s390x (#1610996)
+
 * Fri Aug 03 2018 Christian Dersch <lupinix.fedora@gmail.com> - 3.0.4-1
 - new version (3.0.4)
 - reenable tests
