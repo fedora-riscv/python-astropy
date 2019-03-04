@@ -11,8 +11,8 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 3.0.5
-Release: 2%{?dist}
+Version: 3.1.2
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -33,11 +33,12 @@ BuildRequires: erfa-devel
 Provides: bundled(erfa) = 1.3.0
 %endif
 %if %{with system_wcslib}
-BuildRequires: wcslib-devel >= 5.14
+BuildRequires: wcslib-devel >= 5.19
 %else
-Provides: bundled(wcslib) = 5.16
+Provides: bundled(wcslib) = 5.19
 %endif
 BuildRequires: texlive-ucs
+BuildRequires: graphviz
 
 %description
 The Astropy project is a common effort to develop a single core package 
@@ -59,7 +60,7 @@ BuildRequires: python%{python3_pkgversion}-six
 BuildRequires: python%{python3_pkgversion}-ply
 BuildRequires: python%{python3_pkgversion}-scipy
 BuildRequires: python%{python3_pkgversion}-h5py
-BuildRequires: python%{python3_pkgversion}-sphinx graphviz
+BuildRequires: python%{python3_pkgversion}-sphinx
 BuildRequires: python%{python3_pkgversion}-matplotlib
 BuildRequires: python%{python3_pkgversion}-configobj
 BuildRequires: python%{python3_pkgversion}-pandas
@@ -77,7 +78,7 @@ Requires: python%{python3_pkgversion}-PyYAML
 Requires: /usr/bin/xmllint
 
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
-Provides: bundled(jquery) = 1.11
+Provides: bundled(jquery) = 3.11
 
 # wcsaxes has been merged into astropy, therefore we obsolete and provide
 # the old python3-wcsaxes package here
@@ -131,7 +132,7 @@ find -name wcsconfig.h -delete
 rm -rf astropy*egg-info
 # Use system configobj
 %patch0 -p1
-## Use system six
+# Use system six
 %patch1 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
@@ -166,7 +167,8 @@ echo "use_system_wcslib=1" >> setup.cfg
 # Use cairo backend due to https://bugzilla.redhat.com/show_bug.cgi?id=1394975
 export MPLBACKEND=cairo
 %{py3_build}
-%{__python3} setup.py build_sphinx --offline
+# Requires sphinx-astropy
+#%{__python3} setup.py build_docs --offline
 rm -f docs/_build/html/.buildinfo
 
 %install
@@ -175,22 +177,23 @@ rm -f docs/_build/html/.buildinfo
 find %{buildroot} -name "*.so" | xargs chmod 755
 
 %check
+# Avoid writing bad pyc files during testing
+export PYTHONDONTWRITEBYTECODE=1
+export PYTEST_ADDOPTS='-p no:cacheprovider'
+
 # Disable test test_fail_meta_serialize until we have fixed Fedora pyyaml package
 #
 # Tests on s390x tend to stuck (already for scipy used by astropy)
 %ifnarch s390x %{power64}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not test_fail_meta_serialize" astropy
-# Remove spurious test relict
-rm -fr .pytest_cache
+  py.test-%{python3_version} -k "not test_fail_meta_serialize" astropy
 popd
 %endif # ifnarch s390x %{power64}
+
 # Execute tests on power64 excluding failing test_str, test_fail_meta_serialize and test_write_read_roundtrip
 %ifarch %{power64}
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not (test_fail_meta_serialize or test_str or test_write_read_roundtrip)" astropy
-# Remove spurious test relict
-rm -fr .pytest_cache
+  py.test-%{python3_version} -x -k "not (test_fail_meta_serialize or test_str or test_write_read_roundtrip)" astropy
 popd
 %endif # ifarch %{power64}
  
@@ -204,11 +207,15 @@ popd
 %{python3_sitearch}/*
 
 %files -n python%{python3_pkgversion}-%{srcname}-doc
-%doc README.rst README.dist docs/_build/html
+##%doc README.rst README.dist docs/_build/html
+%doc README.rst README.dist 
 %license LICENSE.rst
 
 
 %changelog
+* Mon Mar 04 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.1.2-1
+- New version (3.1.2)
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
