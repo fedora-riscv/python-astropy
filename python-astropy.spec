@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.1.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -22,6 +22,9 @@ Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-six.patch
+# Import upstream fix for PyYAML 5
+# https://github.com/astropy/astropy/pull/8500
+Patch2: python-astropy-fix-pyyaml5-8500.patch
 
 BuildRequires: gcc
 BuildRequires: git
@@ -136,6 +139,8 @@ rm -rf astropy*egg-info
 %patch1 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
+# Fix for PyYAML 5.x
+%patch2 -p1
 
 # Force Cython re-run
 echo "cython_version = 'unknown'" > astropy/cython_version.py
@@ -181,22 +186,14 @@ find %{buildroot} -name "*.so" | xargs chmod 755
 export PYTHONDONTWRITEBYTECODE=1
 export PYTEST_ADDOPTS='-p no:cacheprovider'
 
-# Disable test test_fail_meta_serialize until we have fixed Fedora pyyaml package
+# Disable test test_scale_back_with_blanks until we have a fix
 #
 # Tests on s390x tend to stuck (already for scipy used by astropy)
-%ifnarch s390x %{power64}
+%ifnarch s390x
 pushd %{buildroot}/%{python3_sitearch}
-  py.test-%{python3_version} -k "not test_fail_meta_serialize" astropy
+  py.test-%{python3_version} -k "not test_scale_back_with_blanks" astropy
 popd
-%endif # ifnarch s390x %{power64}
-
-# Execute tests on power64 excluding failing test_str, test_fail_meta_serialize and test_write_read_roundtrip
-%ifarch %{power64}
-pushd %{buildroot}/%{python3_sitearch}
-  py.test-%{python3_version} -x -k "not (test_fail_meta_serialize or test_str or test_write_read_roundtrip)" astropy
-popd
-%endif # ifarch %{power64}
- 
+%endif # ifnarch s390x 
 
 %files -n %{srcname}-tools
 %{_bindir}/*
@@ -213,6 +210,9 @@ popd
 
 
 %changelog
+* Fri Mar 29 2019 Christian Dersch <lupinix@fedoraproject.org> - 3.1.2-2
+- Imported upstream fix for PyYAML 5.x
+
 * Mon Mar 04 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.1.2-1
 - New version (3.1.2)
 

@@ -1,0 +1,49 @@
+From c531e498de2c4d39a0eccc02f92a3645a8394dee Mon Sep 17 00:00:00 2001
+From: Tom Aldcroft <taldcroft@gmail.com>
+Date: Fri, 15 Mar 2019 11:30:46 -0400
+Subject: [PATCH 1/2] Set YAML default_flow_style=None for consistent output
+ with PyYAML version >= 5.1
+
+---
+ astropy/io/misc/tests/test_hdf5.py | 3 ++-
+ astropy/io/misc/yaml.py            | 1 +
+ astropy/table/meta.py              | 3 ++-
+ 4 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/astropy/io/misc/tests/test_hdf5.py b/astropy/io/misc/tests/test_hdf5.py
+index 25f29ebc5ed..9ab6924bee3 100644
+--- a/astropy/io/misc/tests/test_hdf5.py
++++ b/astropy/io/misc/tests/test_hdf5.py
+@@ -538,7 +538,8 @@ def test_fail_meta_serialize(tmpdir):
+ 
+     with pytest.raises(Exception) as err:
+         t1.write(test_file, path='the_table', serialize_meta=True)
+-    assert "cannot represent an object: <class 'str'>" in str(err)
++    assert "cannot represent an object" in str(err)
++    assert "<class 'str'>" in str(err)
+ 
+ 
+ @pytest.mark.skipif('not HAS_H5PY')
+diff --git a/astropy/io/misc/yaml.py b/astropy/io/misc/yaml.py
+index 6f5146c432b..5276ed7d8fe 100644
+--- a/astropy/io/misc/yaml.py
++++ b/astropy/io/misc/yaml.py
+@@ -352,4 +352,5 @@ def dump(data, stream=None, **kwargs):
+ 
+     """
+     kwargs['Dumper'] = AstropyDumper
++    kwargs.setdefault('default_flow_style', None)
+     return yaml.dump(data, stream=stream, **kwargs)
+diff --git a/astropy/table/meta.py b/astropy/table/meta.py
+index 9b55522a72b..8837cb3db12 100644
+--- a/astropy/table/meta.py
++++ b/astropy/table/meta.py
+@@ -287,7 +287,8 @@ def represent_mapping(self, tag, mapping, flow_style=None):
+     header['datatype'] = [_get_col_attributes(col) for col in header['cols']]
+     del header['cols']
+ 
+-    lines = yaml.dump(header, Dumper=TableDumper, width=130).splitlines()
++    lines = yaml.dump(header, default_flow_style=None,
++                      Dumper=TableDumper, width=130).splitlines()
+     return lines
+ 
