@@ -45,13 +45,15 @@ Provides: bundled(wcslib) = 5.19
 BuildRequires: texlive-ucs
 BuildRequires: graphviz
 
-%description
-The Astropy project is a common effort to develop a single core package 
-for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
-already merged in, and many more components being worked on. In 
-particular, we are developing imaging, photometric, and spectroscopic 
-functionality, as well as frameworks for cosmology, unit handling, and 
-coordinate transformations.
+%global _description %{expand:
+The Astropy project is a common effort to develop a single core package
+for Astronomy. Major packages such as PyFITS, PyWCS, vo, and asciitable
+already merged in, and many more components being worked on. In
+particular, we are developing imaging, photometric, and spectroscopic
+functionality, as well as frameworks for cosmology, unit handling, and
+coordinate transformations.}
+
+%description %_description
 
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary: A Community Python Library for Astronomy
@@ -90,13 +92,7 @@ Provides: bundled(jquery) = 3.11
 Provides:  python%{python3_pkgversion}-wcsaxes = %{version}-%{release}
 Obsoletes: python%{python3_pkgversion}-wcsaxes < 0.9-9
 
-%description -n python%{python3_pkgversion}-%{srcname}
-The Astropy project is a common effort to develop a single core package 
-for Astronomy.  Major packages such as PyFITS, PyWCS, vo, and asciitable 
-already merged in, and many more components being worked on. In 
-particular, we are developing imaging, photometric, and spectroscopic 
-functionality, as well as frameworks for cosmology, unit handling, and 
-coordinate transformations.
+%description -n python%{python3_pkgversion}-%{srcname} %_description
 
 %package -n python%{python3_pkgversion}-%{srcname}-doc
 Summary: Documentation for %{name}, includes full API docs
@@ -127,7 +123,7 @@ Requires: python-%{srcname} = %{version}-%{release}
 
 
 %description -n %{srcname}-tools
-Utilities provided by Astropy
+Utilities provided by Astropy.
  
 %prep
 %setup -qn %{srcname}-%{version}
