@@ -26,6 +26,8 @@ Patch1: python-astropy-system-six.patch
 # https://github.com/astropy/astropy/pull/8500
 Patch2: python-astropy-fix-pyyaml5-8500.patch
 
+Patch3: https://github.com/astropy/astropy/commit/8b3d0ccc2381919c8de944caa6485eb88d13e819.patch
+
 BuildRequires: gcc
 BuildRequires: git
 BuildRequires: cfitsio-devel
@@ -141,6 +143,8 @@ rm -rf astropy*egg-info
 cp %{SOURCE2} astropy/extern/ply.py
 # Fix for PyYAML 5.x
 %patch2 -p1
+
+%patch3 -p1
 
 # Force Cython re-run
 echo "cython_version = 'unknown'" > astropy/cython_version.py
