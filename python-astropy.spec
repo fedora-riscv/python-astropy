@@ -2,7 +2,7 @@
 %bcond_without system_erfa
 
 # EPEL has older wcslib
-%if 0%{?fedora} 
+%if 0%{?fedora}
 %bcond_without system_wcslib
 %else
 %bcond_with system_wcslib
@@ -124,7 +124,7 @@ Requires: python-%{srcname} = %{version}-%{release}
 
 %description -n %{srcname}-tools
 Utilities provided by Astropy.
- 
+
 %prep
 %setup -qn %{srcname}-%{version}
 cp %{SOURCE1} README.dist
@@ -193,7 +193,7 @@ export PYTEST_ADDOPTS='-p no:cacheprovider'
 pushd %{buildroot}/%{python3_sitearch}
   py.test-%{python3_version} -k "not test_scale_back_with_blanks" astropy
 popd
-%endif # ifnarch s390x 
+%endif
 
 %files -n %{srcname}-tools
 %{_bindir}/*
@@ -205,7 +205,7 @@ popd
 
 %files -n python%{python3_pkgversion}-%{srcname}-doc
 ##%doc README.rst README.dist docs/_build/html
-%doc README.rst README.dist 
+%doc README.rst README.dist
 %license LICENSE.rst
 
 
