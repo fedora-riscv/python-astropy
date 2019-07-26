@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.1.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -210,6 +210,9 @@ popd
 
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Fri Mar 29 2019 Christian Dersch <lupinix@fedoraproject.org> - 3.1.2-2
 - Imported upstream fix for PyYAML 5.x
 
