@@ -11,8 +11,8 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 3.1.2
-Release: 3%{?dist}
+Version: 3.2.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -22,25 +22,20 @@ Source1: astropy-README.dist
 Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-six.patch
-# Import upstream fix for PyYAML 5
-# https://github.com/astropy/astropy/pull/8500
-Patch2: python-astropy-fix-pyyaml5-8500.patch
-
-Patch3: https://github.com/astropy/astropy/commit/8b3d0ccc2381919c8de944caa6485eb88d13e819.patch
 
 BuildRequires: gcc
 BuildRequires: git
-BuildRequires: cfitsio-devel
+BuildRequires: cfitsio-devel >= 3.45
 BuildRequires: expat-devel
 %if %{with system_erfa}
-BuildRequires: erfa-devel
+BuildRequires: erfa-devel >= 1.4.0
 %else
-Provides: bundled(erfa) = 1.3.0
+Provides: bundled(erfa) = 1.4.0
 %endif
 %if %{with system_wcslib}
-BuildRequires: wcslib-devel >= 5.19
+BuildRequires: wcslib-devel >= 6.2
 %else
-Provides: bundled(wcslib) = 5.19
+Provides: bundled(wcslib) = 6.2
 %endif
 BuildRequires: texlive-ucs
 BuildRequires: graphviz
@@ -137,10 +132,6 @@ rm -rf astropy*egg-info
 %patch1 -p1
 # Use system ply
 cp %{SOURCE2} astropy/extern/ply.py
-# Fix for PyYAML 5.x
-%patch2 -p1
-
-%patch3 -p1
 
 # Force Cython re-run
 echo "cython_version = 'unknown'" > astropy/cython_version.py
@@ -190,8 +181,9 @@ export PYTEST_ADDOPTS='-p no:cacheprovider'
 #
 # Tests on s390x tend to stuck (already for scipy used by astropy)
 %ifnarch s390x
-pushd %{buildroot}/%{python3_sitearch}
-  py.test-%{python3_version} -k "not test_scale_back_with_blanks" astropy
+ pushd %{buildroot}/%{python3_sitearch}
+  #py.test-%{python3_version} -k "not test_scale_back_with_blanks" astropy
+  py.test-%{python3_version} astropy
 popd
 %endif
 
@@ -210,6 +202,11 @@ popd
 
 
 %changelog
+
+* Thu Aug 01 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.2.1-1
+- New upstream version (3.2.1)
+- Remove patches included upsteam
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
