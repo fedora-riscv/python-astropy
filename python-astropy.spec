@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.2.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -202,6 +202,9 @@ popd
 
 
 %changelog
+* Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 3.2.1-2
+- Rebuilt for Python 3.8
+
 
 * Thu Aug 01 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.2.1-1
 - New upstream version (3.2.1)
