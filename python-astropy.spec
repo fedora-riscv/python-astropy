@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.1.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -25,6 +25,9 @@ Patch1: python-astropy-system-six.patch
 # Import upstream fix for PyYAML 5
 # https://github.com/astropy/astropy/pull/8500
 Patch2: python-astropy-fix-pyyaml5-8500.patch
+# Patch URL to access IERS-A file. 
+# https://github.com/astropy/astropy/issues/9427
+Patch3: python-astropy-iers-a.patch
 
 BuildRequires: gcc
 BuildRequires: git
@@ -141,6 +144,8 @@ rm -rf astropy*egg-info
 cp %{SOURCE2} astropy/extern/ply.py
 # Fix for PyYAML 5.x
 %patch2 -p1
+# Change IERS A url
+%patch3 -p1
 
 # Force Cython re-run
 echo "cython_version = 'unknown'" > astropy/cython_version.py
@@ -210,6 +215,9 @@ popd
 
 
 %changelog
+* Thu Nov 07 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.1.2-3
+- Patch to change the IERS-A download url, USNO is offline
+
 * Fri Mar 29 2019 Christian Dersch <lupinix@fedoraproject.org> - 3.1.2-2
 - Imported upstream fix for PyYAML 5.x
 

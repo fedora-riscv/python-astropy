@@ -1,0 +1,35 @@
+diff -ur astropy-3.1.2/astropy/utils/iers/iers.py astropy-3.1.2.iers/astropy/utils/iers/iers.py
+--- astropy-3.1.2/astropy/utils/iers/iers.py	2019-02-24 02:08:29.000000000 +0100
++++ astropy-3.1.2.iers/astropy/utils/iers/iers.py	2019-11-07 18:21:23.978928554 +0100
+@@ -35,8 +35,8 @@
+ 
+ # IERS-A default file name, URL, and ReadMe with content description
+ IERS_A_FILE = 'finals2000A.all'
+-IERS_A_URL = 'http://maia.usno.navy.mil/ser7/finals2000A.all'
+-IERS_A_URL_MIRROR = 'http://toshi.nofs.navy.mil/ser7/finals2000A.all'
++IERS_A_URL = 'https://datacenter.iers.org/data/9/finals2000A.all'
++IERS_A_URL_MIRROR = 'ftp://cddis.gsfc.nasa.gov/pub/products/iers/finals2000A.all'
+ IERS_A_README = get_pkg_data_filename('data/ReadMe.finals2000A')
+ 
+ # IERS-B default file name, URL, and ReadMe with content description
+@@ -398,7 +398,7 @@
+     """IERS Table class targeted to IERS A, provided by USNO.
+ 
+     These include rapid turnaround and predicted times.
+-    See http://maia.usno.navy.mil/
++    See https://datacenter.iers.org/eop.php
+ 
+     Notes
+     -----
+diff -ur astropy-3.1.2/docs/utils/iers.rst astropy-3.1.2.iers/docs/utils/iers.rst
+--- astropy-3.1.2/docs/utils/iers.rst	2019-02-24 02:08:29.000000000 +0100
++++ astropy-3.1.2.iers/docs/utils/iers.rst	2019-11-07 18:22:31.564014297 +0100
+@@ -109,7 +109,7 @@
+   the IERS service.
+ 
+ The IERS Service provides the default online table
+-(`<http://maia.usno.navy.mil/ser7/finals2000A.all>`_) and updates the content
++(`<https://datacenter.iers.org/data/9/finals2000A.all>`_) and updates the content
+ once each 7 days.  The default value of ``auto_max_age`` is 30 days to avoid
+ unnecessary network access, but one can reduce this to as low as 10 days.
+ 
