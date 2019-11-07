@@ -11,7 +11,7 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 3.2.2
+Version: 3.2.3
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -202,6 +202,9 @@ popd
 
 
 %changelog
+* Thu Nov 07 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.2.3-1
+- New upstream version (3.2.3), fixes problem with IERS data download
+
 * Wed Oct 09 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.2.2-1
 - New upstream version (3.2.2)
 
