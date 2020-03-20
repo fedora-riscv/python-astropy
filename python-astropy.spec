@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 4.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -56,7 +56,7 @@ BuildRequires: python%{python3_pkgversion}-setuptools
 BuildRequires: python%{python3_pkgversion}-numpy
 BuildRequires: python%{python3_pkgversion}-Cython
 BuildRequires: python%{python3_pkgversion}-pytest
-#BuildRequires: python%{python3_pkgversion}-pytest-astropy
+# BuildRequires: python%{python3_pkgversion}-pytest-astropy
 BuildRequires: python%{python3_pkgversion}-six
 BuildRequires: python%{python3_pkgversion}-ply
 BuildRequires: python%{python3_pkgversion}-scipy
@@ -198,6 +198,9 @@ popd
 
 
 %changelog
+* Fri Mar 20 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 4.0-3
+- Rebuildt for wcslib 7
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
