@@ -11,8 +11,8 @@
 %global srcname astropy
 
 Name: python-astropy
-Version: 4.0
-Release: 3%{?dist}
+Version: 4.0.1.post1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -198,6 +198,9 @@ popd
 
 
 %changelog
+* Thu May 07 2020 Orion Poplawski <orion@nwra.com> - 4.0.1.post1-1
+- Update to 4.0.1.post1
+
 * Fri Mar 20 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 4.0-3
 - Rebuildt for wcslib 7
 
