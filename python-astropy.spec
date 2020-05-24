@@ -1,8 +1,8 @@
 # Works with system erfa
 %bcond_without system_erfa
 
-# EPEL has older wcslib
-%if 0%{?fedora}
+# EPEL7 has older wcslib
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %bcond_without system_wcslib
 %else
 %bcond_with system_wcslib
@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 3.2.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -25,7 +25,8 @@ Patch1: python-astropy-system-six.patch
 
 BuildRequires: gcc
 BuildRequires: git
-BuildRequires: cfitsio-devel >= 3.45
+# EPEL8 uses shortened version numbering
+BuildRequires: cfitsio-devel >= 3.45%{?fedora:0}
 BuildRequires: expat-devel
 %if %{with system_erfa}
 BuildRequires: erfa-devel >= 1.4.0
@@ -54,7 +55,7 @@ coordinate transformations.}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python%{python3_pkgversion}-devel
 BuildRequires: python%{python3_pkgversion}-setuptools
-BuildRequires: python%{python3_pkgversion}-numpy
+BuildRequires: python%{python3_pkgversion}-numpy >= 1.16
 BuildRequires: python%{python3_pkgversion}-Cython
 BuildRequires: python%{python3_pkgversion}-pytest
 BuildRequires: python%{python3_pkgversion}-pytest-astropy
@@ -68,7 +69,7 @@ BuildRequires: python%{python3_pkgversion}-configobj
 BuildRequires: python%{python3_pkgversion}-pandas
 BuildRequires: python%{python3_pkgversion}-PyYAML
 
-Requires: python%{python3_pkgversion}-numpy
+Requires: python%{python3_pkgversion}-numpy >= 1.16
 Requires: python%{python3_pkgversion}-configobj
 Requires: python%{python3_pkgversion}-pytest
 Requires: python%{python3_pkgversion}-six
@@ -108,13 +109,7 @@ This package contains the full API documentation for %{name}.
 %package -n %{srcname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
-%if 0%{?fedora}
 Requires: python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
-Obsoletes: pyfits-tools < 3.3-6
-Provides: pyfits-tools = %{version}-%{release}
-%else
-Requires: python-%{srcname} = %{version}-%{release}
-%endif
 
 
 %description -n %{srcname}-tools
@@ -202,6 +197,10 @@ popd
 
 
 %changelog
+* Tue Mar 30 2021 Orion Poplawski <orion@nwra.com> - 3.2.3-2
+- Drop old pyfits-tools obsoletes/provides
+- Build with system wcslib on EL8
+
 * Thu Nov 07 2019 Sergio Pascual <sergiopr@fedoraproject.org> - 3.2.3-1
 - New upstream version (3.2.3), fixes problem with IERS data download
 
