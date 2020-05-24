@@ -1,8 +1,8 @@
 # Works with system erfa
 %bcond_without system_erfa
 
-# EPEL has older wcslib
-%if 0%{?fedora}
+# EPEL7 has older wcslib
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %bcond_without system_wcslib
 %else
 %bcond_with system_wcslib
@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 4.0.1.post1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -24,7 +24,8 @@ Patch0: python-astropy-system-configobj.patch
 
 BuildRequires: gcc
 BuildRequires: git
-BuildRequires: cfitsio-devel >= 3.470
+# EPEL8 uses shortened version numbering
+BuildRequires: cfitsio-devel >= 3.47%{?fedora:0}
 BuildRequires: expat-devel
 %if %{with system_erfa}
 BuildRequires: erfa-devel >= 1.7.0
@@ -53,7 +54,7 @@ coordinate transformations.}
 Summary: A Community Python Library for Astronomy
 BuildRequires: python%{python3_pkgversion}-devel
 BuildRequires: python%{python3_pkgversion}-setuptools
-BuildRequires: python%{python3_pkgversion}-numpy
+BuildRequires: python%{python3_pkgversion}-numpy >= 1.16
 BuildRequires: python%{python3_pkgversion}-Cython
 BuildRequires: python%{python3_pkgversion}-pytest
 # BuildRequires: python%{python3_pkgversion}-pytest-astropy
@@ -67,7 +68,7 @@ BuildRequires: python%{python3_pkgversion}-configobj
 BuildRequires: python%{python3_pkgversion}-pandas
 BuildRequires: python%{python3_pkgversion}-PyYAML
 
-Requires: python%{python3_pkgversion}-numpy
+Requires: python%{python3_pkgversion}-numpy >= 1.16
 Requires: python%{python3_pkgversion}-configobj
 Requires: python%{python3_pkgversion}-pytest
 Requires: python%{python3_pkgversion}-six
@@ -107,13 +108,7 @@ This package contains the full API documentation for %{name}.
 %package -n %{srcname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
-%if 0%{?fedora}
 Requires: python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
-Obsoletes: pyfits-tools < 3.3-6
-Provides: pyfits-tools = %{version}-%{release}
-%else
-Requires: python-%{srcname} = %{version}-%{release}
-%endif
 
 
 %description -n %{srcname}-tools
@@ -198,6 +193,10 @@ popd
 
 
 %changelog
+* Sat May 23 2020 Orion Poplawski <orion@nwra.com> - 4.0.1.post1-2
+- Drop old pyfits-tools obsoletes/provides
+- Build with system wcslib on EL8
+
 * Thu May 07 2020 Orion Poplawski <orion@nwra.com> - 4.0.1.post1-1
 - Update to 4.0.1.post1
 
