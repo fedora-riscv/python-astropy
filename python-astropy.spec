@@ -12,7 +12,7 @@
 
 Name: python-astropy
 Version: 4.0.1.post1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -193,6 +193,9 @@ popd
 
 
 %changelog
+* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.1.post1-3
+- Rebuilt for Python 3.9
+
 * Sat May 23 2020 Orion Poplawski <orion@nwra.com> - 4.0.1.post1-2
 - Drop old pyfits-tools obsoletes/provides
 - Build with system wcslib on EL8
