@@ -8,5 +8,4 @@ The following packages have been unbundled and the code patched so that astropy
 uses the system package:
 
  * configobj
- * six
  * ply

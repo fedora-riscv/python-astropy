@@ -1,44 +1,18 @@
-# Works with system erfa
-%bcond_without system_erfa
-
-# EPEL7 has older wcslib
-%if 0%{?fedora} || 0%{?rhel} >= 8
-%bcond_without system_wcslib
-%else
-%bcond_with system_wcslib
-%endif
+%bcond_without check
 
 %global srcname astropy
 
-Name: python-astropy
-Version: 4.0.1.post1
-Release: 6%{?dist}
+Name: python-%{srcname}
+Version: 4.2
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
 URL: http://astropy.org
 Source0: %{pypi_source}
 Source1: astropy-README.dist
-Source2: astropy-ply.py
 Patch0: python-astropy-system-configobj.patch
-
-BuildRequires: gcc
-BuildRequires: git
-# EPEL8 uses shortened version numbering
-BuildRequires: cfitsio-devel >= 3.47%{?fedora:0}
-BuildRequires: expat-devel
-%if %{with system_erfa}
-BuildRequires: erfa-devel >= 1.7.0
-%else
-Provides: bundled(erfa) = 1.7.0
-%endif
-%if %{with system_wcslib}
-BuildRequires: wcslib-devel >= 6.4
-%else
-Provides: bundled(wcslib) = 6.4
-%endif
-BuildRequires: texlive-ucs
-BuildRequires: graphviz
+Patch1: python-astropy-system-ply.patch
 
 %global _description %{expand:
 The Astropy project is a common effort to develop a single core package
@@ -50,149 +24,112 @@ coordinate transformations.}
 
 %description %_description
 
-%package -n python%{python3_pkgversion}-%{srcname}
-Summary: A Community Python Library for Astronomy
-BuildRequires: python%{python3_pkgversion}-devel
-BuildRequires: python%{python3_pkgversion}-setuptools
-BuildRequires: python%{python3_pkgversion}-numpy >= 1.16
-BuildRequires: python%{python3_pkgversion}-Cython
-BuildRequires: python%{python3_pkgversion}-pytest
-# BuildRequires: python%{python3_pkgversion}-pytest-astropy
-BuildRequires: python%{python3_pkgversion}-six
-BuildRequires: python%{python3_pkgversion}-ply
-BuildRequires: python%{python3_pkgversion}-scipy
-BuildRequires: python%{python3_pkgversion}-h5py
-BuildRequires: python%{python3_pkgversion}-sphinx
-BuildRequires: python%{python3_pkgversion}-matplotlib
-BuildRequires: python%{python3_pkgversion}-configobj
-BuildRequires: python%{python3_pkgversion}-pandas
-BuildRequires: python%{python3_pkgversion}-PyYAML
+%package -n python3-%{srcname}
+Summary: %{summary}
+BuildRequires: gcc
+BuildRequires: python3-devel
+BuildRequires: expat-devel 
+BuildRequires: cfitsio-devel >= 3.490
+BuildRequires: wcslib-devel
+BuildRequires: %{py3_dist setuptools}
+BuildRequires: %{py3_dist setuptools_scm}
+BuildRequires: %{py3_dist Cython}
+BuildRequires: %{py3_dist jinja2}
+BuildRequires: %{py3_dist numpy}
+BuildRequires: %{py3_dist extension-helpers}
+BuildRequires: %{py3_dist configobj}
+BuildRequires: %{py3_dist ply}
+%if %{with check}
+BuildRequires: %{py3_dist pytest}
+BuildRequires: %{py3_dist hypothesis}
+BuildRequires: %{py3_dist pyerfa}
+BuildRequires: %{py3_dist pytest-remotedata}
+BuildRequires: %{py3_dist pytest-astropy}
+#
+BuildRequires: %{py3_dist scipy}
+BuildRequires: %{py3_dist matplotlib}
+BuildRequires: %{py3_dist pandas}
+BuildRequires: %{py3_dist h5py}
+BuildRequires: %{py3_dist scikit-image}
+##BuildRequires: %%{py3_dist asdf}
+%endif
 
-Requires: python%{python3_pkgversion}-numpy >= 1.16
-Requires: python%{python3_pkgversion}-configobj
-Requires: python%{python3_pkgversion}-pytest
-Requires: python%{python3_pkgversion}-six
-Requires: python%{python3_pkgversion}-ply
-# Optionals
-Requires: python%{python3_pkgversion}-scipy
-Requires: python%{python3_pkgversion}-h5py
-Requires: python%{python3_pkgversion}-PyYAML
-Requires: /usr/bin/xmllint
-
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+Requires: %{py3_dist configobj}
+Requires: %{py3_dist ply}
 Provides: bundled(jquery) = 3.11
 
-# wcsaxes has been merged into astropy, therefore we obsolete and provide
-# the old python3-wcsaxes package here
-Provides:  python%{python3_pkgversion}-wcsaxes = %{version}-%{release}
-Obsoletes: python%{python3_pkgversion}-wcsaxes < 0.9-9
+%description -n python3-%{srcname} %_description
 
-%description -n python%{python3_pkgversion}-%{srcname} %_description
-
-%package -n python%{python3_pkgversion}-%{srcname}-doc
+%package -n python3-%{srcname}-doc
 Summary: Documentation for %{name}, includes full API docs
-# Disabled for the moment to avoid name collision
-# of generated names between arches
-# BuildArch: noarch
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}-doc}
 
-# wcsaxes has been merged into astropy, therefore we obsolete and provide
-# the old python3-wcsaxes-doc package here
-Provides:  python%{python3_pkgversion}-wcsaxes-doc = %{version}-%{release}
-Obsoletes: python%{python3_pkgversion}-wcsaxes-doc < 0.9-9
-
-%description -n python%{python3_pkgversion}-%{srcname}-doc
+%description -n python3-%{srcname}-doc
 This package contains the full API documentation for %{name}.
-
 
 %package -n %{srcname}-tools
 Summary: Astropy utility tools
 BuildArch: noarch
-Requires: python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
-
+Requires: python3-%{srcname} = %{version}-%{release}
 
 %description -n %{srcname}-tools
 Utilities provided by Astropy.
 
 %prep
-%setup -qn %{srcname}-%{version}
-cp %{SOURCE1} README.dist
-# Required to support wcslib 4.5
-find -name wcsconfig.h -delete
-rm -rf astropy*egg-info
-# Use system configobj
-%patch0 -p1
-# Use system ply
-cp %{SOURCE2} astropy/extern/ply.py
-
-# Force Cython re-run
-echo "cython_version = 'unknown'" > astropy/cython_version.py
-
-# Remove expat, erfa, cfitsio and wcslib
+%autosetup -n %{srcname}-%{version} -p1
+# To be sure
+rm -rf astropy/extern/configobj
+rm -rf astropy/extern/ply
 rm -rf cextern/cfitsio
-%if %{with system_erfa}
-rm -rf cextern/erfa
-%endif
 rm -rf cextern/expat
-%if %{with system_wcslib}
 rm -rf cextern/wcslib
-%endif
-
-echo "[build]" >> setup.cfg
-#echo "use_system_libraries=1" >> setup.cfg
-echo "use_system_cfitsio=1" >> setup.cfg
-%if %{with system_erfa}
-echo "use_system_erfa=1" >> setup.cfg
-%endif
-echo "use_system_expat=1" >> setup.cfg
-%if %{with system_wcslib}
-echo "use_system_wcslib=1" >> setup.cfg
-%endif
-
 
 %build
-%global py_setup_args --offline
-# Use cairo backend due to https://bugzilla.redhat.com/show_bug.cgi?id=1394975
-export MPLBACKEND=cairo
+export ASTROPY_USE_SYSTEM_ALL=1
+# Search for headers in subdirs
+export CPATH="/usr/include/cfitsio:/usr/include/wcslib"
 %{py3_build}
-# Requires sphinx-astropy
-#%{__python3} setup.py build_docs --offline
-rm -f docs/_build/html/.buildinfo
 
 %install
+export ASTROPY_USE_SYSTEM_ALL=1
+# Search for headers in subdirs
+export CPATH="/usr/include/cfitsio:/usr/include/wcslib"
 %{py3_install}
 
-find %{buildroot} -name "*.so" | xargs chmod 755
-
+%if %{with check}
 %check
-# Avoid writing bad pyc files during testing
 export PYTHONDONTWRITEBYTECODE=1
 export PYTEST_ADDOPTS='-p no:cacheprovider'
-
-# Disable tests in general until python-pytest-astropy gets updated
-# Tests on s390x tend to stuck (already for scipy used by astropy)
-%ifnarch s390x
- pushd %{buildroot}/%{python3_sitearch}
-  #py.test-%{python3_version} -k "not test_scale_back_with_blanks" astropy
-  echo "Disable tests until python-pytest-astropy gets updated"
+pushd %{buildroot}/%{python3_sitearch}
+  pytest \
+         --deselect "astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem" \
+         --deselect "astropy/wcs/tests/test_wcsprm.py::test_fix" \
+         --deselect "astropy/wcs/tests/test_wcs.py::test_fixes" \
+         --deselect "astropy/wcs/tests/test_wcs.py::test_pix2world" \
+         --deselect "astropy/wcs/tests/test_wcs.py::test_warning_about_defunct_keywords" \
+         --deselect "astropy/wcs/tests/test_wcs.py::test_validate" \
+  astropy 
+  # remove hypothesis dir
+  rm -rf .hypothesis
 popd
 %endif
 
 %files -n %{srcname}-tools
 %{_bindir}/*
 
-%files -n python%{python3_pkgversion}-%{srcname}
-%doc README.rst README.dist
+%files -n python3-%{srcname}
+%doc README.rst
 %license LICENSE.rst
-%{python3_sitearch}/*
+%{python3_sitearch}/%{srcname}/
+%{python3_sitearch}/%{srcname}-*.egg-info
 
-%files -n python%{python3_pkgversion}-%{srcname}-doc
-##%doc README.rst README.dist docs/_build/html
-%doc README.rst README.dist
+%files -n python3-%{srcname}-doc
+%doc README.rst 
 %license LICENSE.rst
-
 
 %changelog
+* Sun Feb 07 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.2-1
+- Cleanup specfile
+
 * Tue Feb 02 2021 Christian Dersch <lupinix@mailbox.org> - 4.0.1.post1-6
 - Rebuilt for libcfitsio.so.7
 

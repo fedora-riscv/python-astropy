@@ -1,0 +1,75 @@
+diff -ur astropy-4.2/astropy/coordinates/angle_utilities.py astropy-4.2.ply/astropy/coordinates/angle_utilities.py
+--- astropy-4.2/astropy/coordinates/angle_utilities.py	2020-11-25 08:28:48.000000000 +0100
++++ astropy-4.2.ply/astropy/coordinates/angle_utilities.py	2021-02-15 23:22:45.935721825 +0100
+@@ -88,7 +88,7 @@
+ 
+     @classmethod
+     def _make_parser(cls):
+-        from astropy.extern.ply import lex, yacc
++        from ply import lex, yacc
+ 
+         # List of token names.
+         tokens = (
+diff -ur astropy-4.2/astropy/units/format/cds.py astropy-4.2.ply/astropy/units/format/cds.py
+--- astropy-4.2/astropy/units/format/cds.py	2020-11-25 08:28:48.000000000 +0100
++++ astropy-4.2.ply/astropy/units/format/cds.py	2021-02-15 23:22:29.190476911 +0100
+@@ -82,7 +82,7 @@
+     @classmethod
+     def _make_lexer(cls):
+ 
+-        from astropy.extern.ply import lex
++        from ply import lex
+ 
+         tokens = cls._tokens
+ 
+@@ -154,7 +154,7 @@
+         <https://bitbucket.org/nxg/unity/>`_.
+         """
+ 
+-        from astropy.extern.ply import yacc
++        from ply import yacc
+ 
+         tokens = cls._tokens
+ 
+diff -ur astropy-4.2/astropy/units/format/generic.py astropy-4.2.ply/astropy/units/format/generic.py
+--- astropy-4.2/astropy/units/format/generic.py	2020-11-25 08:28:48.000000000 +0100
++++ astropy-4.2.ply/astropy/units/format/generic.py	2021-02-15 23:21:39.375748327 +0100
+@@ -118,7 +118,7 @@
+ 
+     @classmethod
+     def _make_lexer(cls):
+-        from astropy.extern.ply import lex
++        from ply import lex
+ 
+         tokens = cls._tokens
+ 
+@@ -198,7 +198,7 @@
+         formats, the only difference being the set of available unit
+         strings.
+         """
+-        from astropy.extern.ply import yacc
++        from ply import yacc
+ 
+         tokens = cls._tokens
+ 
+diff -ur astropy-4.2/astropy/units/format/ogip.py astropy-4.2.ply/astropy/units/format/ogip.py
+--- astropy-4.2/astropy/units/format/ogip.py	2020-11-25 08:28:48.000000000 +0100
++++ astropy-4.2.ply/astropy/units/format/ogip.py	2021-02-15 23:22:06.526145425 +0100
+@@ -111,7 +111,7 @@
+ 
+     @classmethod
+     def _make_lexer(cls):
+-        from astropy.extern.ply import lex
++        from ply import lex
+ 
+         tokens = cls._tokens
+ 
+@@ -186,7 +186,7 @@
+         <https://bitbucket.org/nxg/unity/>`_.
+         """
+ 
+-        from astropy.extern.ply import yacc
++        from ply import yacc
+ 
+         tokens = cls._tokens
+ 
