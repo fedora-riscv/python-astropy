@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 4.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -127,7 +127,8 @@ popd
 %license LICENSE.rst
 
 %changelog
-* Sun Feb 07 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.2-1
+* Tue Feb 16 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.2-2
+- New upstream source 4.2
 - Cleanup specfile
 
 * Tue Feb 02 2021 Christian Dersch <lupinix@mailbox.org> - 4.0.1.post1-6
