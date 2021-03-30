@@ -1,0 +1,12 @@
+diff -ur astropy-3.1.1/astropy/config/configuration.py astropy-3.1.1.configobj/astropy/config/configuration.py
+--- astropy-3.1.1/astropy/config/configuration.py	2019-01-01 00:54:51.000000000 +0100
++++ astropy-3.1.1.configobj/astropy/config/configuration.py	2019-02-17 18:48:51.688306288 +0100
+@@ -16,7 +16,7 @@
+ import re
+ from warnings import warn
+ 
+-from astropy.extern.configobj import configobj, validate
++import configobj, validate
+ from astropy.utils.exceptions import AstropyWarning, AstropyDeprecationWarning
+ from astropy.utils import find_current_module
+ from astropy.utils.introspection import resolve_name
