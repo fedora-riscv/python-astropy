@@ -129,6 +129,7 @@ pytest_args=(
         --deselect astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning
         --deselect astropy/time/tests/test_precision.py::test_sidereal_lat_independent
         --deselect astropy/time/tests/test_precision.py::test_datetime_difference_agrees_with_timedelta
+        --deselect astropy/time/tests/test_precision.py::test_datetime_to_timedelta
 )
 
 pushd %{buildroot}/%{python3_sitearch}
