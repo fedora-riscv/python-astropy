@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 4.2.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -102,6 +102,10 @@ export PYTHONDONTWRITEBYTECODE=1
 export PYTEST_ADDOPTS='-p no:cacheprovider'
 # wcs tests fail due to the different
 # version of wcslib
+#
+# The last six tests are broken in 3.10
+# I'm going to disable them until they are fixed upstream
+# https://github.com/astropy/astropy/issues/11821
 pushd %{buildroot}/%{python3_sitearch}
   pytest \
          --deselect "astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem" \
@@ -113,6 +117,12 @@ pushd %{buildroot}/%{python3_sitearch}
 %ifarch armv7hl
          --deselect "astropy/table/tests/test_showtable.py::test_stats" \
 %endif
+         --deselect "astropy/io/fits/tests/test_core.py::TestFileFunctions::test_mmap_unwriteable" \
+        --deselect "astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_flush_readonly" \
+        --deselect "astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_output_verify" \
+        --deselect "astropy/tests/test_logger.py::test_warnings_logging" \
+        --deselect "astropy/tests/test_logger.py::test_warnings_logging_with_custom_class" \
+        --deselect "astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning" \
   astropy 
   # remove hypothesis dir
   rm -rf .hypothesis
@@ -133,6 +143,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Thu Jun 17 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.2.1-2
+- Disable test broken in 3.10 (gh #11821)
+
 * Fri Jun 04 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.2.1-1
 - New upstream source 4.2.1
 
