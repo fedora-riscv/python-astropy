@@ -98,35 +98,40 @@ export CPATH="/usr/include/cfitsio:/usr/include/wcslib"
 
 %if %{with check}
 %check
-export PYTHONDONTWRITEBYTECODE=1
 export PYTEST_ADDOPTS='-p no:cacheprovider'
-# wcs tests fail due to the different
-# version of wcslib
-#
-# The last six tests are broken in 3.10
-# I'm going to disable them until they are fixed upstream
-# https://github.com/astropy/astropy/issues/11821
-pushd %{buildroot}/%{python3_sitearch}
-  pytest \
-         --deselect "astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem" \
-         --deselect "astropy/wcs/tests/test_wcsprm.py::test_fix" \
-         --deselect "astropy/wcs/tests/test_wcs.py::test_fixes" \
-         --deselect "astropy/wcs/tests/test_wcs.py::test_pix2world" \
-         --deselect "astropy/wcs/tests/test_wcs.py::test_warning_about_defunct_keywords" \
-         --deselect "astropy/wcs/tests/test_wcs.py::test_validate" \
+
+pytest_args=(
+        --deselect astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem
+
+        # wcs tests fail due to the different
+        # version of wcslib
+        --deselect astropy/wcs/tests/test_wcsprm.py::test_fix
+        --deselect astropy/wcs/tests/test_wcs.py::test_fixes
+        --deselect astropy/wcs/tests/test_wcs.py::test_pix2world
+        --deselect astropy/wcs/tests/test_wcs.py::test_warning_about_defunct_keywords
+        --deselect astropy/wcs/tests/test_wcs.py::test_validate
+
 %ifarch armv7hl
-         --deselect "astropy/table/tests/test_showtable.py::test_stats" \
+        --deselect astropy/table/tests/test_showtable.py::test_stats
 %endif
 %ifarch s390x
-         --deselect "astropy/table/tests/test_mixin.py::test_info_preserved_pickle_copy_init[ndarray]" \
+         --deselect 'astropy/table/tests/test_mixin.py::test_info_preserved_pickle_copy_init[ndarray]'
 %endif
-         --deselect "astropy/io/fits/tests/test_core.py::TestFileFunctions::test_mmap_unwriteable" \
-        --deselect "astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_flush_readonly" \
-        --deselect "astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_output_verify" \
-        --deselect "astropy/tests/test_logger.py::test_warnings_logging" \
-        --deselect "astropy/tests/test_logger.py::test_warnings_logging_with_custom_class" \
-        --deselect "astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning" \
-  astropy 
+
+        # Tests that are broken in 3.10
+        # I'm going to disable them until they are fixed upstream
+        # https://github.com/astropy/astropy/issues/11821
+        --deselect astropy/io/fits/tests/test_core.py::TestFileFunctions::test_mmap_unwriteable
+        --deselect astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_flush_readonly
+        --deselect astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_output_verify
+        --deselect astropy/tests/test_logger.py::test_warnings_logging
+        --deselect astropy/tests/test_logger.py::test_warnings_logging_with_custom_class
+        --deselect astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning
+)
+
+pushd %{buildroot}/%{python3_sitearch}
+  %{pytest} "${pytest_args[@]}" astropy
+
   # remove hypothesis dir
   rm -rf .hypothesis
 popd
