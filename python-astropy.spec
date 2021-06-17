@@ -127,6 +127,7 @@ pytest_args=(
         --deselect astropy/tests/test_logger.py::test_warnings_logging
         --deselect astropy/tests/test_logger.py::test_warnings_logging_with_custom_class
         --deselect astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning
+        --deselect astropy/time/tests/test_precision.py::test_sidereal_lat_independent
 )
 
 pushd %{buildroot}/%{python3_sitearch}
