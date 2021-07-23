@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 4.2.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -154,6 +154,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Thu Jun 17 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.2.1-3
 - Disable test broken in 3.10 (gh #11821)
 - Disable broken test in s390x
