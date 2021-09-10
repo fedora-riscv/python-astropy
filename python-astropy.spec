@@ -3,8 +3,8 @@
 %global srcname astropy
 
 Name: python-%{srcname}
-Version: 4.2.1
-Release: 4%{?dist}
+Version: 4.3.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -13,6 +13,10 @@ Source0: %{pypi_source}
 Source1: astropy-README.dist
 Patch0: python-astropy-system-configobj.patch
 Patch1: python-astropy-system-ply.patch
+# bundled versions
+# expat 2.2.9
+# cfitsio 3.49
+# wcslib 7.6
 
 %global _description %{expand:
 The Astropy project is a common effort to develop a single core package
@@ -28,9 +32,9 @@ coordinate transformations.}
 Summary: %{summary}
 BuildRequires: gcc
 BuildRequires: python3-devel
-BuildRequires: expat-devel 
+BuildRequires: expat-devel >= 2.2.9
 BuildRequires: cfitsio-devel >= 3.490
-BuildRequires: wcslib-devel
+BuildRequires: wcslib-devel >= 7.6
 BuildRequires: %{py3_dist setuptools}
 BuildRequires: %{py3_dist setuptools_scm}
 BuildRequires: %{py3_dist Cython}
@@ -101,15 +105,15 @@ export CPATH="/usr/include/cfitsio:/usr/include/wcslib"
 export PYTEST_ADDOPTS='-p no:cacheprovider'
 
 pytest_args=(
-        --deselect astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem
+        #--deselect astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem
 
         # wcs tests fail due to the different
         # version of wcslib
-        --deselect astropy/wcs/tests/test_wcsprm.py::test_fix
-        --deselect astropy/wcs/tests/test_wcs.py::test_fixes
-        --deselect astropy/wcs/tests/test_wcs.py::test_pix2world
-        --deselect astropy/wcs/tests/test_wcs.py::test_warning_about_defunct_keywords
-        --deselect astropy/wcs/tests/test_wcs.py::test_validate
+        #--deselect astropy/wcs/tests/test_wcsprm.py::test_fix
+        #--deselect astropy/wcs/tests/test_wcs.py::test_fixes
+        #--deselect astropy/wcs/tests/test_wcs.py::test_pix2world
+        #--deselect astropy/wcs/tests/test_wcs.py::test_warning_about_defunct_keywords
+        #--deselect astropy/wcs/tests/test_wcs.py::test_validate
 
 %ifarch armv7hl
         --deselect astropy/table/tests/test_showtable.py::test_stats
@@ -127,9 +131,10 @@ pytest_args=(
         --deselect astropy/tests/test_logger.py::test_warnings_logging
         --deselect astropy/tests/test_logger.py::test_warnings_logging_with_custom_class
         --deselect astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning
-        --deselect astropy/time/tests/test_precision.py::test_sidereal_lat_independent
-        --deselect astropy/time/tests/test_precision.py::test_datetime_difference_agrees_with_timedelta
-        --deselect astropy/time/tests/test_precision.py::test_datetime_to_timedelta
+        # Previously disabled but currently working
+        #--deselect astropy/time/tests/test_precision.py::test_sidereal_lat_independent
+        #--deselect astropy/time/tests/test_precision.py::test_datetime_difference_agrees_with_timedelta
+        #--deselect astropy/time/tests/test_precision.py::test_datetime_to_timedelta
 )
 
 pushd %{buildroot}/%{python3_sitearch}
@@ -154,6 +159,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Fri Sep 10 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.3.1-1
+- New upstream source 4.3.1
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 

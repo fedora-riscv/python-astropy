@@ -1,7 +1,7 @@
-diff -ur astropy-4.2/astropy/config/configuration.py astropy-4.2.configobj/astropy/config/configuration.py
---- astropy-4.2/astropy/config/configuration.py	2020-11-25 08:28:48.000000000 +0100
-+++ astropy-4.2.configobj/astropy/config/configuration.py	2021-02-15 23:12:16.720541628 +0100
-@@ -22,7 +22,7 @@
+diff -ur astropy-4.3.1/astropy/config/configuration.py astropy-4.3.1.config/astropy/config/configuration.py
+--- astropy-4.3.1/astropy/config/configuration.py	2021-08-11 22:17:12.000000000 +0200
++++ astropy-4.3.1.config/astropy/config/configuration.py	2021-09-09 20:46:52.753940849 +0200
+@@ -20,7 +20,7 @@
  from warnings import warn
  from contextlib import contextmanager
  
@@ -9,4 +9,4 @@ diff -ur astropy-4.2/astropy/config/configuration.py astropy-4.2.configobj/astro
 +import configobj, validate
  from astropy.utils import find_current_module, silence
  from astropy.utils.exceptions import AstropyDeprecationWarning, AstropyWarning
- from astropy.utils.introspection import resolve_name
+ from astropy.utils.compat.context import nullcontext

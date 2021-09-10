@@ -1,7 +1,7 @@
-diff -ur astropy-4.2/astropy/coordinates/angle_utilities.py astropy-4.2.ply/astropy/coordinates/angle_utilities.py
---- astropy-4.2/astropy/coordinates/angle_utilities.py	2020-11-25 08:28:48.000000000 +0100
-+++ astropy-4.2.ply/astropy/coordinates/angle_utilities.py	2021-02-15 23:22:45.935721825 +0100
-@@ -88,7 +88,7 @@
+diff -ur astropy-4.3.1/astropy/coordinates/angle_formats.py astropy-4.3.1.ply/astropy/coordinates/angle_formats.py
+--- astropy-4.3.1/astropy/coordinates/angle_formats.py	2021-08-11 22:17:12.000000000 +0200
++++ astropy-4.3.1.ply/astropy/coordinates/angle_formats.py	2021-09-09 21:08:11.871724229 +0200
+@@ -75,7 +75,7 @@
  
      @classmethod
      def _make_parser(cls):
@@ -10,66 +10,24 @@ diff -ur astropy-4.2/astropy/coordinates/angle_utilities.py astropy-4.2.ply/astr
  
          # List of token names.
          tokens = (
-diff -ur astropy-4.2/astropy/units/format/cds.py astropy-4.2.ply/astropy/units/format/cds.py
---- astropy-4.2/astropy/units/format/cds.py	2020-11-25 08:28:48.000000000 +0100
-+++ astropy-4.2.ply/astropy/units/format/cds.py	2021-02-15 23:22:29.190476911 +0100
-@@ -82,7 +82,7 @@
-     @classmethod
-     def _make_lexer(cls):
+diff -ur astropy-4.3.1/astropy/utils/parsing.py astropy-4.3.1.ply/astropy/utils/parsing.py
+--- astropy-4.3.1/astropy/utils/parsing.py	2021-08-11 22:17:12.000000000 +0200
++++ astropy-4.3.1.ply/astropy/utils/parsing.py	2021-09-09 21:08:42.559223258 +0200
+@@ -84,7 +84,7 @@
+     reflags : int
+         Passed to ``ply.lex``.
+     """
+-    from astropy.extern.ply import lex
++    from ply import lex
  
--        from astropy.extern.ply import lex
-+        from ply import lex
+     caller_file = lex.get_caller_module_dict(2)['__file__']
+     lextab_filename = os.path.join(os.path.dirname(caller_file), lextab + '.py')
+@@ -137,7 +137,7 @@
+         the output file. This is inserted into a comment in the generated
+         file.
+     """
+-    from astropy.extern.ply import yacc
++    from ply import yacc
  
-         tokens = cls._tokens
- 
-@@ -154,7 +154,7 @@
-         <https://bitbucket.org/nxg/unity/>`_.
-         """
- 
--        from astropy.extern.ply import yacc
-+        from ply import yacc
- 
-         tokens = cls._tokens
- 
-diff -ur astropy-4.2/astropy/units/format/generic.py astropy-4.2.ply/astropy/units/format/generic.py
---- astropy-4.2/astropy/units/format/generic.py	2020-11-25 08:28:48.000000000 +0100
-+++ astropy-4.2.ply/astropy/units/format/generic.py	2021-02-15 23:21:39.375748327 +0100
-@@ -118,7 +118,7 @@
- 
-     @classmethod
-     def _make_lexer(cls):
--        from astropy.extern.ply import lex
-+        from ply import lex
- 
-         tokens = cls._tokens
- 
-@@ -198,7 +198,7 @@
-         formats, the only difference being the set of available unit
-         strings.
-         """
--        from astropy.extern.ply import yacc
-+        from ply import yacc
- 
-         tokens = cls._tokens
- 
-diff -ur astropy-4.2/astropy/units/format/ogip.py astropy-4.2.ply/astropy/units/format/ogip.py
---- astropy-4.2/astropy/units/format/ogip.py	2020-11-25 08:28:48.000000000 +0100
-+++ astropy-4.2.ply/astropy/units/format/ogip.py	2021-02-15 23:22:06.526145425 +0100
-@@ -111,7 +111,7 @@
- 
-     @classmethod
-     def _make_lexer(cls):
--        from astropy.extern.ply import lex
-+        from ply import lex
- 
-         tokens = cls._tokens
- 
-@@ -186,7 +186,7 @@
-         <https://bitbucket.org/nxg/unity/>`_.
-         """
- 
--        from astropy.extern.ply import yacc
-+        from ply import yacc
- 
-         tokens = cls._tokens
- 
+     caller_file = yacc.get_caller_module_dict(2)['__file__']
+     tab_filename = os.path.join(os.path.dirname(caller_file), tabmodule + '.py')
