@@ -3,7 +3,7 @@
 %global srcname astropy
 
 Name: python-%{srcname}
-Version: 4.3.1
+Version: 5.0
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -43,6 +43,8 @@ BuildRequires: %{py3_dist numpy}
 BuildRequires: %{py3_dist extension-helpers}
 BuildRequires: %{py3_dist configobj}
 BuildRequires: %{py3_dist ply}
+BuildRequires: %{py3_dist pyyaml}
+BuildRequires: %{py3_dist packaging}
 %if %{with check}
 BuildRequires: %{py3_dist pytest}
 BuildRequires: %{py3_dist hypothesis}
@@ -159,6 +161,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Sun Dec 26 2021 Christian dersch <lupinix@fedoraproject.org> - 5.0-1
+- new version
+
 * Fri Sep 10 2021 Sergio Pascual <sergiopr@fedoraproject.org> - 4.3.1-1
 - New upstream source 4.3.1
 

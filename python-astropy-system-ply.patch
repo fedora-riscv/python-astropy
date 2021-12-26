@@ -1,6 +1,6 @@
-diff -ur astropy-4.3.1/astropy/coordinates/angle_formats.py astropy-4.3.1.ply/astropy/coordinates/angle_formats.py
---- astropy-4.3.1/astropy/coordinates/angle_formats.py	2021-08-11 22:17:12.000000000 +0200
-+++ astropy-4.3.1.ply/astropy/coordinates/angle_formats.py	2021-09-09 21:08:11.871724229 +0200
+diff -Naur astropy-5.0/astropy/coordinates/angle_formats.py astropy-5.0.new/astropy/coordinates/angle_formats.py
+--- astropy-5.0/astropy/coordinates/angle_formats.py	2021-11-19 15:17:19.000000000 +0100
++++ astropy-5.0.new/astropy/coordinates/angle_formats.py	2021-12-26 15:48:30.423519098 +0100
 @@ -75,7 +75,7 @@
  
      @classmethod
@@ -10,9 +10,9 @@ diff -ur astropy-4.3.1/astropy/coordinates/angle_formats.py astropy-4.3.1.ply/as
  
          # List of token names.
          tokens = (
-diff -ur astropy-4.3.1/astropy/utils/parsing.py astropy-4.3.1.ply/astropy/utils/parsing.py
---- astropy-4.3.1/astropy/utils/parsing.py	2021-08-11 22:17:12.000000000 +0200
-+++ astropy-4.3.1.ply/astropy/utils/parsing.py	2021-09-09 21:08:42.559223258 +0200
+diff -Naur astropy-5.0/astropy/utils/parsing.py astropy-5.0.new/astropy/utils/parsing.py
+--- astropy-5.0/astropy/utils/parsing.py	2021-11-19 15:17:19.000000000 +0100
++++ astropy-5.0.new/astropy/utils/parsing.py	2021-12-26 15:48:30.425519094 +0100
 @@ -84,7 +84,7 @@
      reflags : int
          Passed to ``ply.lex``.
