@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 5.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -161,6 +161,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Fri Jan 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Sun Dec 26 2021 Christian dersch <lupinix@fedoraproject.org> - 5.0-1
 - new version
 
