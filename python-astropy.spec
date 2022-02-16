@@ -3,8 +3,8 @@
 %global srcname astropy
 
 Name: python-%{srcname}
-Version: 5.0
-Release: 2%{?dist}
+Version: 5.0.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -161,6 +161,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Wed Feb 16 2022 Sergio Pascual <sergiopr@fedoraproject.org> - 5.0.1-1
+- New upstream source 5.0.1
+
 * Fri Jan 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
