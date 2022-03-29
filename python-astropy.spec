@@ -3,7 +3,7 @@
 %global srcname astropy
 
 Name: python-%{srcname}
-Version: 5.0.1
+Version: 5.0.3
 Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
@@ -50,6 +50,7 @@ BuildRequires: %{py3_dist pytest}
 BuildRequires: %{py3_dist hypothesis}
 BuildRequires: %{py3_dist pyerfa}
 BuildRequires: %{py3_dist pytest-remotedata}
+BuildRequires: %{py3_dist pytest-mpl}
 BuildRequires: %{py3_dist pytest-astropy}
 #
 BuildRequires: %{py3_dist scipy}
@@ -105,45 +106,18 @@ export CPATH="/usr/include/cfitsio:/usr/include/wcslib"
 %if %{with check}
 %check
 export PYTEST_ADDOPTS='-p no:cacheprovider'
-
 pytest_args=(
-        #--deselect astropy/coordinates/tests/accuracy/test_altaz_icrs.py::test_against_pyephem
-
-        # wcs tests fail due to the different
-        # version of wcslib
-        #--deselect astropy/wcs/tests/test_wcsprm.py::test_fix
-        #--deselect astropy/wcs/tests/test_wcs.py::test_fixes
-        #--deselect astropy/wcs/tests/test_wcs.py::test_pix2world
-        #--deselect astropy/wcs/tests/test_wcs.py::test_warning_about_defunct_keywords
-        #--deselect astropy/wcs/tests/test_wcs.py::test_validate
-
-%ifarch armv7hl
-        --deselect astropy/table/tests/test_showtable.py::test_stats
+%ifarch i686
+ --deselect astropy/io/fits/tests/test_table.py::TestVLATables::test_copy_vla
 %endif
-%ifarch s390x
-         --deselect 'astropy/table/tests/test_mixin.py::test_info_preserved_pickle_copy_init[ndarray]'
-%endif
-
-        # Tests that are broken in 3.10
-        # I'm going to disable them until they are fixed upstream
-        # https://github.com/astropy/astropy/issues/11821
-        --deselect astropy/io/fits/tests/test_core.py::TestFileFunctions::test_mmap_unwriteable
-        --deselect astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_flush_readonly
-        --deselect astropy/io/fits/tests/test_hdulist.py::TestHDUListFunctions::test_output_verify
-        --deselect astropy/tests/test_logger.py::test_warnings_logging
-        --deselect astropy/tests/test_logger.py::test_warnings_logging_with_custom_class
-        --deselect astropy/tests/test_logger.py::test_warning_logging_with_io_votable_warning
-        # Previously disabled but currently working
-        #--deselect astropy/time/tests/test_precision.py::test_sidereal_lat_independent
-        #--deselect astropy/time/tests/test_precision.py::test_datetime_difference_agrees_with_timedelta
-        #--deselect astropy/time/tests/test_precision.py::test_datetime_to_timedelta
 )
 
+cp conftest.py %{buildroot}/%{python3_sitearch}
 pushd %{buildroot}/%{python3_sitearch}
-  %{pytest} "${pytest_args[@]}" astropy
-
+  %{pytest} "${pytest_args[@]}"  --hypothesis-profile="ci" -x
   # remove hypothesis dir
   rm -rf .hypothesis
+  rm conftest.py
 popd
 %endif
 
@@ -161,6 +135,10 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Wed Feb 16 2022 Sergio Pascual <sergiopr@fedoraproject.org> - 5.0.3-1
+- New upstream source 5.0.3
+- Add pytest-mpl for testing
+
 * Wed Feb 16 2022 Sergio Pascual <sergiopr@fedoraproject.org> - 5.0.1-1
 - New upstream source 5.0.1
 
