@@ -1,11 +1,10 @@
-%global _without_check 1
 %bcond_without check
 
 %global srcname astropy
 
 Name: python-%{srcname}
 Version: 5.0.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -136,6 +135,9 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Tue Jun 28 2022 Python Maint <python-maint@redhat.com> - 5.0.4-3
+- Rebuilt for Python 3.11
+
 * Wed Jun 15 2022 Python Maint <python-maint@redhat.com> - 5.0.4-2
 - Bootstrap for Python 3.11
 
