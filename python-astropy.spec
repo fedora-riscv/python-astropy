@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 5.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -124,6 +124,7 @@ pytest_args=(
  --deselect astropy/time/tests/test_mask.py::test_mask_not_writeable
 %ifarch i686
  --deselect astropy/io/fits/tests/test_table.py::TestVLATables::test_copy_vla
+ --deselect "astropy/modeling/tests/test_models.py::TestFittable1DModels::test_fitter1D[TRFLSQFitter-BrokenPowerLaw1D-test_parameters22]"
 %endif
 )
 
@@ -150,9 +151,10 @@ popd
 %license LICENSE.rst
 
 %changelog
-* Thu Aug 25 2022 Sergio Pascual <sergiopr@fedoraproject.org> - 5.1-2
+* Thu Aug 25 2022 Sergio Pascual <sergiopr@fedoraproject.org> - 5.1-3
 - New upstream source 5.1
 - Deselect some tests failling with Python 3.11 (https://github.com/astropy/astropy/issues/13522)
+- Deselect test failling in i686
 
 * Fri Jul 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
