@@ -1,9 +1,9 @@
-diff -Naur astropy-5.0/astropy/config/configuration.py astropy-5.0.new/astropy/config/configuration.py
---- astropy-5.0/astropy/config/configuration.py	2021-11-19 15:17:19.000000000 +0100
-+++ astropy-5.0.new/astropy/config/configuration.py	2021-12-26 15:49:25.160408248 +0100
+diff -ur astropy-5.2/astropy/config/configuration.py astropy-5.2.config/astropy/config/configuration.py
+--- astropy-5.2/astropy/config/configuration.py	2022-12-12 11:57:50.000000000 +0100
++++ astropy-5.2.config/astropy/config/configuration.py	2023-01-07 00:39:52.705836236 +0100
 @@ -20,7 +20,7 @@
+ from textwrap import TextWrapper
  from warnings import warn
- from contextlib import contextmanager, nullcontext
  
 -from astropy.extern.configobj import configobj, validate
 +import configobj, validate

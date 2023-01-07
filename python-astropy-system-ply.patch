@@ -1,33 +1,21 @@
-diff -Naur astropy-5.0/astropy/coordinates/angle_formats.py astropy-5.0.new/astropy/coordinates/angle_formats.py
---- astropy-5.0/astropy/coordinates/angle_formats.py	2021-11-19 15:17:19.000000000 +0100
-+++ astropy-5.0.new/astropy/coordinates/angle_formats.py	2021-12-26 15:48:30.423519098 +0100
-@@ -75,7 +75,7 @@
- 
-     @classmethod
-     def _make_parser(cls):
--        from astropy.extern.ply import lex, yacc
-+        from ply import lex, yacc
- 
-         # List of token names.
-         tokens = (
-diff -Naur astropy-5.0/astropy/utils/parsing.py astropy-5.0.new/astropy/utils/parsing.py
---- astropy-5.0/astropy/utils/parsing.py	2021-11-19 15:17:19.000000000 +0100
-+++ astropy-5.0.new/astropy/utils/parsing.py	2021-12-26 15:48:30.425519094 +0100
-@@ -84,7 +84,7 @@
+diff -ur astropy-5.2/astropy/utils/parsing.py astropy-5.2.ply/astropy/utils/parsing.py
+--- astropy-5.2/astropy/utils/parsing.py	2022-12-12 11:57:50.000000000 +0100
++++ astropy-5.2.ply/astropy/utils/parsing.py	2023-01-07 00:46:01.246483036 +0100
+@@ -82,7 +82,7 @@
      reflags : int
          Passed to ``ply.lex``.
      """
 -    from astropy.extern.ply import lex
 +    from ply import lex
  
-     caller_file = lex.get_caller_module_dict(2)['__file__']
-     lextab_filename = os.path.join(os.path.dirname(caller_file), lextab + '.py')
-@@ -137,7 +137,7 @@
+     caller_file = lex.get_caller_module_dict(2)["__file__"]
+     lextab_filename = os.path.join(os.path.dirname(caller_file), lextab + ".py")
+@@ -138,7 +138,7 @@
          the output file. This is inserted into a comment in the generated
          file.
      """
 -    from astropy.extern.ply import yacc
 +    from ply import yacc
  
-     caller_file = yacc.get_caller_module_dict(2)['__file__']
-     tab_filename = os.path.join(os.path.dirname(caller_file), tabmodule + '.py')
+     caller_file = yacc.get_caller_module_dict(2)["__file__"]
+     tab_filename = os.path.join(os.path.dirname(caller_file), tabmodule + ".py")
