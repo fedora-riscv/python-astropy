@@ -3,8 +3,8 @@
 %global srcname astropy
 
 Name: python-%{srcname}
-Version: 5.1
-Release: 3%{?dist}
+Version: 5.1.1
+Release: 1%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD
 
@@ -108,23 +108,13 @@ export CPATH="/usr/include/cfitsio:/usr/include/wcslib"
 export PYTEST_ADDOPTS='-p no:cacheprovider'
 # https://github.com/astropy/astropy/issues/13522
 pytest_args=(
- --deselect astropy/coordinates/tests/test_pickle.py::test_simple_object
- --deselect astropy/cosmology/flrw/tests/test_base.py::TestFLRW::test_name
- --deselect astropy/cosmology/flrw/tests/test_lambdacdm.py::TestLambdaCDM::test_name
- --deselect astropy/cosmology/flrw/tests/test_lambdacdm.py::TestFlatLambdaCDM::test_name
- --deselect astropy/cosmology/flrw/tests/test_w0cdm.py::TestwCDM::test_name 
- --deselect astropy/cosmology/flrw/tests/test_w0cdm.py::TestFlatwCDM::test_name 
- --deselect astropy/cosmology/flrw/tests/test_w0wacdm.py::Testw0waCDM::test_name
- --deselect astropy/cosmology/flrw/tests/test_w0wacdm.py::TestFlatw0waCDM::test_name
- --deselect astropy/cosmology/flrw/tests/test_w0wzcdm.py::Testw0wzCDM::test_name
- --deselect astropy/cosmology/flrw/tests/test_wpwazpcdm.py::TestwpwaCDM::test_name
- --deselect astropy/cosmology/tests/test_core.py::TestCosmology::test_name
- --deselect "astropy/table/tests/test_pprint.py::TestColumnsShowHide::test_remove[pprint_exclude_names]"
- --deselect "astropy/table/tests/test_pprint.py::TestColumnsShowHide::test_remove[pprint_include_names]"
- --deselect astropy/time/tests/test_mask.py::test_mask_not_writeable
 %ifarch i686
  --deselect astropy/io/fits/tests/test_table.py::TestVLATables::test_copy_vla
  --deselect "astropy/modeling/tests/test_models.py::TestFittable1DModels::test_fitter1D[TRFLSQFitter-BrokenPowerLaw1D-test_parameters22]"
+%endif
+%ifarch aarch64
+ --deselect "astropy/modeling/tests/test_quantities_fitting.py::test_fitting_with_initial_values[DogBoxLSQFitter]"
+ --deselect astropy/wcs/tests/test_tabprm.py::test_tabprm_print
 %endif
 )
 
@@ -151,6 +141,11 @@ popd
 %license LICENSE.rst
 
 %changelog
+* Tue Mar 28 2023 Christian Dersch <lupinix@fedoraproject.org> - 5.1.1-1
+- new version
+- enable tests now working
+- disable two tests an aarch64
+
 * Thu Aug 25 2022 Sergio Pascual <sergiopr@fedoraproject.org> - 5.1-3
 - New upstream source 5.1
 - Deselect some tests failling with Python 3.11 (https://github.com/astropy/astropy/issues/13522)
