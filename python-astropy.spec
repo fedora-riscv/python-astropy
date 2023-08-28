@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 5.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD-3-Clause AND CFITSIO
 
@@ -144,9 +144,10 @@ popd
 %license LICENSE.rst cextern/cfitsio/License.txt
 
 %changelog
-* Mon Aug 28 2023 Sergio Pascual <sergiopr@fedoraproject.org> - 5.3.2-1
+* Mon Aug 28 2023 Sergio Pascual <sergiopr@fedoraproject.org> - 5.3.2-2
 - New upstream source 5.3.2
 - SPDX migration, license is BSD-3-Clause AND CFITSIO
+- Include the sources
 
 * Fri Jul 21 2023 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
