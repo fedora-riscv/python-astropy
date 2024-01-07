@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 5.3.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Community Python Library for Astronomy
 License: BSD-3-Clause AND CFITSIO
 
@@ -116,6 +116,9 @@ pytest_args=(
  --deselect "astropy/modeling/tests/test_quantities_fitting.py::test_fitting_with_initial_values[DogBoxLSQFitter]"
  --deselect astropy/wcs/tests/test_tabprm.py::test_tabprm_print
 %endif
+%ifarch riscv64
+ --deselect astropy/units/tests/test_structured_erfa_ufuncs.py::TestPVUfuncs::test_pvstar
+%endif
  --deselect astropy/io/votable/tests/vo_test.py::test_gzip_filehandles
  --deselect astropy/nddata/mixins/tests/test_ndslicing.py::test_slicing_all_something_wrong
  --deselect astropy/table/tests/test_table.py::test_table_attribute_fail
@@ -144,6 +147,9 @@ popd
 %license LICENSE.rst cextern/cfitsio/License.txt
 
 %changelog
+* Tue Feb 20 2024 Songsong Zhang <U2FsdGVkX1@gmail.com> - 5.3.2-3
+- Add riscv64 support
+
 * Mon Aug 28 2023 Sergio Pascual <sergiopr@fedoraproject.org> - 5.3.2-2
 - New upstream source 5.3.2
 - SPDX migration, license is BSD-3-Clause AND CFITSIO
